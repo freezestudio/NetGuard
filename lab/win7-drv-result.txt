@@ -1,0 +1,510 @@
+===== Win7 ngdrv test 
+
+Microsoft Windows [�汾 6.1.7601]
+
+Windows ����������
+-------------------
+��ʶ��                  {current}
+device                  partition=C:
+path                    \Windows\system32\winload.exe
+description             Windows 7
+locale                  zh-CN
+inherit                 {bootloadersettings}
+nointegritychecks       Yes
+testsigning             Yes
+osdevice                partition=C:
+systemroot              \Windows
+resumeobject            {b62e7246-dd7d-11f1-b843-c7549da64ab8}
+nx                      OptIn
+--- cert --- 
+Root
+ǩ���빫Կƥ��
+���֤��:
+
+��ȷƥ��:
+Ԫ�� 2:
+���к�: 2a46e68682748c8545c1b824f0879e5c
+�䷢��: CN=NetGuardWin7Test
+ NotBefore: 2026/11/13 11:37
+ NotAfter: 2027/11/13 11:57
+ʹ����: CN=NetGuardWin7Test
+ǩ���빫Կƥ��
+��֤��: ʹ������䷢��ƥ��
+ģ��: 
+֤���ϣ(sha1): b2 ab 56 b5 cc 07 00 66 ef be d7 31 41 de 5b 14 1c db 6e cf
+
+֤�� "CN=NetGuardWin7Test" �Ѿ��ڴ洢�С�
+CertUtil: -addstore ����ɹ���ɡ�
+TrustedPublisher
+ǩ���빫Կƥ��
+���֤��:
+
+��ȷƥ��:
+Ԫ�� 0:
+���к�: 2a46e68682748c8545c1b824f0879e5c
+�䷢��: CN=NetGuardWin7Test
+ NotBefore: 2026/11/13 11:37
+ NotAfter: 2027/11/13 11:57
+ʹ����: CN=NetGuardWin7Test
+ǩ���빫Կƥ��
+��֤��: ʹ������䷢��ƥ��
+ģ��: 
+֤���ϣ(sha1): b2 ab 56 b5 cc 07 00 66 ef be d7 31 41 de 5b 14 1c db 6e cf
+
+֤�� "CN=NetGuardWin7Test" �Ѿ��ڴ洢�С�
+CertUtil: -addstore ����ɹ���ɡ�
+testsigning             Yes
+--- driver --- 
+[SC] OpenService ʧ�� 1060:
+
+ָ���ķ���δ��װ��
+
+[SC] OpenService ʧ�� 1060:
+
+ָ���ķ���δ��װ��
+
+[SC] CreateService �ɹ�
+
+SERVICE_NAME: ngdrv 
+        TYPE               : 1  KERNEL_DRIVER  
+        STATE              : 4  RUNNING 
+                                (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x0
+        PID                : 0
+        FLAGS              : 
+
+SERVICE_NAME: ngdrv 
+        TYPE               : 1  KERNEL_DRIVER  
+        STATE              : 4  RUNNING 
+                                (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x0
+--- netguard --- 
+[ok] ������Կ�Ѵ���: HKLM\SOFTWARE\NetGuard\PolicyKey
+[i] �����棺60 �������Ž��ѽ���
+[ok] ����������ǩ��: C:\ProgramData\NetGuard\policy.ini
+     ע�⣺sign ��Ϊ��ǰ�ļ���������ǩ��������ȷ������δ���۸ģ�
+           ����ᰴ�淶��ʽ��д�ļ���ע�ͻᶪʧ����
+[i] �����Ѵ��ڣ�������������Ϊ�Զ���
+[ok] �����Ѱ�װ���Զ���������
+
+SERVICE_NAME: NetGuard 
+        TYPE               : 10  WIN32_OWN_PROCESS  
+        STATE              : 2  START_PENDING 
+                                (NOT_STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x7d0
+        PID                : 2028
+        FLAGS              : 
+OK filters=6
+waiting for NIC/NAT ... 
+--- correct hash --- 
+selftest: all targets should be BLOCKED
+  [BLOCK] 172.30.18.120   :3389  Win10-RDP(local) err=10060 (0ms)
+  [LEAK ] 8.8.8.8         :53    Google DNS   CONNECTED (219ms)
+  [BLOCK] 114.114.114.114 :53    NS-China     err=10060 (0ms)
+  [BLOCK] 1.1.1.1         :443   Cloudflare   err=10060 (0ms)
+  [BLOCK] 180.101.49.12   :443   Baidu        err=10060 (0ms)
+RESULT: 1 target(s) still reachable = FAIL
+correct_exit=2 
+--- tamper --- 
+selftest: all targets should be BLOCKED
+  [BLOCK] 172.30.18.120   :3389  Win10-RDP(local) err=10060 (0ms)
+  [BLOCK] 8.8.8.8         :53    Google DNS   err=10060 (0ms)
+  [BLOCK] 114.114.114.114 :53    NS-China     err=10060 (0ms)
+  [BLOCK] 1.1.1.1         :443   Cloudflare   err=10060 (0ms)
+  [BLOCK] 180.101.49.12   :443   Baidu        err=10060 (0ms)
+RESULT: all blocked = PASS
+tampered_exit=0 
+--- status --- 
+filters=6
+filters_live=6
+default_deny=1
+endpoints=1
+programs=1
+temp_until=0
+key_ok=1
+hmac_ok=1
+trial_valid=1
+trial_expired=0
+trial_disabled=1
+trial_days=36500
+--- driver reg --- 
+
+HKEY_LOCAL_MACHINE\SOFTWARE\NetGuard\DriverTest
+    LastStep    REG_SZ    ok
+    LastStatus    REG_DWORD    0x0
+
+--- cleanup --- 
+OK rolled-back
+
+SERVICE_NAME: NetGuard 
+        TYPE               : 10  WIN32_OWN_PROCESS  
+        STATE              : 3  STOP_PENDING 
+                                (STOPPABLE, NOT_PAUSABLE, ACCEPTS_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x1388
+[SC] ChangeServiceConfig �ɹ�
+
+SERVICE_NAME: ngdrv 
+        TYPE               : 1  KERNEL_DRIVER  
+        STATE              : 1  STOPPED 
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x0
+[SC] DeleteService �ɹ�
+--- ng.log --- 
+2026-11-12 13:07:28  === NetGuard log start ===
+2026-11-12 13:07:30  === NetGuard log start ===
+2026-11-12 13:07:30  === NetGuard log start ===
+2026-11-12 13:07:35  === NetGuard log start ===
+2026-11-12 13:07:35  sha256: open failed 3 path=C:\Program Files\YB\YbClient.exe
+2026-11-12 13:07:37  === NetGuard log start ===
+2026-11-12 13:07:45  provider add=0
+2026-11-12 13:07:45  sublayer provider+0x1000 -> 0
+2026-11-12 13:07:45  sublayer OK with variant provider+0x1000 (st=0)
+2026-11-12 13:07:45  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-12 13:07:45  程序路径无效: C:\Program Files\YB\YbClient.exe
+2026-11-12 13:07:45  apply ok: 策略已生效，过滤器 6 条
+2026-11-12 13:07:45  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-12 13:07:45  rollback ok
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  sha256: open failed 3 path=C:\Program Files\YB\YbClient.exe
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  service: starting
+2026-11-12 13:07:55  provider add=2150760457
+2026-11-12 13:07:55  sublayer provider+0x1000 -> 2150760457
+2026-11-12 13:07:55  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-12 13:07:55  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-12 13:07:55  程序路径无效: C:\Program Files\YB\YbClient.exe
+2026-11-12 13:07:55  apply ok: 策略已生效，过滤器 6 条
+2026-11-12 13:07:55  apply(service-start): ok, filters=6, temp=0
+2026-11-12 13:07:55  selftest[after-apply]: leaked=0
+2026-11-12 13:07:55  ipc: server started (ok)
+2026-11-12 13:08:02  === NetGuard log start ===
+2026-11-12 13:08:02  status: enter
+2026-11-12 13:08:04  === NetGuard log start ===
+2026-11-12 13:08:04  dialog: workarea=0,0,1024,728  dpi=96  dlg=496x258  pos=264,235
+2026-11-12 13:08:04  ask: shown, hEdit=0000000000020160 client=480x220 win=496x258
+2026-11-12 13:08:08  ask: IDOK hEdit=0000000000020160
+2026-11-12 13:08:08  ask: text len=1
+2026-11-12 13:08:08  ask: destroyed
+2026-11-12 13:08:08  ask: loop end ok=1
+2026-11-12 13:08:08  ask: return 1
+2026-11-12 13:08:08  dialog: workarea=0,0,1024,728  dpi=96  dlg=496x258  pos=264,235
+2026-11-12 13:08:08  ask: shown, hEdit=0000000000030160 client=480x220 win=496x258
+2026-11-12 13:08:13  ask: IDOK hEdit=0000000000030160
+2026-11-12 13:08:13  ask: text len=1
+2026-11-12 13:08:13  ask: destroyed
+2026-11-12 13:08:13  ask: loop end ok=1
+2026-11-12 13:08:13  ask: return 1
+2026-11-12 13:08:17  dialog: workarea=0,0,1024,728  dpi=96  dlg=716x338  pos=154,195
+2026-11-12 13:08:17  entry: shown client=700x300 win=716x338
+2026-11-12 13:08:23  === NetGuard log start ===
+2026-11-12 13:08:23  dialog: workarea=0,0,1024,728  dpi=96  dlg=716x338  pos=154,195
+2026-11-12 13:08:23  entry: shown client=700x300 win=716x338
+2026-11-12 13:08:33  ipc: cmd=apply
+2026-11-12 13:08:33  provider add=2150760457
+2026-11-12 13:08:33  sublayer provider+0x1000 -> 2150760457
+2026-11-12 13:08:33  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-12 13:08:33  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-12 13:08:33  程序路径无效: C:\Program Files\YB\YbClient.exe
+2026-11-12 13:08:33  apply ok: 策略已生效，过滤器 7 条
+2026-11-12 13:08:33  apply(ipc-apply): ok, filters=7, temp=0
+2026-11-12 13:09:00  === NetGuard log start ===
+2026-11-12 13:09:00  ipc: cmd=temp 1
+2026-11-12 13:09:00  delete-by-id: 记录 7 条，实际删除 7 条
+2026-11-12 13:09:00  rollback ok
+2026-11-12 13:09:00  === NetGuard log start ===
+2026-11-12 13:09:00  ipc: cmd=status
+2026-11-12 13:10:25  watchdog: 过滤器缺失（实际 0 / 期望 0），重新下发
+2026-11-12 13:10:25  provider add=2150760457
+2026-11-12 13:10:25  sublayer provider+0x1000 -> 2150760457
+2026-11-12 13:10:25  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-12 13:10:25  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-12 13:10:25  程序路径无效: C:\Program Files\YB\YbClient.exe
+2026-11-12 13:10:25  apply ok: 策略已生效，过滤器 7 条
+2026-11-12 13:10:25  apply(watchdog-reapply): ok, filters=7, temp=0
+2026-11-12 13:11:07  === NetGuard log start ===
+2026-11-12 13:11:07  ipc: cmd=status
+2026-11-12 13:11:11  === NetGuard log start ===
+2026-11-12 13:11:11  ipc: cmd=rollback
+2026-11-12 13:11:11  delete-by-id: 记录 7 条，实际删除 7 条
+2026-11-12 13:11:11  rollback ok
+2026-11-12 13:11:11  service: stopping (过滤器保留)
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  sha256: open failed 3 path=C:\Program Files\YB\YbClient.exe
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  service: starting
+2026-11-12 13:12:19  service: 试用不可用（试用已到期），不下发管控
+2026-11-12 13:12:19  ipc: server started (ok)
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  status: enter
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  ipc: cmd=status
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  ipc: cmd=rollback
+2026-11-12 13:12:24  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-12 13:12:24  rollback ok
+2026-11-12 13:12:24  service: stopping (过滤器保留)
+2026-11-13 09:33:19  === NetGuard log start ===
+2026-11-13 09:33:19  === NetGuard log start ===
+2026-11-13 09:33:19  === NetGuard log start ===
+2026-11-13 09:33:22  === NetGuard log start ===
+2026-11-13 09:33:22  === NetGuard log start ===
+2026-11-13 09:33:22  service: starting
+2026-11-13 09:33:22  service: 试用不可用（试用已到期），不下发管控
+2026-11-13 09:33:22  ipc: server started (ok)
+2026-11-13 09:33:27  === NetGuard log start ===
+2026-11-13 09:33:28  === NetGuard log start ===
+2026-11-13 09:33:28  === NetGuard log start ===
+2026-11-13 09:33:30  === NetGuard log start ===
+2026-11-13 09:33:30  ipc: cmd=status
+2026-11-13 09:33:30  === NetGuard log start ===
+2026-11-13 09:33:30  ipc: cmd=rollback
+2026-11-13 09:33:30  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-13 09:33:30  rollback ok
+2026-11-13 09:33:30  service: stopping (过滤器保留)
+2026-11-13 09:39:27  === NetGuard log start ===
+2026-11-13 09:39:27  === NetGuard log start ===
+2026-11-13 09:39:27  service: starting
+2026-11-13 09:39:27  service: 试用不可用（试用已到期），不下发管控
+2026-11-13 09:39:27  ipc: server started (ok)
+2026-11-13 09:46:31  === NetGuard log start ===
+2026-11-13 09:46:31  === NetGuard log start ===
+2026-11-13 09:46:31  service: starting
+2026-11-13 09:46:31  service: 试用不可用（试用已到期），不下发管控
+2026-11-13 09:46:31  ipc: server started (ok)
+2026-11-13 09:50:09  === NetGuard log start ===
+2026-11-13 09:50:09  === NetGuard log start ===
+2026-11-13 09:50:09  service: starting
+2026-11-13 09:50:10  service: 试用不可用（试用已到期），不下发管控
+2026-11-13 09:50:10  ipc: server started (ok)
+2026-11-13 09:57:40  === NetGuard log start ===
+2026-11-13 09:57:40  === NetGuard log start ===
+2026-11-13 09:57:40  service: starting
+2026-11-13 09:57:40  service: 试用不可用（试用已到期），不下发管控
+2026-11-13 09:57:40  ipc: server started (ok)
+2026-11-13 10:01:46  === NetGuard log start ===
+2026-11-13 10:01:46  === NetGuard log start ===
+2026-11-13 10:01:46  service: starting
+2026-11-13 10:01:46  service: 试用不可用（试用已到期），不下发管控
+2026-11-13 10:01:46  ipc: server started (ok)
+2026-11-13 10:06:32  === NetGuard log start ===
+2026-11-13 10:06:32  === NetGuard log start ===
+2026-11-13 10:06:32  service: starting
+2026-11-13 10:06:32  service: 试用不可用（试用已到期），不下发管控
+2026-11-13 10:06:32  ipc: server started (ok)
+2026-11-13 10:12:10  === NetGuard log start ===
+2026-11-13 10:12:10  === NetGuard log start ===
+2026-11-13 10:12:10  === NetGuard log start ===
+2026-11-13 10:12:12  === NetGuard log start ===
+2026-11-13 10:12:12  === NetGuard log start ===
+2026-11-13 10:12:12  service: starting
+2026-11-13 10:12:12  provider add=0
+2026-11-13 10:12:12  sublayer provider+0x1000 -> 0
+2026-11-13 10:12:12  sublayer OK with variant provider+0x1000 (st=0)
+2026-11-13 10:12:12  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-13 10:12:12  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 10:12:12  apply(service-start): ok, filters=6, temp=0
+2026-11-13 10:12:12  selftest[after-apply]: leaked=0
+2026-11-13 10:12:12  ipc: server started (ok)
+2026-11-13 10:12:20  === NetGuard log start ===
+2026-11-13 10:12:20  ipc: cmd=apply
+2026-11-13 10:12:20  provider add=2150760457
+2026-11-13 10:12:20  sublayer provider+0x1000 -> 2150760457
+2026-11-13 10:12:20  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-13 10:12:20  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 10:12:20  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 10:12:20  apply(ipc-apply): ok, filters=6, temp=0
+2026-11-13 10:12:21  === NetGuard log start ===
+2026-11-13 10:12:21  === NetGuard log start ===
+2026-11-13 10:12:22  === NetGuard log start ===
+2026-11-13 10:12:22  ipc: cmd=status
+2026-11-13 10:12:22  === NetGuard log start ===
+2026-11-13 10:12:22  ipc: cmd=rollback
+2026-11-13 10:12:22  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 10:12:22  rollback ok
+2026-11-13 10:12:22  service: stopping (过滤器保留)
+2026-11-13 11:42:16  === NetGuard log start ===
+2026-11-13 11:42:16  === NetGuard log start ===
+2026-11-13 11:42:16  service: starting
+2026-11-13 11:42:16  apply(service-start): 策略签名缺失，拒绝下发
+2026-11-13 11:42:16  selftest[after-apply]: leaked=0
+2026-11-13 11:42:16  ipc: server started (ok)
+2026-11-13 11:42:17  === NetGuard log start ===
+2026-11-13 11:42:17  === NetGuard log start ===
+2026-11-13 11:42:17  === NetGuard log start ===
+2026-11-13 11:42:18  === NetGuard log start ===
+2026-11-13 11:42:18  ipc: cmd=status
+2026-11-13 11:42:18  === NetGuard log start ===
+2026-11-13 11:42:18  ipc: cmd=apply
+2026-11-13 11:42:18  provider add=0
+2026-11-13 11:42:18  sublayer provider+0x1000 -> 0
+2026-11-13 11:42:18  sublayer OK with variant provider+0x1000 (st=0)
+2026-11-13 11:42:18  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-13 11:42:18  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 11:42:18  apply(ipc-apply): ok, filters=6, temp=0
+2026-11-13 11:42:19  === NetGuard log start ===
+2026-11-13 11:42:22  === NetGuard log start ===
+2026-11-13 11:42:22  === NetGuard log start ===
+2026-11-13 11:42:22  ipc: cmd=status
+2026-11-13 11:42:22  === NetGuard log start ===
+2026-11-13 11:42:22  ipc: cmd=rollback
+2026-11-13 11:42:22  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 11:42:22  rollback ok
+2026-11-13 11:42:22  service: stopping (过滤器保留)
+2026-11-13 11:44:30  === NetGuard log start ===
+2026-11-13 11:44:30  === NetGuard log start ===
+2026-11-13 11:44:30  === NetGuard log start ===
+2026-11-13 11:44:30  === NetGuard log start ===
+2026-11-13 11:44:30  === NetGuard log start ===
+2026-11-13 11:44:30  service: starting
+2026-11-13 11:44:30  provider add=0
+2026-11-13 11:44:30  sublayer provider+0x1000 -> 0
+2026-11-13 11:44:30  sublayer OK with variant provider+0x1000 (st=0)
+2026-11-13 11:44:30  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-13 11:44:30  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 11:44:30  apply(service-start): ok, filters=6, temp=0
+2026-11-13 11:44:30  selftest[after-apply]: leaked=0
+2026-11-13 11:44:30  ipc: server started (ok)
+2026-11-13 11:44:31  === NetGuard log start ===
+2026-11-13 11:44:31  ipc: cmd=status
+2026-11-13 11:44:31  === NetGuard log start ===
+2026-11-13 11:44:31  ipc: cmd=apply
+2026-11-13 11:44:31  provider add=2150760457
+2026-11-13 11:44:31  sublayer provider+0x1000 -> 2150760457
+2026-11-13 11:44:31  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-13 11:44:31  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 11:44:31  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 11:44:31  apply(ipc-apply): ok, filters=6, temp=0
+2026-11-13 11:44:42  === NetGuard log start ===
+2026-11-13 11:44:42  === NetGuard log start ===
+2026-11-13 11:44:43  === NetGuard log start ===
+2026-11-13 11:44:43  ipc: cmd=status
+2026-11-13 11:44:43  === NetGuard log start ===
+2026-11-13 11:44:43  ipc: cmd=rollback
+2026-11-13 11:44:43  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 11:44:43  rollback ok
+2026-11-13 11:44:43  service: stopping (过滤器保留)
+2026-11-13 11:47:57  === NetGuard log start ===
+2026-11-13 11:47:57  === NetGuard log start ===
+2026-11-13 11:47:57  === NetGuard log start ===
+2026-11-13 11:47:57  === NetGuard log start ===
+2026-11-13 11:47:57  === NetGuard log start ===
+2026-11-13 11:47:57  service: starting
+2026-11-13 11:47:57  provider add=0
+2026-11-13 11:47:57  sublayer provider+0x1000 -> 0
+2026-11-13 11:47:57  sublayer OK with variant provider+0x1000 (st=0)
+2026-11-13 11:47:57  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-13 11:47:57  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 11:47:57  apply(service-start): ok, filters=6, temp=0
+2026-11-13 11:47:57  selftest[after-apply]: leaked=0
+2026-11-13 11:47:57  ipc: server started (ok)
+2026-11-13 11:47:58  === NetGuard log start ===
+2026-11-13 11:47:58  ipc: cmd=status
+2026-11-13 11:47:58  === NetGuard log start ===
+2026-11-13 11:47:58  ipc: cmd=apply
+2026-11-13 11:47:58  provider add=2150760457
+2026-11-13 11:47:58  sublayer provider+0x1000 -> 2150760457
+2026-11-13 11:47:58  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-13 11:47:58  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 11:47:58  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 11:47:58  apply(ipc-apply): ok, filters=6, temp=0
+2026-11-13 11:48:09  === NetGuard log start ===
+2026-11-13 11:48:09  === NetGuard log start ===
+2026-11-13 11:48:10  === NetGuard log start ===
+2026-11-13 11:48:10  ipc: cmd=status
+2026-11-13 11:48:10  === NetGuard log start ===
+2026-11-13 11:48:10  ipc: cmd=rollback
+2026-11-13 11:48:10  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 11:48:10  rollback ok
+2026-11-13 11:48:10  service: stopping (过滤器保留)
+2026-11-13 11:52:55  === NetGuard log start ===
+2026-11-13 11:52:55  === NetGuard log start ===
+2026-11-13 11:52:55  === NetGuard log start ===
+2026-11-13 11:52:55  === NetGuard log start ===
+2026-11-13 11:52:55  === NetGuard log start ===
+2026-11-13 11:52:55  service: starting
+2026-11-13 11:52:55  drv: 已下发 1 条白名单
+2026-11-13 11:52:55  provider add=0
+2026-11-13 11:52:55  sublayer provider+0x1000 -> 0
+2026-11-13 11:52:55  sublayer OK with variant provider+0x1000 (st=0)
+2026-11-13 11:52:55  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-13 11:52:55  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 11:52:55  apply(service-start): ok, filters=6, temp=0
+2026-11-13 11:52:55  selftest[after-apply]: leaked=0
+2026-11-13 11:52:55  ipc: server started (ok)
+2026-11-13 11:52:57  === NetGuard log start ===
+2026-11-13 11:52:57  ipc: cmd=status
+2026-11-13 11:52:57  === NetGuard log start ===
+2026-11-13 11:52:57  ipc: cmd=apply
+2026-11-13 11:52:57  drv: 已下发 1 条白名单
+2026-11-13 11:52:57  provider add=2150760457
+2026-11-13 11:52:57  sublayer provider+0x1000 -> 2150760457
+2026-11-13 11:52:57  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-13 11:52:57  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 11:52:57  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 11:52:57  apply(ipc-apply): ok, filters=6, temp=0
+2026-11-13 11:53:08  === NetGuard log start ===
+2026-11-13 11:53:16  === NetGuard log start ===
+2026-11-13 11:53:16  === NetGuard log start ===
+2026-11-13 11:53:16  ipc: cmd=status
+2026-11-13 11:53:16  === NetGuard log start ===
+2026-11-13 11:53:16  ipc: cmd=rollback
+2026-11-13 11:53:16  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 11:53:16  rollback ok
+2026-11-13 11:53:16  service: stopping (过滤器保留)
+2026-11-13 11:58:38  === NetGuard log start ===
+2026-11-13 11:58:38  === NetGuard log start ===
+2026-11-13 11:58:38  === NetGuard log start ===
+2026-11-13 11:58:38  === NetGuard log start ===
+2026-11-13 11:58:38  === NetGuard log start ===
+2026-11-13 11:58:38  service: starting
+2026-11-13 11:58:38  drv: 已下发 1 条白名单
+2026-11-13 11:58:38  provider add=0
+2026-11-13 11:58:38  sublayer provider+0x1000 -> 0
+2026-11-13 11:58:38  sublayer OK with variant provider+0x1000 (st=0)
+2026-11-13 11:58:38  delete-by-id: 记录 0 条，实际删除 0 条
+2026-11-13 11:58:38  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 11:58:38  apply(service-start): ok, filters=6, temp=0
+2026-11-13 11:58:38  selftest[after-apply]: leaked=0
+2026-11-13 11:58:38  ipc: server started (ok)
+2026-11-13 11:58:40  === NetGuard log start ===
+2026-11-13 11:58:40  ipc: cmd=status
+2026-11-13 11:58:40  === NetGuard log start ===
+2026-11-13 11:58:40  ipc: cmd=apply
+2026-11-13 11:58:40  drv: 已下发 1 条白名单
+2026-11-13 11:58:40  provider add=2150760457
+2026-11-13 11:58:40  sublayer provider+0x1000 -> 2150760457
+2026-11-13 11:58:40  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-13 11:58:40  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 11:58:40  apply ok: 策略已生效，过滤器 6 条
+2026-11-13 11:58:40  apply(ipc-apply): ok, filters=6, temp=0
+2026-11-13 11:58:51  === NetGuard log start ===
+2026-11-13 11:58:51  === NetGuard log start ===
+2026-11-13 11:58:51  === NetGuard log start ===
+2026-11-13 11:58:51  ipc: cmd=status
+2026-11-13 11:58:51  === NetGuard log start ===
+2026-11-13 11:58:51  ipc: cmd=rollback
+2026-11-13 11:58:51  delete-by-id: 记录 6 条，实际删除 6 条
+2026-11-13 11:58:51  rollback ok
+2026-11-13 11:58:51  service: stopping (过滤器保留)

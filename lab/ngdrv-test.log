@@ -1,0 +1,33 @@
+﻿=== ngdrv test 2026-11-13T11:56:33.8790846+08:00 ===
+11:56:33  cert thumbprint=190673A77597603C51CA8EC7DD8F2A70A91874EF
+11:56:33  signed C:\src\NetGuard\drv\out\nghello.sys
+11:56:34  signed C:\src\NetGuard\drv\out\ngdrv.sys
+11:57:46  PS Direct connected
+11:57:47    
+
+Name  : testsigning
+Value : True
+
+
+
+
+11:57:49  hello:  SERVICE_NAME: nghello          TYPE               : 1  KERNEL_DRIVER           STATE              : 4  RUNNING                                  (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)         WIN32_EXIT_CODE    : 0  (0x0)         SERVICE_EXIT_CODE  : 0  (0x0)         CHECKPOINT         : 0x0         WAIT_HINT          : 0x0         PID                : 0         FLAGS              :   | SERVICE_NAME: nghello  |         TYPE               : 1  KERNEL_DRIVER   |         STATE              : 4  RUNNING  |                                 (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN) |         WIN32_EXIT_CODE    : 0  (0x0) |         SERVICE_EXIT_CODE  : 0  (0x0) |         CHECKPOINT         : 0x0 |         WAIT_HINT          : 0x0
+11:57:51  service: service stopped
+11:58:03  service ready=True ngdrv start= | SERVICE_NAME: ngdrv  |         TYPE               : 1  KERNEL_DRIVER   |         STATE              : 4  RUNNING  |                                 (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN) |         WIN32_EXIT_CODE    : 0  (0x0) |         SERVICE_EXIT_CODE  : 0  (0x0) |         CHECKPOINT         : 0x0 |         WAIT_HINT          : 0x0 |         PID                : 0 |         FLAGS              :  query= | SERVICE_NAME: ngdrv  |         TYPE               : 1  KERNEL_DRIVER   |         STATE              : 4  RUNNING  |                                 (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN) |         WIN32_EXIT_CODE    : 0  (0x0) |         SERVICE_EXIT_CODE  : 0  (0x0) |         CHECKPOINT         : 0x0 |         WAIT_HINT          : 0x0
+11:58:03  ngblock hash=3345339164CF384EFF527B6C3160FEA8D849A4231EC6CA80513E3A739E505168
+11:58:03  netguard apply: OK filters=6
+11:58:05  driver status: 
+
+LastStep   : ok
+LastStatus : 0
+
+
+
+
+11:58:06  ng.log tail: 2026-11-13 11:57:51  apply(service-start): 绛栫暐绛惧悕缂哄け锛屾嫆缁濅笅鍙? | 2026-11-13 11:57:53  === NetGuard log start === | 2026-11-13 11:57:55  === NetGuard log start === | 2026-11-13 11:57:57  === NetGuard log start === | 2026-11-13 11:57:57  selftest[after-apply]: leaked=2 | 2026-11-13 11:57:57  ipc: server started (ok) | 2026-11-13 11:57:59  === NetGuard log start === | 2026-11-13 11:57:59  ipc: cmd=status | 2026-11-13 11:58:02  hash: 绛栫暐绛惧悕缂哄け/鏃犳晥锛岃烦杩囨牎楠岋紙涓嶆敼鍐欍€佷笉閲嶇锛? | 2026-11-13 11:58:03  === NetGuard log start === | 2026-11-13 11:58:03  === NetGuard log start === | 2026-11-13 11:58:03  === NetGuard log start === | 2026-11-13 11:58:03  ipc: cmd=apply | 2026-11-13 11:58:03  drv: 宸蹭笅鍙?1 鏉＄櫧鍚嶅崟 | 2026-11-13 11:58:03  provider add=0 | 2026-11-13 11:58:03  sublayer provider+0x1000 -> 0 | 2026-11-13 11:58:03  sublayer OK with variant provider+0x1000 (st=0) | 2026-11-13 11:58:03  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉? | 2026-11-13 11:58:03  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉? | 2026-11-13 11:58:03  apply(ipc-apply): ok, filters=6, temp=0
+11:58:06  correct hash: curl exit=35 out=
+11:58:06  correct hash other-dest: curl exit=7 out=
+11:58:06  tampered hash: curl exit=7 out=
+11:58:06  RESULT: WIN10 DRIVER TEST OK
+11:58:07  cleanup: OK filters=0
+11:58:07  done

@@ -1,0 +1,96 @@
+﻿=== installer + driver e2e 2026-11-13T14:10:55.5152735+08:00 ===
+14:10:55  driver signed SHA-256
+14:10:57  PS Direct connected
+14:10:57  
+14:10:57  ==== 1. clean old app/driver ====
+14:11:00  PASS  old NetGuard service gone  
+14:11:00  PASS  old ngdrv service gone  
+14:11:00  PASS  old program/data dirs gone  
+14:11:00  
+14:11:00  ==== 2. deploy build + installer + driver ====
+14:11:01  files deployed
+14:11:01  testsigning block: nointegritychecks       Yes | testsigning             Yes
+14:11:01  PASS  testsigning on  
+14:11:01  
+14:11:01  ==== 3. run install-netguard.ps1 -InstallDriver ====
+14:11:15  installer exit=0
+14:11:15    [*] ??????: C:\NetGuard
+14:11:15    [*] ?????? ACL
+14:11:15    [*] ?????? ACL: C:\NetGuard
+14:11:15    [*] ??????(HKLM\SOFTWARE\NetGuard,? SYSTEM/Administrators ???)
+14:11:15    [*] ???????(?? NetGuardUI ?????)
+14:11:15    [*] ?????????(fail-closed:???/????????)
+14:11:15    [*] ???????? WFP ???
+14:11:15    [*] ????
+14:11:15    [*] ???? DACL(? SYSTEM / Administrators)
+14:11:15    [*] ????????
+14:11:15    [*] ????
+14:11:15    [*] ????: Running
+14:11:15    [*] ?? WFP callout ??: C:\NetGuard\drv\ngdrv.sys
+14:11:15    [*] ????: Running
+14:11:15    [*] ???????(ctl apply)
+14:11:15    [*] ??????:
+14:11:15    [*] ????: C:\ProgramData\NetGuard\install.log
+14:11:15    [*] ???????:NetGuardUI.exe;???:NetGuard.exe ctl status
+14:11:15  PASS  install script exit=0  exit=0
+14:11:17  PASS  NetGuard service Running  Running
+14:11:17  PASS  ngdrv driver Running  Running
+14:11:17  status: filters=6 | filters_live=6 | default_deny=1 | endpoints=2 | programs=1 | temp_until=0 | key_ok=1 | hmac_ok=1 | trial_valid=1 | trial_expired=0 | trial_disabled=1 | trial_days=36500
+14:11:17  PASS  filters>=6 after install  filters=6
+14:11:17  PASS  key/hmac valid  
+14:11:17  PASS  trial disabled  
+14:11:17  PASS  program dir Users read-only  
+14:11:18  PASS  service sent driver whitelist  
+14:11:18  
+14:11:18  ==== 4. driver enforcement after installer ====
+14:11:18  ngblock hash=730A34AE4CF82E32F676F0BCD81A418967A641B6E9B88D2EC5D8E668FF4D7838
+14:11:18  apply: OK filters=6
+14:11:18  PASS  test policy applied  OK filters=6
+14:11:19  correct=35 other=7 tampered=7
+14:11:19  PASS  correct hash allowed  exit=35
+14:11:19  PASS  other destination blocked by user-mode default deny  exit=7
+14:11:19  PASS  tampered binary blocked by driver  exit=7
+14:11:19  
+14:11:19  ==== 5. uninstall ====
+14:11:26  uninstall exit=0
+14:11:26    [*] ??????????(?? 30 ?)
+14:11:26    [*] ????: Running
+14:11:26    [*] ??????????(? 1 ?)
+14:11:26    [*] ????
+14:11:26    [*] ?????: Stopped
+14:11:26    [*] ????
+14:11:26    [*] ???????? WFP ???(persistent)
+14:11:26    [*] ??/?? WFP callout ?? ngdrv
+14:11:26    [*] ?????????? %ProgramData%\NetGuard(??????????)
+14:11:26    [*] ??????? HKLM\SOFTWARE\NetGuard\PolicyKey(??????????;???????)
+14:11:26  PASS  uninstall exit=0  exit=0
+14:11:26  PASS  after uninstall: NetGuard service gone  
+14:11:26  PASS  after uninstall: ngdrv driver gone  
+14:11:26  PASS  after uninstall: no process  count=0
+14:11:26  PASS  after uninstall: filters.txt empty  lines=0
+14:11:28  PASS  after uninstall: network restored  tnc=True
+14:11:28  
+14:11:28  ==== SUMMARY ====
+14:11:28  total checks=22 failed=0
+14:11:28    [OK] old NetGuard service gone 
+14:11:28    [OK] old ngdrv service gone 
+14:11:28    [OK] old program/data dirs gone 
+14:11:28    [OK] testsigning on 
+14:11:28    [OK] install script exit=0 exit=0
+14:11:28    [OK] NetGuard service Running Running
+14:11:28    [OK] ngdrv driver Running Running
+14:11:28    [OK] filters>=6 after install filters=6
+14:11:28    [OK] key/hmac valid 
+14:11:28    [OK] trial disabled 
+14:11:28    [OK] program dir Users read-only 
+14:11:28    [OK] service sent driver whitelist 
+14:11:28    [OK] test policy applied OK filters=6
+14:11:28    [OK] correct hash allowed exit=35
+14:11:28    [OK] other destination blocked by user-mode default deny exit=7
+14:11:28    [OK] tampered binary blocked by driver exit=7
+14:11:28    [OK] uninstall exit=0 exit=0
+14:11:28    [OK] after uninstall: NetGuard service gone 
+14:11:28    [OK] after uninstall: ngdrv driver gone 
+14:11:28    [OK] after uninstall: no process count=0
+14:11:28    [OK] after uninstall: filters.txt empty lines=0
+14:11:28    [OK] after uninstall: network restored tnc=True

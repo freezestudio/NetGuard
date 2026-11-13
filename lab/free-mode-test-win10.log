@@ -1,0 +1,112 @@
+﻿=== free mode e2e 2026-11-13T15:18:24.2106932+08:00 ===
+15:18:24  PS Direct connected
+15:18:24  
+15:18:24  ==== 1. clean old app + free mode + policy ====
+15:18:30  PASS  old service/driver gone  
+15:18:30  PASS  old dirs gone  
+15:18:30  PASS  no leftover free-mode rules  rules=0
+15:18:30  
+15:18:30  ==== 2. deploy build + scripts ====
+15:18:31  files deployed
+15:18:31  
+15:18:31  ==== 3. baseline install (no free mode) + test policy ====
+15:18:37  PASS  baseline install exit=0  exit=0
+15:18:37  ngblock hash=3345339164CF384EFF527B6C3160FEA8D849A4231EC6CA80513E3A739E505168
+15:18:37  apply: OK filters=6
+15:18:37  PASS  test policy applied  OK filters=6
+15:18:37  
+15:18:37  ==== 4. reinstall with -FreeMode ====
+15:19:02  installer -FreeMode exit=0
+15:19:02    [*] 检查部署目录: C:\NetGuard
+15:19:02    [*] 加固策略目录 ACL
+15:19:02    [*] 加固程序目录 ACL: C:\NetGuard
+15:19:02    [*] 准备部署密钥（HKLM\SOFTWARE\NetGuard，仅 SYSTEM/Administrators 可读写）
+15:19:02    [*] 校验策略签名与格式（fail-closed：无签名/签名无效将被拒绝）
+15:19:02    [*] 停止并删除已存在的服务
+15:19:02    [*] 清理旧版本遗留的 WFP 过滤器
+15:19:02    [*] 安装服务
+15:19:02    [*] 加固服务 DACL（仅 SYSTEM / Administrators）
+15:19:02    [*] 配置失败自动重启
+15:19:02    [*] 启动服务
+15:19:02    [*] 服务状态: Running
+15:19:02    [*] 启用免费模式（防火墙出站白名单）
+15:19:02    [*] 创建防火墙出站放行规则
+15:19:02    [*] added firewall rule: NetGuard: ngblock -> DNS [TCP 53] ({f5e40ede-3570-4a6e-91aa-4e993e6cb2f6})
+15:19:02    [*] added firewall rule: NetGuard: DHCP ({811bef76-9b91-4ab4-b3cf-f63a4f26f8fd})
+15:19:02    [*] 发现 216 条系统出站放行规则，准备关闭
+15:19:02    [*] 已关闭 216 条系统出站放行规则
+15:19:02    [*] 防火墙默认出站动作已设为 Block
+15:19:02    [*] 免费模式已启用
+15:19:02    [*] 最近审计记录：
+15:19:02    [*] 安装日志: C:\ProgramData\NetGuard\install.log
+15:19:02    [*] 完成。管理界面：NetGuardUI.exe；命令行：NetGuard.exe ctl status
+15:19:02  PASS  install -FreeMode exit=0  exit=0
+15:19:02  status: svc=Running appid=Running rules=2 profiles=Domain=Block; Private=Block; Public=Block
+15:19:02  acl hit=False count=0 disabledBuiltin=216
+15:19:02  PASS  NetGuard service Running  Running
+15:19:02  PASS  free-mode firewall rules created  rules=2
+15:19:02  PASS  default outbound Block (all profiles)  Domain=Block; Private=Block; Public=Block
+15:19:02  PASS  state file written  
+15:19:02  PASS  builtin outbound rules disabled  count=216
+15:19:02  
+15:19:02  ==== 5. enforcement ====
+15:19:03  correct=35 other=7 syscurl=7
+15:19:03  PASS  whitelisted program allowed  exit=35
+15:19:03  PASS  other destination blocked by firewall  exit=7
+15:19:03  PASS  non-whitelisted program blocked by firewall  exit=7
+15:19:03  copied program exit=7
+15:19:03  PASS  copied/renamed program blocked by firewall  exit=7
+15:19:03  NetGuard.exe launched=True exit=0
+15:19:03  PASS  NetGuard management exe still allowed  exit=0
+15:19:03  
+15:19:03  ==== 6. uninstall ====
+15:20:14  uninstall exit=0
+15:20:14    [*] 等待服务进入可用状态（最多 30 秒）
+15:20:14    [*] 服务状态: Running
+15:20:14    [*] 通知服务回滚过滤规则（第 1 次）
+15:20:14    [*] 停止服务
+15:20:14    [*] 停止后状态: Stopped
+15:20:14    [*] 删除服务
+15:20:14    [*] 清理旧版本遗留的 WFP 过滤器（persistent）
+15:20:14    [*] 关闭免费模式（防火墙/AppLocker）
+15:20:14    [*] Private 默认出站恢复为 Allow
+15:20:14    [*] Domain 默认出站恢复为 Allow
+15:20:14    [*] Public 默认出站恢复为 Allow
+15:20:14    [*] 已重新启用 216 条系统出站规则
+15:20:14    [*] removed 2 firewall rule(s)
+15:20:14    [*] 免费模式已关闭
+15:20:14    [*] 免费模式检查完成
+15:20:14    [*] 完成。策略文件保留在 %ProgramData%\NetGuard（如不再需要可手工删除）
+15:20:14    [*] 部署密钥保留在 HKLM\SOFTWARE\NetGuard\PolicyKey（重装后旧策略仍可验证；删除该键即轮换）
+15:20:14  PASS  uninstall exit=0  exit=0
+15:20:14  post: rules=0 profiles=Domain=Allow; Private=Allow; Public=Allow acl=0 state=False
+15:20:14  PASS  after uninstall: free-mode rules gone  rules=0
+15:20:14  PASS  after uninstall: default outbound Allow  Domain=Allow; Private=Allow; Public=Allow
+15:20:14  PASS  after uninstall: state file gone  
+15:20:14  PASS  after uninstall: service gone  
+15:20:15  PASS  after uninstall: network restored  tnc=True
+15:20:15  
+15:20:15  ==== SUMMARY ====
+15:20:15  total checks=22 failed=0
+15:20:15    [OK] old service/driver gone 
+15:20:15    [OK] old dirs gone 
+15:20:15    [OK] no leftover free-mode rules rules=0
+15:20:15    [OK] baseline install exit=0 exit=0
+15:20:15    [OK] test policy applied OK filters=6
+15:20:15    [OK] install -FreeMode exit=0 exit=0
+15:20:15    [OK] NetGuard service Running Running
+15:20:15    [OK] free-mode firewall rules created rules=2
+15:20:15    [OK] default outbound Block (all profiles) Domain=Block; Private=Block; Public=Block
+15:20:15    [OK] state file written 
+15:20:15    [OK] builtin outbound rules disabled count=216
+15:20:15    [OK] whitelisted program allowed exit=35
+15:20:15    [OK] other destination blocked by firewall exit=7
+15:20:15    [OK] non-whitelisted program blocked by firewall exit=7
+15:20:16    [OK] copied/renamed program blocked by firewall exit=7
+15:20:16    [OK] NetGuard management exe still allowed exit=0
+15:20:16    [OK] uninstall exit=0 exit=0
+15:20:16    [OK] after uninstall: free-mode rules gone rules=0
+15:20:16    [OK] after uninstall: default outbound Allow Domain=Allow; Private=Allow; Public=Allow
+15:20:16    [OK] after uninstall: state file gone 
+15:20:16    [OK] after uninstall: service gone 
+15:20:16    [OK] after uninstall: network restored tnc=True

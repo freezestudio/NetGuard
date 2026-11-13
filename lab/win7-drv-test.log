@@ -1,0 +1,520 @@
+﻿=== Win7 ngdrv test 2026-11-13T11:58:18.1621023+08:00 ===
+11:58:18  Win7 driver signed SHA-1, thumbprint=B2AB56B5CC070066EFBED73141DE5B141CDB6ECF
+11:58:25  Win7 volume=E:
+11:58:25  ngblock hash=03D0E370A9680F21D1240FE278DE830D01B14810230FBF89D6D31DD7030F2680
+11:58:27  RunOnce installed
+11:58:28  Win7 booting; phase1 enables testsigning and reboots; waiting for phase2 + shutdown ...
+12:01:28    T+180s state=Off
+12:01:28  guest powered off
+12:01:30    ===== Win7 ngdrv test 
+12:01:30    
+12:01:30    Microsoft Windows [版本 6.1.7601]
+12:01:30    
+12:01:30    Windows 启动加载器
+12:01:30    -------------------
+12:01:30    标识符                  {current}
+12:01:30    device                  partition=C:
+12:01:30    path                    \Windows\system32\winload.exe
+12:01:30    description             Windows 7
+12:01:30    locale                  zh-CN
+12:01:30    inherit                 {bootloadersettings}
+12:01:30    nointegritychecks       Yes
+12:01:30    testsigning             Yes
+12:01:30    osdevice                partition=C:
+12:01:30    systemroot              \Windows
+12:01:30    resumeobject            {b62e7246-dd7d-11f1-b843-c7549da64ab8}
+12:01:30    nx                      OptIn
+12:01:30    --- cert --- 
+12:01:30    Root
+12:01:30    签名与公钥匹配
+12:01:30    相关证书:
+12:01:30    
+12:01:30    精确匹配:
+12:01:30    元素 2:
+12:01:30    序列号: 2a46e68682748c8545c1b824f0879e5c
+12:01:30    颁发者: CN=NetGuardWin7Test
+12:01:30     NotBefore: 2026/11/13 11:37
+12:01:30     NotAfter: 2027/11/13 11:57
+12:01:30    使用者: CN=NetGuardWin7Test
+12:01:30    签名与公钥匹配
+12:01:30    根证书: 使用者与颁发者匹配
+12:01:30    模板: 
+12:01:30    证书哈希(sha1): b2 ab 56 b5 cc 07 00 66 ef be d7 31 41 de 5b 14 1c db 6e cf
+12:01:30    
+12:01:30    证书 "CN=NetGuardWin7Test" 已经在存储中。
+12:01:30    CertUtil: -addstore 命令成功完成。
+12:01:30    TrustedPublisher
+12:01:30    签名与公钥匹配
+12:01:30    相关证书:
+12:01:30    
+12:01:30    精确匹配:
+12:01:30    元素 0:
+12:01:30    序列号: 2a46e68682748c8545c1b824f0879e5c
+12:01:30    颁发者: CN=NetGuardWin7Test
+12:01:30     NotBefore: 2026/11/13 11:37
+12:01:30     NotAfter: 2027/11/13 11:57
+12:01:30    使用者: CN=NetGuardWin7Test
+12:01:30    签名与公钥匹配
+12:01:30    根证书: 使用者与颁发者匹配
+12:01:30    模板: 
+12:01:30    证书哈希(sha1): b2 ab 56 b5 cc 07 00 66 ef be d7 31 41 de 5b 14 1c db 6e cf
+12:01:30    
+12:01:30    证书 "CN=NetGuardWin7Test" 已经在存储中。
+12:01:30    CertUtil: -addstore 命令成功完成。
+12:01:30    testsigning             Yes
+12:01:30    --- driver --- 
+12:01:30    [SC] OpenService 失败 1060:
+12:01:30    
+12:01:30    指定的服务未安装。
+12:01:30    
+12:01:30    [SC] OpenService 失败 1060:
+12:01:30    
+12:01:30    指定的服务未安装。
+12:01:30    
+12:01:30    [SC] CreateService 成功
+12:01:30    
+12:01:30    SERVICE_NAME: ngdrv 
+12:01:30            TYPE               : 1  KERNEL_DRIVER  
+12:01:30            STATE              : 4  RUNNING 
+12:01:30                                    (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+12:01:30            WIN32_EXIT_CODE    : 0  (0x0)
+12:01:30            SERVICE_EXIT_CODE  : 0  (0x0)
+12:01:30            CHECKPOINT         : 0x0
+12:01:30            WAIT_HINT          : 0x0
+12:01:30            PID                : 0
+12:01:30            FLAGS              : 
+12:01:30    
+12:01:30    SERVICE_NAME: ngdrv 
+12:01:30            TYPE               : 1  KERNEL_DRIVER  
+12:01:30            STATE              : 4  RUNNING 
+12:01:30                                    (STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+12:01:30            WIN32_EXIT_CODE    : 0  (0x0)
+12:01:30            SERVICE_EXIT_CODE  : 0  (0x0)
+12:01:30            CHECKPOINT         : 0x0
+12:01:30            WAIT_HINT          : 0x0
+12:01:30    --- netguard --- 
+12:01:30    [ok] 策略密钥已存在: HKLM\SOFTWARE\NetGuard\PolicyKey
+12:01:30    [i] 开发版：60 天试用门禁已禁用
+12:01:30    [ok] 策略已重新签名: C:\ProgramData\NetGuard\policy.ini
+12:01:30         注意：sign 会为当前文件内容重新签名，请先确认内容未被篡改；
+12:01:30               保存会按规范格式重写文件（注释会丢失）。
+12:01:30    [i] 服务已存在，更新启动类型为自动。
+12:01:30    [ok] 服务已安装（自动启动）。
+12:01:30    
+12:01:30    SERVICE_NAME: NetGuard 
+12:01:30            TYPE               : 10  WIN32_OWN_PROCESS  
+12:01:30            STATE              : 2  START_PENDING 
+12:01:30                                    (NOT_STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+12:01:30            WIN32_EXIT_CODE    : 0  (0x0)
+12:01:30            SERVICE_EXIT_CODE  : 0  (0x0)
+12:01:30            CHECKPOINT         : 0x0
+12:01:30            WAIT_HINT          : 0x7d0
+12:01:30            PID                : 2028
+12:01:30            FLAGS              : 
+12:01:30    OK filters=6
+12:01:30    waiting for NIC/NAT ... 
+12:01:30    --- correct hash --- 
+12:01:30    selftest: all targets should be BLOCKED
+12:01:30      [BLOCK] 172.30.18.120   :3389  Win10-RDP(local) err=10060 (0ms)
+12:01:30      [LEAK ] 8.8.8.8         :53    Google DNS   CONNECTED (219ms)
+12:01:30      [BLOCK] 114.114.114.114 :53    NS-China     err=10060 (0ms)
+12:01:30      [BLOCK] 1.1.1.1         :443   Cloudflare   err=10060 (0ms)
+12:01:30      [BLOCK] 180.101.49.12   :443   Baidu        err=10060 (0ms)
+12:01:30    RESULT: 1 target(s) still reachable = FAIL
+12:01:30    correct_exit=2 
+12:01:30    --- tamper --- 
+12:01:30    selftest: all targets should be BLOCKED
+12:01:30      [BLOCK] 172.30.18.120   :3389  Win10-RDP(local) err=10060 (0ms)
+12:01:30      [BLOCK] 8.8.8.8         :53    Google DNS   err=10060 (0ms)
+12:01:30      [BLOCK] 114.114.114.114 :53    NS-China     err=10060 (0ms)
+12:01:30      [BLOCK] 1.1.1.1         :443   Cloudflare   err=10060 (0ms)
+12:01:30      [BLOCK] 180.101.49.12   :443   Baidu        err=10060 (0ms)
+12:01:30    RESULT: all blocked = PASS
+12:01:30    tampered_exit=0 
+12:01:30    --- status --- 
+12:01:30    filters=6
+12:01:30    filters_live=6
+12:01:30    default_deny=1
+12:01:30    endpoints=1
+12:01:30    programs=1
+12:01:30    temp_until=0
+12:01:30    key_ok=1
+12:01:30    hmac_ok=1
+12:01:30    trial_valid=1
+12:01:30    trial_expired=0
+12:01:30    trial_disabled=1
+12:01:30    trial_days=36500
+12:01:30    --- driver reg --- 
+12:01:30    
+12:01:30    HKEY_LOCAL_MACHINE\SOFTWARE\NetGuard\DriverTest
+12:01:30        LastStep    REG_SZ    ok
+12:01:30        LastStatus    REG_DWORD    0x0
+12:01:30    
+12:01:30    --- cleanup --- 
+12:01:30    OK rolled-back
+12:01:30    
+12:01:30    SERVICE_NAME: NetGuard 
+12:01:30            TYPE               : 10  WIN32_OWN_PROCESS  
+12:01:30            STATE              : 3  STOP_PENDING 
+12:01:30                                    (STOPPABLE, NOT_PAUSABLE, ACCEPTS_SHUTDOWN)
+12:01:30            WIN32_EXIT_CODE    : 0  (0x0)
+12:01:30            SERVICE_EXIT_CODE  : 0  (0x0)
+12:01:30            CHECKPOINT         : 0x0
+12:01:30            WAIT_HINT          : 0x1388
+12:01:30    [SC] ChangeServiceConfig 成功
+12:01:30    
+12:01:30    SERVICE_NAME: ngdrv 
+12:01:30            TYPE               : 1  KERNEL_DRIVER  
+12:01:30            STATE              : 1  STOPPED 
+12:01:30            WIN32_EXIT_CODE    : 0  (0x0)
+12:01:30            SERVICE_EXIT_CODE  : 0  (0x0)
+12:01:30            CHECKPOINT         : 0x0
+12:01:30            WAIT_HINT          : 0x0
+12:01:30    [SC] DeleteService 成功
+12:01:30    --- ng.log --- 
+12:01:30    2026-11-12 13:07:28  === NetGuard log start ===
+12:01:30    2026-11-12 13:07:30  === NetGuard log start ===
+12:01:30    2026-11-12 13:07:30  === NetGuard log start ===
+12:01:30    2026-11-12 13:07:35  === NetGuard log start ===
+12:01:30    2026-11-12 13:07:35  sha256: open failed 3 path=C:\Program Files\YB\YbClient.exe
+12:01:30    2026-11-12 13:07:37  === NetGuard log start ===
+12:01:30    2026-11-12 13:07:45  provider add=0
+12:01:30    2026-11-12 13:07:45  sublayer provider+0x1000 -> 0
+12:01:30    2026-11-12 13:07:45  sublayer OK with variant provider+0x1000 (st=0)
+12:01:30    2026-11-12 13:07:45  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:30    2026-11-12 13:07:45  绋嬪簭璺緞鏃犳晥: C:\Program Files\YB\YbClient.exe
+12:01:31    2026-11-12 13:07:45  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-12 13:07:45  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-12 13:07:45  rollback ok
+12:01:31    2026-11-12 13:07:55  === NetGuard log start ===
+12:01:31    2026-11-12 13:07:55  === NetGuard log start ===
+12:01:31    2026-11-12 13:07:55  sha256: open failed 3 path=C:\Program Files\YB\YbClient.exe
+12:01:31    2026-11-12 13:07:55  === NetGuard log start ===
+12:01:31    2026-11-12 13:07:55  === NetGuard log start ===
+12:01:31    2026-11-12 13:07:55  === NetGuard log start ===
+12:01:31    2026-11-12 13:07:55  service: starting
+12:01:31    2026-11-12 13:07:55  provider add=2150760457
+12:01:31    2026-11-12 13:07:55  sublayer provider+0x1000 -> 2150760457
+12:01:31    2026-11-12 13:07:55  sublayer OK with variant provider+0x1000 (st=2150760457)
+12:01:31    2026-11-12 13:07:55  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-12 13:07:55  绋嬪簭璺緞鏃犳晥: C:\Program Files\YB\YbClient.exe
+12:01:31    2026-11-12 13:07:55  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-12 13:07:55  apply(service-start): ok, filters=6, temp=0
+12:01:31    2026-11-12 13:07:55  selftest[after-apply]: leaked=0
+12:01:31    2026-11-12 13:07:55  ipc: server started (ok)
+12:01:31    2026-11-12 13:08:02  === NetGuard log start ===
+12:01:31    2026-11-12 13:08:02  status: enter
+12:01:31    2026-11-12 13:08:04  === NetGuard log start ===
+12:01:31    2026-11-12 13:08:04  dialog: workarea=0,0,1024,728  dpi=96  dlg=496x258  pos=264,235
+12:01:31    2026-11-12 13:08:04  ask: shown, hEdit=0000000000020160 client=480x220 win=496x258
+12:01:31    2026-11-12 13:08:08  ask: IDOK hEdit=0000000000020160
+12:01:31    2026-11-12 13:08:08  ask: text len=1
+12:01:31    2026-11-12 13:08:08  ask: destroyed
+12:01:31    2026-11-12 13:08:08  ask: loop end ok=1
+12:01:31    2026-11-12 13:08:08  ask: return 1
+12:01:31    2026-11-12 13:08:08  dialog: workarea=0,0,1024,728  dpi=96  dlg=496x258  pos=264,235
+12:01:31    2026-11-12 13:08:08  ask: shown, hEdit=0000000000030160 client=480x220 win=496x258
+12:01:31    2026-11-12 13:08:13  ask: IDOK hEdit=0000000000030160
+12:01:31    2026-11-12 13:08:13  ask: text len=1
+12:01:31    2026-11-12 13:08:13  ask: destroyed
+12:01:31    2026-11-12 13:08:13  ask: loop end ok=1
+12:01:31    2026-11-12 13:08:13  ask: return 1
+12:01:31    2026-11-12 13:08:17  dialog: workarea=0,0,1024,728  dpi=96  dlg=716x338  pos=154,195
+12:01:31    2026-11-12 13:08:17  entry: shown client=700x300 win=716x338
+12:01:31    2026-11-12 13:08:23  === NetGuard log start ===
+12:01:31    2026-11-12 13:08:23  dialog: workarea=0,0,1024,728  dpi=96  dlg=716x338  pos=154,195
+12:01:31    2026-11-12 13:08:23  entry: shown client=700x300 win=716x338
+12:01:31    2026-11-12 13:08:33  ipc: cmd=apply
+12:01:31    2026-11-12 13:08:33  provider add=2150760457
+12:01:31    2026-11-12 13:08:33  sublayer provider+0x1000 -> 2150760457
+12:01:31    2026-11-12 13:08:33  sublayer OK with variant provider+0x1000 (st=2150760457)
+12:01:31    2026-11-12 13:08:33  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-12 13:08:33  绋嬪簭璺緞鏃犳晥: C:\Program Files\YB\YbClient.exe
+12:01:31    2026-11-12 13:08:33  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?7 鏉?
+12:01:31    2026-11-12 13:08:33  apply(ipc-apply): ok, filters=7, temp=0
+12:01:31    2026-11-12 13:09:00  === NetGuard log start ===
+12:01:31    2026-11-12 13:09:00  ipc: cmd=temp 1
+12:01:31    2026-11-12 13:09:00  delete-by-id: 璁板綍 7 鏉★紝瀹為檯鍒犻櫎 7 鏉?
+12:01:31    2026-11-12 13:09:00  rollback ok
+12:01:31    2026-11-12 13:09:00  === NetGuard log start ===
+12:01:31    2026-11-12 13:09:00  ipc: cmd=status
+12:01:31    2026-11-12 13:10:25  watchdog: 杩囨护鍣ㄧ己澶憋紙瀹為檯 0 / 鏈熸湜 0锛夛紝閲嶆柊涓嬪彂
+12:01:31    2026-11-12 13:10:25  provider add=2150760457
+12:01:31    2026-11-12 13:10:25  sublayer provider+0x1000 -> 2150760457
+12:01:31    2026-11-12 13:10:25  sublayer OK with variant provider+0x1000 (st=2150760457)
+12:01:31    2026-11-12 13:10:25  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-12 13:10:25  绋嬪簭璺緞鏃犳晥: C:\Program Files\YB\YbClient.exe
+12:01:31    2026-11-12 13:10:25  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?7 鏉?
+12:01:31    2026-11-12 13:10:25  apply(watchdog-reapply): ok, filters=7, temp=0
+12:01:31    2026-11-12 13:11:07  === NetGuard log start ===
+12:01:31    2026-11-12 13:11:07  ipc: cmd=status
+12:01:31    2026-11-12 13:11:11  === NetGuard log start ===
+12:01:31    2026-11-12 13:11:11  ipc: cmd=rollback
+12:01:31    2026-11-12 13:11:11  delete-by-id: 璁板綍 7 鏉★紝瀹為檯鍒犻櫎 7 鏉?
+12:01:31    2026-11-12 13:11:11  rollback ok
+12:01:31    2026-11-12 13:11:11  service: stopping (杩囨护鍣ㄤ繚鐣?
+12:01:31    2026-11-12 13:12:19  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:19  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:19  sha256: open failed 3 path=C:\Program Files\YB\YbClient.exe
+12:01:31    2026-11-12 13:12:19  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:19  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:19  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:19  service: starting
+12:01:31    2026-11-12 13:12:19  service: 璇曠敤涓嶅彲鐢紙璇曠敤宸插埌鏈燂級锛屼笉涓嬪彂绠℃帶
+12:01:31    2026-11-12 13:12:19  ipc: server started (ok)
+12:01:31    2026-11-12 13:12:24  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:24  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:24  status: enter
+12:01:31    2026-11-12 13:12:24  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:24  ipc: cmd=status
+12:01:31    2026-11-12 13:12:24  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:24  === NetGuard log start ===
+12:01:31    2026-11-12 13:12:24  ipc: cmd=rollback
+12:01:31    2026-11-12 13:12:24  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-12 13:12:24  rollback ok
+12:01:31    2026-11-12 13:12:24  service: stopping (杩囨护鍣ㄤ繚鐣?
+12:01:31    2026-11-13 09:33:19  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:19  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:19  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:22  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:22  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:22  service: starting
+12:01:31    2026-11-13 09:33:22  service: 璇曠敤涓嶅彲鐢紙璇曠敤宸插埌鏈燂級锛屼笉涓嬪彂绠℃帶
+12:01:31    2026-11-13 09:33:22  ipc: server started (ok)
+12:01:31    2026-11-13 09:33:27  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:28  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:28  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:30  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:30  ipc: cmd=status
+12:01:31    2026-11-13 09:33:30  === NetGuard log start ===
+12:01:31    2026-11-13 09:33:30  ipc: cmd=rollback
+12:01:31    2026-11-13 09:33:30  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-13 09:33:30  rollback ok
+12:01:31    2026-11-13 09:33:30  service: stopping (杩囨护鍣ㄤ繚鐣?
+12:01:31    2026-11-13 09:39:27  === NetGuard log start ===
+12:01:31    2026-11-13 09:39:27  === NetGuard log start ===
+12:01:31    2026-11-13 09:39:27  service: starting
+12:01:31    2026-11-13 09:39:27  service: 璇曠敤涓嶅彲鐢紙璇曠敤宸插埌鏈燂級锛屼笉涓嬪彂绠℃帶
+12:01:31    2026-11-13 09:39:27  ipc: server started (ok)
+12:01:31    2026-11-13 09:46:31  === NetGuard log start ===
+12:01:31    2026-11-13 09:46:31  === NetGuard log start ===
+12:01:31    2026-11-13 09:46:31  service: starting
+12:01:31    2026-11-13 09:46:31  service: 璇曠敤涓嶅彲鐢紙璇曠敤宸插埌鏈燂級锛屼笉涓嬪彂绠℃帶
+12:01:31    2026-11-13 09:46:31  ipc: server started (ok)
+12:01:31    2026-11-13 09:50:09  === NetGuard log start ===
+12:01:31    2026-11-13 09:50:09  === NetGuard log start ===
+12:01:31    2026-11-13 09:50:09  service: starting
+12:01:31    2026-11-13 09:50:10  service: 璇曠敤涓嶅彲鐢紙璇曠敤宸插埌鏈燂級锛屼笉涓嬪彂绠℃帶
+12:01:31    2026-11-13 09:50:10  ipc: server started (ok)
+12:01:31    2026-11-13 09:57:40  === NetGuard log start ===
+12:01:31    2026-11-13 09:57:40  === NetGuard log start ===
+12:01:31    2026-11-13 09:57:40  service: starting
+12:01:31    2026-11-13 09:57:40  service: 璇曠敤涓嶅彲鐢紙璇曠敤宸插埌鏈燂級锛屼笉涓嬪彂绠℃帶
+12:01:31    2026-11-13 09:57:40  ipc: server started (ok)
+12:01:31    2026-11-13 10:01:46  === NetGuard log start ===
+12:01:31    2026-11-13 10:01:46  === NetGuard log start ===
+12:01:31    2026-11-13 10:01:46  service: starting
+12:01:31    2026-11-13 10:01:46  service: 璇曠敤涓嶅彲鐢紙璇曠敤宸插埌鏈燂級锛屼笉涓嬪彂绠℃帶
+12:01:31    2026-11-13 10:01:46  ipc: server started (ok)
+12:01:31    2026-11-13 10:06:32  === NetGuard log start ===
+12:01:31    2026-11-13 10:06:32  === NetGuard log start ===
+12:01:31    2026-11-13 10:06:32  service: starting
+12:01:31    2026-11-13 10:06:32  service: 璇曠敤涓嶅彲鐢紙璇曠敤宸插埌鏈燂級锛屼笉涓嬪彂绠℃帶
+12:01:31    2026-11-13 10:06:32  ipc: server started (ok)
+12:01:31    2026-11-13 10:12:10  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:10  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:10  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:12  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:12  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:12  service: starting
+12:01:31    2026-11-13 10:12:12  provider add=0
+12:01:31    2026-11-13 10:12:12  sublayer provider+0x1000 -> 0
+12:01:31    2026-11-13 10:12:12  sublayer OK with variant provider+0x1000 (st=0)
+12:01:31    2026-11-13 10:12:12  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-13 10:12:12  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 10:12:12  apply(service-start): ok, filters=6, temp=0
+12:01:31    2026-11-13 10:12:12  selftest[after-apply]: leaked=0
+12:01:31    2026-11-13 10:12:12  ipc: server started (ok)
+12:01:31    2026-11-13 10:12:20  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:20  ipc: cmd=apply
+12:01:31    2026-11-13 10:12:20  provider add=2150760457
+12:01:31    2026-11-13 10:12:20  sublayer provider+0x1000 -> 2150760457
+12:01:31    2026-11-13 10:12:20  sublayer OK with variant provider+0x1000 (st=2150760457)
+12:01:31    2026-11-13 10:12:20  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 10:12:20  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 10:12:20  apply(ipc-apply): ok, filters=6, temp=0
+12:01:31    2026-11-13 10:12:21  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:21  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:22  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:22  ipc: cmd=status
+12:01:31    2026-11-13 10:12:22  === NetGuard log start ===
+12:01:31    2026-11-13 10:12:22  ipc: cmd=rollback
+12:01:31    2026-11-13 10:12:22  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 10:12:22  rollback ok
+12:01:31    2026-11-13 10:12:22  service: stopping (杩囨护鍣ㄤ繚鐣?
+12:01:31    2026-11-13 11:42:16  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:16  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:16  service: starting
+12:01:31    2026-11-13 11:42:16  apply(service-start): 绛栫暐绛惧悕缂哄け锛屾嫆缁濅笅鍙?
+12:01:31    2026-11-13 11:42:16  selftest[after-apply]: leaked=0
+12:01:31    2026-11-13 11:42:16  ipc: server started (ok)
+12:01:31    2026-11-13 11:42:17  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:17  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:17  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:18  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:18  ipc: cmd=status
+12:01:31    2026-11-13 11:42:18  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:18  ipc: cmd=apply
+12:01:31    2026-11-13 11:42:18  provider add=0
+12:01:31    2026-11-13 11:42:18  sublayer provider+0x1000 -> 0
+12:01:31    2026-11-13 11:42:18  sublayer OK with variant provider+0x1000 (st=0)
+12:01:31    2026-11-13 11:42:18  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-13 11:42:18  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 11:42:18  apply(ipc-apply): ok, filters=6, temp=0
+12:01:31    2026-11-13 11:42:19  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:22  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:22  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:22  ipc: cmd=status
+12:01:31    2026-11-13 11:42:22  === NetGuard log start ===
+12:01:31    2026-11-13 11:42:22  ipc: cmd=rollback
+12:01:31    2026-11-13 11:42:22  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 11:42:22  rollback ok
+12:01:31    2026-11-13 11:42:22  service: stopping (杩囨护鍣ㄤ繚鐣?
+12:01:31    2026-11-13 11:44:30  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:30  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:30  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:30  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:30  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:30  service: starting
+12:01:31    2026-11-13 11:44:30  provider add=0
+12:01:31    2026-11-13 11:44:30  sublayer provider+0x1000 -> 0
+12:01:31    2026-11-13 11:44:30  sublayer OK with variant provider+0x1000 (st=0)
+12:01:31    2026-11-13 11:44:30  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-13 11:44:30  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 11:44:30  apply(service-start): ok, filters=6, temp=0
+12:01:31    2026-11-13 11:44:30  selftest[after-apply]: leaked=0
+12:01:31    2026-11-13 11:44:30  ipc: server started (ok)
+12:01:31    2026-11-13 11:44:31  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:31  ipc: cmd=status
+12:01:31    2026-11-13 11:44:31  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:31  ipc: cmd=apply
+12:01:31    2026-11-13 11:44:31  provider add=2150760457
+12:01:31    2026-11-13 11:44:31  sublayer provider+0x1000 -> 2150760457
+12:01:31    2026-11-13 11:44:31  sublayer OK with variant provider+0x1000 (st=2150760457)
+12:01:31    2026-11-13 11:44:31  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 11:44:31  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 11:44:31  apply(ipc-apply): ok, filters=6, temp=0
+12:01:31    2026-11-13 11:44:42  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:42  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:43  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:43  ipc: cmd=status
+12:01:31    2026-11-13 11:44:43  === NetGuard log start ===
+12:01:31    2026-11-13 11:44:43  ipc: cmd=rollback
+12:01:31    2026-11-13 11:44:43  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 11:44:43  rollback ok
+12:01:31    2026-11-13 11:44:43  service: stopping (杩囨护鍣ㄤ繚鐣?
+12:01:31    2026-11-13 11:47:57  === NetGuard log start ===
+12:01:31    2026-11-13 11:47:57  === NetGuard log start ===
+12:01:31    2026-11-13 11:47:57  === NetGuard log start ===
+12:01:31    2026-11-13 11:47:57  === NetGuard log start ===
+12:01:31    2026-11-13 11:47:57  === NetGuard log start ===
+12:01:31    2026-11-13 11:47:57  service: starting
+12:01:31    2026-11-13 11:47:57  provider add=0
+12:01:31    2026-11-13 11:47:57  sublayer provider+0x1000 -> 0
+12:01:31    2026-11-13 11:47:57  sublayer OK with variant provider+0x1000 (st=0)
+12:01:31    2026-11-13 11:47:57  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-13 11:47:57  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 11:47:57  apply(service-start): ok, filters=6, temp=0
+12:01:31    2026-11-13 11:47:57  selftest[after-apply]: leaked=0
+12:01:31    2026-11-13 11:47:57  ipc: server started (ok)
+12:01:31    2026-11-13 11:47:58  === NetGuard log start ===
+12:01:31    2026-11-13 11:47:58  ipc: cmd=status
+12:01:31    2026-11-13 11:47:58  === NetGuard log start ===
+12:01:31    2026-11-13 11:47:58  ipc: cmd=apply
+12:01:31    2026-11-13 11:47:58  provider add=2150760457
+12:01:31    2026-11-13 11:47:58  sublayer provider+0x1000 -> 2150760457
+12:01:31    2026-11-13 11:47:58  sublayer OK with variant provider+0x1000 (st=2150760457)
+12:01:31    2026-11-13 11:47:58  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 11:47:58  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 11:47:58  apply(ipc-apply): ok, filters=6, temp=0
+12:01:31    2026-11-13 11:48:09  === NetGuard log start ===
+12:01:31    2026-11-13 11:48:09  === NetGuard log start ===
+12:01:31    2026-11-13 11:48:10  === NetGuard log start ===
+12:01:31    2026-11-13 11:48:10  ipc: cmd=status
+12:01:31    2026-11-13 11:48:10  === NetGuard log start ===
+12:01:31    2026-11-13 11:48:10  ipc: cmd=rollback
+12:01:31    2026-11-13 11:48:10  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 11:48:10  rollback ok
+12:01:31    2026-11-13 11:48:10  service: stopping (杩囨护鍣ㄤ繚鐣?
+12:01:31    2026-11-13 11:52:55  === NetGuard log start ===
+12:01:31    2026-11-13 11:52:55  === NetGuard log start ===
+12:01:31    2026-11-13 11:52:55  === NetGuard log start ===
+12:01:31    2026-11-13 11:52:55  === NetGuard log start ===
+12:01:31    2026-11-13 11:52:55  === NetGuard log start ===
+12:01:31    2026-11-13 11:52:55  service: starting
+12:01:31    2026-11-13 11:52:55  drv: 宸蹭笅鍙?1 鏉＄櫧鍚嶅崟
+12:01:31    2026-11-13 11:52:55  provider add=0
+12:01:31    2026-11-13 11:52:55  sublayer provider+0x1000 -> 0
+12:01:31    2026-11-13 11:52:55  sublayer OK with variant provider+0x1000 (st=0)
+12:01:31    2026-11-13 11:52:55  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-13 11:52:55  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 11:52:55  apply(service-start): ok, filters=6, temp=0
+12:01:31    2026-11-13 11:52:55  selftest[after-apply]: leaked=0
+12:01:31    2026-11-13 11:52:55  ipc: server started (ok)
+12:01:31    2026-11-13 11:52:57  === NetGuard log start ===
+12:01:31    2026-11-13 11:52:57  ipc: cmd=status
+12:01:31    2026-11-13 11:52:57  === NetGuard log start ===
+12:01:31    2026-11-13 11:52:57  ipc: cmd=apply
+12:01:31    2026-11-13 11:52:57  drv: 宸蹭笅鍙?1 鏉＄櫧鍚嶅崟
+12:01:31    2026-11-13 11:52:57  provider add=2150760457
+12:01:31    2026-11-13 11:52:57  sublayer provider+0x1000 -> 2150760457
+12:01:31    2026-11-13 11:52:57  sublayer OK with variant provider+0x1000 (st=2150760457)
+12:01:31    2026-11-13 11:52:57  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 11:52:57  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 11:52:57  apply(ipc-apply): ok, filters=6, temp=0
+12:01:31    2026-11-13 11:53:08  === NetGuard log start ===
+12:01:31    2026-11-13 11:53:16  === NetGuard log start ===
+12:01:31    2026-11-13 11:53:16  === NetGuard log start ===
+12:01:31    2026-11-13 11:53:16  ipc: cmd=status
+12:01:31    2026-11-13 11:53:16  === NetGuard log start ===
+12:01:31    2026-11-13 11:53:16  ipc: cmd=rollback
+12:01:31    2026-11-13 11:53:16  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 11:53:16  rollback ok
+12:01:31    2026-11-13 11:53:16  service: stopping (杩囨护鍣ㄤ繚鐣?
+12:01:31    2026-11-13 11:58:38  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:38  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:38  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:38  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:38  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:38  service: starting
+12:01:31    2026-11-13 11:58:38  drv: 宸蹭笅鍙?1 鏉＄櫧鍚嶅崟
+12:01:31    2026-11-13 11:58:38  provider add=0
+12:01:31    2026-11-13 11:58:38  sublayer provider+0x1000 -> 0
+12:01:31    2026-11-13 11:58:38  sublayer OK with variant provider+0x1000 (st=0)
+12:01:31    2026-11-13 11:58:38  delete-by-id: 璁板綍 0 鏉★紝瀹為檯鍒犻櫎 0 鏉?
+12:01:31    2026-11-13 11:58:38  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 11:58:38  apply(service-start): ok, filters=6, temp=0
+12:01:31    2026-11-13 11:58:38  selftest[after-apply]: leaked=0
+12:01:31    2026-11-13 11:58:38  ipc: server started (ok)
+12:01:31    2026-11-13 11:58:40  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:40  ipc: cmd=status
+12:01:31    2026-11-13 11:58:40  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:40  ipc: cmd=apply
+12:01:31    2026-11-13 11:58:40  drv: 宸蹭笅鍙?1 鏉＄櫧鍚嶅崟
+12:01:31    2026-11-13 11:58:40  provider add=2150760457
+12:01:31    2026-11-13 11:58:40  sublayer provider+0x1000 -> 2150760457
+12:01:31    2026-11-13 11:58:40  sublayer OK with variant provider+0x1000 (st=2150760457)
+12:01:31    2026-11-13 11:58:40  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 11:58:40  apply ok: 绛栫暐宸茬敓鏁堬紝杩囨护鍣?6 鏉?
+12:01:31    2026-11-13 11:58:40  apply(ipc-apply): ok, filters=6, temp=0
+12:01:31    2026-11-13 11:58:51  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:51  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:51  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:51  ipc: cmd=status
+12:01:31    2026-11-13 11:58:51  === NetGuard log start ===
+12:01:31    2026-11-13 11:58:51  ipc: cmd=rollback
+12:01:31    2026-11-13 11:58:51  delete-by-id: 璁板綍 6 鏉★紝瀹為檯鍒犻櫎 6 鏉?
+12:01:31    2026-11-13 11:58:51  rollback ok
+12:01:31    2026-11-13 11:58:51  service: stopping (杩囨护鍣ㄤ繚鐣?
+12:01:31  RESULT correct_8.8.8.8=True correct_other_leak=False tampered_leak=False drv_running=True drv_ok=True
+12:01:31  RESULT: WIN7 DRIVER TEST OK

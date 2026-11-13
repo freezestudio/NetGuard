@@ -1,0 +1,209 @@
+===== Win7 core goal test 
+
+Microsoft Windows [°æ±¾ 6.1.7601]
+--- initkey --- 
+[ok] ²ßÂÔÃÜÔ¿ÒÑ´æÔÚ: HKLM\SOFTWARE\NetGuard\PolicyKey
+[ok] 60 ÌìÊÔÓÃÆÚ: µ½ 2026-11-11 13:12£¨Ê£Óà 0 Ìì£©
+initkey_exit=0 
+--- sign --- 
+[ok] ²ßÂÔÒÑÖØĞÂÇ©Ãû: C:\ProgramData\NetGuard\policy.ini
+     ×¢Òâ£ºsign »áÎªµ±Ç°ÎÄ¼şÄÚÈİÖØĞÂÇ©Ãû£¬ÇëÏÈÈ·ÈÏÄÚÈİÎ´±»´Û¸Ä£»
+           ±£´æ»á°´¹æ·¶¸ñÊ½ÖØĞ´ÎÄ¼ş£¨×¢ÊÍ»á¶ªÊ§£©¡£
+sign_exit=0 
+--- install --- 
+[ok] ·şÎñÒÑ°²×°£¨×Ô¶¯Æô¶¯£©¡£
+install_exit=0 
+
+SERVICE_NAME: NetGuard 
+        TYPE               : 10  WIN32_OWN_PROCESS  
+        STATE              : 2  START_PENDING 
+                                (NOT_STOPPABLE, NOT_PAUSABLE, IGNORES_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x7d0
+        PID                : 1432
+        FLAGS              : 
+start_exit=0 
+--- ctl apply --- 
+[x] 60 ÌìÊÔÓÃÒÑµ½ÆÚ£¨2026-11-11 13:12£©¡£
+    ¸Ã²Ù×÷ÒÑÍ£Ö¹£»ÒÑÉúĞ§µÄ¹Ü¿Ø»áÔÚ 30 ÃëÄÚ×Ô¶¯³·Ïú²¢»Ö¸´ÁªÍø¡£
+    ÈçĞè¼ÌĞøÊ¹ÓÃ£¬Çë¹ºÂòÕıÊ½ÊÚÈ¨¡£
+apply_exit=6 
+--- whitelisted NetGuard.exe selftest --- 
+[x] 60 ÌìÊÔÓÃÒÑµ½ÆÚ£¨2026-11-11 13:12£©¡£
+    ×Ô¼ìÒÑÍ£Ö¹£»ÒÑÉúĞ§µÄ¹Ü¿Ø»áÔÚ 30 ÃëÄÚ×Ô¶¯³·Ïú²¢»Ö¸´ÁªÍø¡£
+    ÈçĞè¼ÌĞøÊ¹ÓÃ£¬Çë¹ºÂòÕıÊ½ÊÚÈ¨¡£
+wl_exit=6 
+--- unlisted ngcopy.exe selftest --- 
+[x] 60 ÌìÊÔÓÃÒÑµ½ÆÚ£¨2026-11-11 13:12£©¡£
+    ×Ô¼ìÒÑÍ£Ö¹£»ÒÑÉúĞ§µÄ¹Ü¿Ø»áÔÚ 30 ÃëÄÚ×Ô¶¯³·Ïú²¢»Ö¸´ÁªÍø¡£
+    ÈçĞè¼ÌĞøÊ¹ÓÃ£¬Çë¹ºÂòÕıÊ½ÊÚÈ¨¡£
+copy_exit=6 
+--- ping 8.8.8.8 --- 
+
+ÕıÔÚ Ping 8.8.8.8 ¾ßÓĞ 32 ×Ö½ÚµÄÊı¾İ:
+À´×Ô 8.8.8.8 µÄ»Ø¸´: ×Ö½Ú=32 Ê±¼ä=200ms TTL=107
+À´×Ô 8.8.8.8 µÄ»Ø¸´: ×Ö½Ú=32 Ê±¼ä=197ms TTL=107
+
+8.8.8.8 µÄ Ping Í³¼ÆĞÅÏ¢:
+    Êı¾İ°ü: ÒÑ·¢ËÍ = 2£¬ÒÑ½ÓÊÕ = 2£¬¶ªÊ§ = 0 (0% ¶ªÊ§)£¬
+Íù·µĞĞ³ÌµÄ¹À¼ÆÊ±¼ä(ÒÔºÁÃëÎªµ¥Î»):
+    ×î¶Ì = 197ms£¬×î³¤ = 200ms£¬Æ½¾ù = 198ms
+ping_exit=0 
+--- ctl status --- 
+filters=0
+filters_live=0
+default_deny=1
+endpoints=1
+programs=1
+temp_until=0
+key_ok=1
+hmac_ok=1
+trial_valid=1
+trial_expired=1
+trial_days=0
+--- ctl rollback --- 
+OK rolled-back
+
+SERVICE_NAME: NetGuard 
+        TYPE               : 10  WIN32_OWN_PROCESS  
+        STATE              : 3  STOP_PENDING 
+                                (STOPPABLE, NOT_PAUSABLE, ACCEPTS_SHUTDOWN)
+        WIN32_EXIT_CODE    : 0  (0x0)
+        SERVICE_EXIT_CODE  : 0  (0x0)
+        CHECKPOINT         : 0x0
+        WAIT_HINT          : 0x1388
+--- ng.log --- 
+2026-11-12 13:07:28  === NetGuard log start ===
+2026-11-12 13:07:30  === NetGuard log start ===
+2026-11-12 13:07:30  === NetGuard log start ===
+2026-11-12 13:07:35  === NetGuard log start ===
+2026-11-12 13:07:35  sha256: open failed 3 path=C:\Program Files\YB\YbClient.exe
+2026-11-12 13:07:37  === NetGuard log start ===
+2026-11-12 13:07:45  provider add=0
+2026-11-12 13:07:45  sublayer provider+0x1000 -> 0
+2026-11-12 13:07:45  sublayer OK with variant provider+0x1000 (st=0)
+2026-11-12 13:07:45  delete-by-id: è®°å½• 0 æ¡ï¼Œå®é™…åˆ é™¤ 0 æ¡
+2026-11-12 13:07:45  ç¨‹åºè·¯å¾„æ— æ•ˆ: C:\Program Files\YB\YbClient.exe
+2026-11-12 13:07:45  apply ok: ç­–ç•¥å·²ç”Ÿæ•ˆï¼Œè¿‡æ»¤å™¨ 6 æ¡
+2026-11-12 13:07:45  delete-by-id: è®°å½• 6 æ¡ï¼Œå®é™…åˆ é™¤ 6 æ¡
+2026-11-12 13:07:45  rollback ok
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  sha256: open failed 3 path=C:\Program Files\YB\YbClient.exe
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  === NetGuard log start ===
+2026-11-12 13:07:55  service: starting
+2026-11-12 13:07:55  provider add=2150760457
+2026-11-12 13:07:55  sublayer provider+0x1000 -> 2150760457
+2026-11-12 13:07:55  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-12 13:07:55  delete-by-id: è®°å½• 0 æ¡ï¼Œå®é™…åˆ é™¤ 0 æ¡
+2026-11-12 13:07:55  ç¨‹åºè·¯å¾„æ— æ•ˆ: C:\Program Files\YB\YbClient.exe
+2026-11-12 13:07:55  apply ok: ç­–ç•¥å·²ç”Ÿæ•ˆï¼Œè¿‡æ»¤å™¨ 6 æ¡
+2026-11-12 13:07:55  apply(service-start): ok, filters=6, temp=0
+2026-11-12 13:07:55  selftest[after-apply]: leaked=0
+2026-11-12 13:07:55  ipc: server started (ok)
+2026-11-12 13:08:02  === NetGuard log start ===
+2026-11-12 13:08:02  status: enter
+2026-11-12 13:08:04  === NetGuard log start ===
+2026-11-12 13:08:04  dialog: workarea=0,0,1024,728  dpi=96  dlg=496x258  pos=264,235
+2026-11-12 13:08:04  ask: shown, hEdit=0000000000020160 client=480x220 win=496x258
+2026-11-12 13:08:08  ask: IDOK hEdit=0000000000020160
+2026-11-12 13:08:08  ask: text len=1
+2026-11-12 13:08:08  ask: destroyed
+2026-11-12 13:08:08  ask: loop end ok=1
+2026-11-12 13:08:08  ask: return 1
+2026-11-12 13:08:08  dialog: workarea=0,0,1024,728  dpi=96  dlg=496x258  pos=264,235
+2026-11-12 13:08:08  ask: shown, hEdit=0000000000030160 client=480x220 win=496x258
+2026-11-12 13:08:13  ask: IDOK hEdit=0000000000030160
+2026-11-12 13:08:13  ask: text len=1
+2026-11-12 13:08:13  ask: destroyed
+2026-11-12 13:08:13  ask: loop end ok=1
+2026-11-12 13:08:13  ask: return 1
+2026-11-12 13:08:17  dialog: workarea=0,0,1024,728  dpi=96  dlg=716x338  pos=154,195
+2026-11-12 13:08:17  entry: shown client=700x300 win=716x338
+2026-11-12 13:08:23  === NetGuard log start ===
+2026-11-12 13:08:23  dialog: workarea=0,0,1024,728  dpi=96  dlg=716x338  pos=154,195
+2026-11-12 13:08:23  entry: shown client=700x300 win=716x338
+2026-11-12 13:08:33  ipc: cmd=apply
+2026-11-12 13:08:33  provider add=2150760457
+2026-11-12 13:08:33  sublayer provider+0x1000 -> 2150760457
+2026-11-12 13:08:33  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-12 13:08:33  delete-by-id: è®°å½• 6 æ¡ï¼Œå®é™…åˆ é™¤ 6 æ¡
+2026-11-12 13:08:33  ç¨‹åºè·¯å¾„æ— æ•ˆ: C:\Program Files\YB\YbClient.exe
+2026-11-12 13:08:33  apply ok: ç­–ç•¥å·²ç”Ÿæ•ˆï¼Œè¿‡æ»¤å™¨ 7 æ¡
+2026-11-12 13:08:33  apply(ipc-apply): ok, filters=7, temp=0
+2026-11-12 13:09:00  === NetGuard log start ===
+2026-11-12 13:09:00  ipc: cmd=temp 1
+2026-11-12 13:09:00  delete-by-id: è®°å½• 7 æ¡ï¼Œå®é™…åˆ é™¤ 7 æ¡
+2026-11-12 13:09:00  rollback ok
+2026-11-12 13:09:00  === NetGuard log start ===
+2026-11-12 13:09:00  ipc: cmd=status
+2026-11-12 13:10:25  watchdog: è¿‡æ»¤å™¨ç¼ºå¤±ï¼ˆå®é™… 0 / æœŸæœ› 0ï¼‰ï¼Œé‡æ–°ä¸‹å‘
+2026-11-12 13:10:25  provider add=2150760457
+2026-11-12 13:10:25  sublayer provider+0x1000 -> 2150760457
+2026-11-12 13:10:25  sublayer OK with variant provider+0x1000 (st=2150760457)
+2026-11-12 13:10:25  delete-by-id: è®°å½• 0 æ¡ï¼Œå®é™…åˆ é™¤ 0 æ¡
+2026-11-12 13:10:25  ç¨‹åºè·¯å¾„æ— æ•ˆ: C:\Program Files\YB\YbClient.exe
+2026-11-12 13:10:25  apply ok: ç­–ç•¥å·²ç”Ÿæ•ˆï¼Œè¿‡æ»¤å™¨ 7 æ¡
+2026-11-12 13:10:25  apply(watchdog-reapply): ok, filters=7, temp=0
+2026-11-12 13:11:07  === NetGuard log start ===
+2026-11-12 13:11:07  ipc: cmd=status
+2026-11-12 13:11:11  === NetGuard log start ===
+2026-11-12 13:11:11  ipc: cmd=rollback
+2026-11-12 13:11:11  delete-by-id: è®°å½• 7 æ¡ï¼Œå®é™…åˆ é™¤ 7 æ¡
+2026-11-12 13:11:11  rollback ok
+2026-11-12 13:11:11  service: stopping (è¿‡æ»¤å™¨ä¿ç•™)
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  sha256: open failed 3 path=C:\Program Files\YB\YbClient.exe
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  === NetGuard log start ===
+2026-11-12 13:12:19  service: starting
+2026-11-12 13:12:19  service: è¯•ç”¨ä¸å¯ç”¨ï¼ˆè¯•ç”¨å·²åˆ°æœŸï¼‰ï¼Œä¸ä¸‹å‘ç®¡æ§
+2026-11-12 13:12:19  ipc: server started (ok)
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  status: enter
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  ipc: cmd=status
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  === NetGuard log start ===
+2026-11-12 13:12:24  ipc: cmd=rollback
+2026-11-12 13:12:24  delete-by-id: è®°å½• 0 æ¡ï¼Œå®é™…åˆ é™¤ 0 æ¡
+2026-11-12 13:12:24  rollback ok
+2026-11-12 13:12:24  service: stopping (è¿‡æ»¤å™¨ä¿ç•™)
+2026-11-13 09:33:19  === NetGuard log start ===
+2026-11-13 09:33:19  === NetGuard log start ===
+2026-11-13 09:33:19  === NetGuard log start ===
+2026-11-13 09:33:22  === NetGuard log start ===
+2026-11-13 09:33:22  === NetGuard log start ===
+2026-11-13 09:33:22  service: starting
+2026-11-13 09:33:22  service: è¯•ç”¨ä¸å¯ç”¨ï¼ˆè¯•ç”¨å·²åˆ°æœŸï¼‰ï¼Œä¸ä¸‹å‘ç®¡æ§
+2026-11-13 09:33:22  ipc: server started (ok)
+2026-11-13 09:33:27  === NetGuard log start ===
+2026-11-13 09:33:28  === NetGuard log start ===
+2026-11-13 09:33:28  === NetGuard log start ===
+2026-11-13 09:33:30  === NetGuard log start ===
+2026-11-13 09:33:30  ipc: cmd=status
+2026-11-13 09:33:30  === NetGuard log start ===
+2026-11-13 09:33:30  ipc: cmd=rollback
+2026-11-13 09:33:30  delete-by-id: è®°å½• 0 æ¡ï¼Œå®é™…åˆ é™¤ 0 æ¡
+2026-11-13 09:33:30  rollback ok
+2026-11-13 09:33:30  service: stopping (è¿‡æ»¤å™¨ä¿ç•™)
+--- filters --- 
+--- audit --- 
+2026-11-12 13:07:55  ACTION service-start filters=6
+2026-11-12 13:08:33  ACTION ipc-apply ok=1 filters=7
+2026-11-12 13:09:00  ACTION ipc-temp 1min
+2026-11-12 13:10:25  ALERT filters-removed count=0 expected=0
+2026-11-12 13:11:11  ACTION ipc-rollback
+2026-11-12 13:12:19  ALERT trial-blocked service-start è¯•ç”¨å·²åˆ°æœŸ
+2026-11-12 13:12:19  ACTION service-start filters=0
+2026-11-12 13:12:24  ACTION ipc-rollback
+2026-11-13 09:33:22  ALERT trial-blocked service-start è¯•ç”¨å·²åˆ°æœŸ
+2026-11-13 09:33:22  ACTION service-start filters=0
+2026-11-13 09:33:30  ACTION ipc-rollback

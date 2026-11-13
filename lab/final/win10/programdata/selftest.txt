@@ -1,0 +1,6 @@
+[after-apply] leaked=0
+  172.30.18.120   :3389  Win10-RDP(local) blocked (err=10060)
+  8.8.8.8         :53    GoogleDNS    blocked (err=10060)
+  114.114.114.114 :53    NS-China     blocked (err=10060)
+  1.1.1.1         :443   Cloudflare   blocked (err=10060)
+  180.101.49.12   :443   Baidu        blocked (err=10060)

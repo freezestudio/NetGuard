@@ -1,0 +1,27 @@
+NetGuard - Windows 7 SP1 x64 核心目标实测摘要
+日期: 2026-11-13
+构建: C:\src\NetGuard\build\NetGuard.exe (2026-11-12 14:45, _WIN32_WINNT=0x0601)
+
+环境:
+- Hyper-V Win7-Pro-x64, 2 vCPU / 3GB, 无 Hyper-V 集成服务
+- 策略: DefaultDeny=1, AllowDhcp=1, AllowLoopback=1
+        [ep.1] DNS = 8.8.8.8/32, Ports=53, Proto=TCP
+        [proc.1] netguard-self = C:\NetGuard\NetGuard.exe, Endpoint=DNS
+- 先重置过期的试用登记，initkey/sign/install/ctl apply 后 trial_days=60
+
+结果:
+- ctl status: filters=6 filters_live=6 default_deny=1 key_ok=1 hmac_ok=1
+- 白名单进程 C:\NetGuard\NetGuard.exe selftest:
+    [BLOCK] 172.30.18.120:3389   0ms
+    [LEAK ] 8.8.8.8:53           CONNECTED (188ms)
+    [BLOCK] 114.114.114.114:53   0ms
+    [BLOCK] 1.1.1.1:443          0ms
+    [BLOCK] 180.101.49.12:443    0ms
+- 未列进程 C:\NetGuard\ngcopy.exe (同一二进制复制) selftest:
+    RESULT: all blocked = PASS (0 leaks)
+- ping 8.8.8.8: 100% 丢失 (一般故障)
+- ctl rollback: OK rolled-back
+
+结论:
+Windows 7 上“默认拒绝，仅指定进程 -> 指定地址:端口”成立。
+同一个二进制换路径后不再被放行。

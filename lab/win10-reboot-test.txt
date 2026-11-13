@@ -1,0 +1,37 @@
+== 1) 基线自检（应能连出去）==
+selftest: all targets should be BLOCKED
+  [BLOCK] 172.30.18.120   :3389  Win10-RDP(local) err=10060 (2500ms)
+  [LEAK ] 8.8.8.8         :53    Google DNS   CONNECTED (204ms)
+  [LEAK ] 114.114.114.114 :53    NS-China     CONNECTED (31ms)
+  [BLOCK] 1.1.1.1         :443   Cloudflare   err=10060 (2500ms)
+  [BLOCK] 180.101.49.12   :443   Baidu        err=10060 (2500ms)
+RESULT: 2 target(s) still reachable = FAIL
+
+== 2) 下发策略 ==
+[ok] 策略已生效，过滤器 6 条（过滤器 6 条）
+
+== 3) 应用后自检（应全部拦截）==
+selftest: all targets should be BLOCKED
+  [BLOCK] 172.30.18.120   :3389  Win10-RDP(local) err=10060 (0ms)
+  [BLOCK] 8.8.8.8         :53    Google DNS   err=10060 (0ms)
+  [BLOCK] 114.114.114.114 :53    NS-China     err=10060 (0ms)
+  [BLOCK] 1.1.1.1         :443   Cloudflare   err=10060 (0ms)
+  [BLOCK] 180.101.49.12   :443   Baidu        err=10060 (0ms)
+RESULT: all blocked = PASS
+
+== 4) 回滚 ==
+[ok] 已撤销 NetGuard 全部过滤器（恢复联网）
+
+== 5) 回滚后自检（应恢复连接）==
+selftest: all targets should be BLOCKED
+  [BLOCK] 172.30.18.120   :3389  Win10-RDP(local) err=10060 (2500ms)
+  [LEAK ] 8.8.8.8         :53    Google DNS   CONNECTED (500ms)
+  [LEAK ] 114.114.114.114 :53    NS-China     CONNECTED (31ms)
+  [BLOCK] 1.1.1.1         :443   Cloudflare   err=10060 (2500ms)
+  [BLOCK] 180.101.49.12   :443   Baidu        err=10060 (2500ms)
+RESULT: 2 target(s) still reachable = FAIL
+
+==== 结果 ====
+  基线: 能连出去 (OK)
+  应用后: 全部拦截 (PASS)
+  回滚后: 恢复连接 (OK)
