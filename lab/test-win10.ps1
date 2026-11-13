@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\test-win10.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\test-win10.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win10 22H2 上的 NetGuard 验证 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -30,7 +31,7 @@ Invoke-Command -Session $s -ScriptBlock {
     New-Item -ItemType Directory -Path C:\NetGuard -Force | Out-Null
     New-Item -ItemType Directory -Path C:\ProgramData\NetGuard -Force | Out-Null
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
 L "已投放 NetGuard.exe"
 
 $policy = @"
@@ -54,7 +55,7 @@ Sha256=
 Endpoint=医保前置
 Enable=1
 "@
-$tmp = 'C:\src\NetGuard\lab\policy-win10.ini'
+$tmp = "$RepoRoot\lab\policy-win10.ini"
 [IO.File]::WriteAllText($tmp, ($policy -replace "`r?`n", "`r`n"), (New-Object Text.UTF8Encoding($false)))
 Copy-Item $tmp -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
 L "已投放 policy.ini"

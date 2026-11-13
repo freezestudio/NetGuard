@@ -1,11 +1,12 @@
+$RepoRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $ss = New-Object System.Security.SecureString
 foreach ($ch in '1'.ToCharArray()) { $ss.AppendChar($ch) }
 $ss.MakeReadOnly()
 $cred = New-Object System.Management.Automation.PSCredential('freeze', $ss)
 $s = New-PSSession -VMName 'Win10-Pro-22H2' -Credential $cred
-Copy-Item 'C:\src\NetGuard\lab\tmp\demo.ps1' -ToSession $s -Destination 'C:\NetGuard\demo.ps1' -Force
-if (-not (Test-Path 'C:\src\NetGuard\lab\admin.dat')) { throw 'admin.dat missing' }
-Copy-Item 'C:\src\NetGuard\lab\admin.dat' -ToSession $s -Destination 'C:\ProgramData\NetGuard\admin.dat' -Force
+Copy-Item "$RepoRoot\lab\tmp\demo.ps1" -ToSession $s -Destination 'C:\NetGuard\demo.ps1' -Force
+if (-not (Test-Path "$RepoRoot\lab\admin.dat")) { throw 'admin.dat missing' }
+Copy-Item "$RepoRoot\lab\admin.dat" -ToSession $s -Destination 'C:\ProgramData\NetGuard\admin.dat' -Force
 Invoke-Command -Session $s -ScriptBlock {
   # 清掉上次失败留下的窗口与任务
   Get-Process powershell -ErrorAction SilentlyContinue | Where-Object { $_.SessionId -eq 1 } | Stop-Process -Force

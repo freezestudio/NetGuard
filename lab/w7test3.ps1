@@ -1,12 +1,14 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\w7test3.log'
+$log = "$RepoRoot\lab\w7test3.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 自动测试 v2（含局域网对照目标）$(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
 $w10 = 'Win10-Pro-22H2'
 $w7  = 'Win7-Pro-x64'
-$vhd = "C:\VMs\$w7\disk.vhdx"
-$exe = 'C:\src\NetGuard\build\NetGuard.exe'
+$vhd = "$VmsRoot\$w7\disk.vhdx"
+$exe = "$RepoRoot\build\NetGuard.exe"
 
 # ---- 1. 确保 Win10 在跑（本地对照目标 172.30.18.120:3389）----
 $v10 = Get-VM -Name $w10 -ErrorAction SilentlyContinue

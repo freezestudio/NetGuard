@@ -1,5 +1,7 @@
-﻿$ErrorActionPreference = 'Stop'
-$lab = 'C:\src\NetGuard\lab'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Stop'
+$lab = "$RepoRoot\lab"
 $log = Join-Path $lab 'win7-drv-test.log'
 function L([string]$m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== Win7 ngdrv test ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
@@ -14,8 +16,8 @@ if (-not $cert7) {
 $cer7 = Join-Path $lab 'NetGuardWin7Test.cer'
 Export-Certificate -Cert $cert7 -FilePath $cer7 -Force | Out-Null
 $signtool = 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe'
-Copy-Item 'C:\src\NetGuard\drv\out\ngdrv.sys' 'C:\src\NetGuard\drv\out\ngdrv-win7.sys' -Force
-& $signtool sign /fd sha1 /sm /s My /sha1 $cert7.Thumbprint 'C:\src\NetGuard\drv\out\ngdrv-win7.sys' | Out-Null
+Copy-Item "$RepoRoot\drv\out\ngdrv.sys" "$RepoRoot\drv\out\ngdrv-win7.sys" -Force
+& $signtool sign /fd sha1 /sm /s My /sha1 $cert7.Thumbprint "$RepoRoot\drv\out\ngdrv-win7.sys" | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'SHA-1 driver signing failed' }
 L ('Win7 driver signed SHA-1, thumbprint=' + $cert7.Thumbprint)
 
@@ -26,7 +28,7 @@ foreach ($n in @('Win7-Pro-x64','Win10-Pro-22H2')) {
 }
 Get-Process mstsc,vmconnect -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
-$vhd = 'C:\VMs\Win7-Pro-x64\disk.vhdx'
+$vhd = "$VmsRoot\Win7-Pro-x64\disk.vhdx"
 $v = Mount-VHD -Path $vhd -Passthru
 Start-Sleep 3
 $disk = $v | Get-Disk
@@ -38,14 +40,14 @@ $ng = "$root\NetGuard"
 $pd = "$root\ProgramData\NetGuard"
 $drv = "$ng\drv"
 New-Item -ItemType Directory -Path $drv, $pd -Force | Out-Null
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' "$ng\NetGuard.exe" -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NetGuardUI.exe" -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' "$ng\ngblock.exe" -Force
-Copy-Item 'C:\src\NetGuard\drv\out\ngdrv-win7.sys' "$drv\ngdrv.sys" -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" "$ng\NetGuard.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NetGuardUI.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" "$ng\ngblock.exe" -Force
+Copy-Item "$RepoRoot\drv\out\ngdrv-win7.sys" "$drv\ngdrv.sys" -Force
 Copy-Item $cer7 "$drv\NetGuardTest.cer" -Force
 [IO.File]::WriteAllText("$ng\tamper.bin", 'NG-WIN7-DRV-TAMPER', (New-Object Text.ASCIIEncoding))
 
-$h = (& 'C:\src\NetGuard\build\NetGuard.exe' hash 'C:\src\NetGuard\build\NetGuard.exe').Trim()
+$h = (& "$RepoRoot\build\NetGuard.exe" hash "$RepoRoot\build\NetGuard.exe").Trim()
 L ('ngblock hash=' + $h)
 
 $policy = @"

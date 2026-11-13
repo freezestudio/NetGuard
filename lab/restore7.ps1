@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\restore7.log'
+$log = "$RepoRoot\lab\restore7.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 回滚 Win7 到 patched 快照 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -48,7 +49,7 @@ for ($i = 0; $i -lt 3 -and -not $shot; $i++) {
             $d = $bmp.LockBits($rect, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
             [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
             $bmp.UnlockBits($d)
-            $bmp.Save('C:\src\NetGuard\lab\restored.png', [System.Drawing.Imaging.ImageFormat]::Png)
+            $bmp.Save("$RepoRoot\lab\restored.png", [System.Drawing.Imaging.ImageFormat]::Png)
             $bmp.Dispose()
             L "截图成功"
             $shot = $true

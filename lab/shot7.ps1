@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\shot7.log'
+$log = "$RepoRoot\lab\shot7.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 启动画面 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -24,7 +25,7 @@ function Cap($tag) {
         $d = $bmp.LockBits($rect, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
         $bmp.UnlockBits($d)
-        $bmp.Save("C:\src\NetGuard\lab\w7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
+        $bmp.Save("$RepoRoot\lab\w7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
         $bmp.Dispose()
         L "  T+${tag}s 截图 ok"
     } catch { L "  T+${tag}s 异常: $($_.Exception.Message)" }

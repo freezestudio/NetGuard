@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\guest-screen.log'
+$log = "$RepoRoot\lab\guest-screen.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 抓 VMConnect 窗口画面 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -32,9 +33,9 @@ L "窗口区域: $($r.Left),$($r.Top) ${w}x${h}"
 $bmp = New-Object System.Drawing.Bitmap $w, $h
 $g = [System.Drawing.Graphics]::FromImage($bmp)
 $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $bmp.Size)
-$bmp.Save('C:\src\NetGuard\lab\guest-screen.png', [System.Drawing.Imaging.ImageFormat]::Png)
+$bmp.Save("$RepoRoot\lab\guest-screen.png", [System.Drawing.Imaging.ImageFormat]::Png)
 $g.Dispose(); $bmp.Dispose()
-L "已保存 guest-screen.png ($((Get-Item 'C:\src\NetGuard\lab\guest-screen.png').Length) 字节)"
+L "已保存 guest-screen.png ($((Get-Item "$RepoRoot\lab\guest-screen.png").Length) 字节)"
 
 # 同时查客户机会话状态
 $cred = New-Object System.Management.Automation.PSCredential('freeze', (ConvertTo-SecureString '1' -AsPlainText -Force))

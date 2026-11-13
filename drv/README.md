@@ -101,14 +101,14 @@ WCHAR Hash[65];    // SHA-256
 依赖：Windows 11 SDK/WDK **10.0.26100**。
 
 ```bat
-cd C:\src\NetGuard\drv
+cd drv
 build-ngdrv.bat
 ```
 
 产物：
 
 ```text
-C:\src\NetGuard\drv\out\ngdrv.sys
+drv\out\ngdrv.sys
 ```
 
 构建脚本要点：
@@ -130,8 +130,8 @@ C:\src\NetGuard\drv\out\ngdrv.sys
 ```powershell
 $cert = New-SelfSignedCertificate -Type CodeSigningCert -Subject 'CN=NetGuardTest' `
         -CertStoreLocation Cert:\LocalMachine\My -KeyExportPolicy Exportable -HashAlgorithm sha256
-Export-Certificate -Cert $cert -FilePath C:\src\NetGuard\lab\NetGuardTest.cer
-signtool sign /fd sha256 /sm /s My /sha1 $cert.Thumbprint C:\src\NetGuard\drv\out\ngdrv.sys
+Export-Certificate -Cert $cert -FilePath lab\NetGuardTest.cer
+signtool sign /fd sha256 /sm /s My /sha1 $cert.Thumbprint drv\out\ngdrv.sys
 ```
 
 客户机：
@@ -159,8 +159,8 @@ powershell -ExecutionPolicy Bypass -File install-netguard.ps1 -InstallDriver
 
 ## 五、实测结果（Win10 22H2 x64）
 
-脚本：`C:\src\NetGuard\lab\ngdrv-test.ps1`
-日志：`C:\src\NetGuard\lab\ngdrv-test.log`
+脚本：`lab\ngdrv-test.ps1`
+日志：`lab\ngdrv-test.log`
 
 流程：
 
@@ -234,8 +234,8 @@ driver LastStep=ok
 
 ## 五·补充 2、安装/卸载回归（Win10）
 
-脚本：`C:\src\NetGuard\lab\installer-driver-test.ps1`
-日志：`C:\src\NetGuard\lab\installer-driver-test.log`
+脚本：`lab\installer-driver-test.ps1`
+日志：`lab\installer-driver-test.log`
 
 ```text
 install-netguard.ps1 -InstallDriver

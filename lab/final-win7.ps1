@@ -1,8 +1,10 @@
-﻿$ErrorActionPreference = 'Continue'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Continue'
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
-$hostOut = 'C:\src\NetGuard\lab\final\win7'
-$log = 'C:\src\NetGuard\lab\final-win7.log'
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
+$hostOut = "$RepoRoot\lab\final\win7"
+$log = "$RepoRoot\lab\final-win7.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 New-Item -ItemType Directory -Path $hostOut -Force | Out-Null
 "=== NetGuard Win7 full clean install $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
@@ -83,15 +85,15 @@ if ($?) {
 $ng = "$root\NetGuard"
 New-Item -ItemType Directory -Path $ng -Force | Out-Null
 foreach ($f in @('NetGuard.exe','NetGuardUI.exe')) {
-    Copy-Item "C:\src\NetGuard\build\$f" "$ng\$f" -Force
+    Copy-Item "$RepoRoot\build\$f" "$ng\$f" -Force
     L "deployed $f $((Get-Item "$ng\$f").Length) bytes"
 }
 foreach ($f in @('install-netguard.ps1','uninstall-netguard.ps1')) {
-    Copy-Item "C:\src\NetGuard\$f" "$ng\$f" -Force
+    Copy-Item "$RepoRoot\$f" "$ng\$f" -Force
     L "deployed $f"
 }
 foreach ($f in @('guest-win7-fresh.ps1','guest-ui-test.ps1')) {
-    Copy-Item "C:\src\NetGuard\lab\$f" "$ng\$f" -Force
+    Copy-Item "$RepoRoot\lab\$f" "$ng\$f" -Force
     L "deployed $f"
 }
 # 确保没有旧口令/策略

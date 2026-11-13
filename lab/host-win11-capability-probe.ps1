@@ -1,4 +1,6 @@
-$log = 'C:\src\NetGuard\lab\host-win11-capability-probe.log'
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$log = "$RepoRoot\lab\host-win11-capability-probe.log"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== Win11 capability probe ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
 
@@ -40,7 +42,7 @@ L '--- cpu virtualization ---'
 & systeminfo.exe 2>&1 | Select-String -Pattern 'Hyper-V Requirements','Virtualization Enabled In Firmware','Second Level Address Translation','Data Execution Prevention' | ForEach-Object { L ('  ' + $_) }
 
 L '--- existing ISOs ---'
-Get-ChildItem 'C:\VMs','C:\Users\freez\Downloads','C:\Users\freez\Desktop' -Filter *.iso -Recurse -Depth 2 -ErrorAction SilentlyContinue |
+Get-ChildItem "$VmsRoot",'C:\Users\freez\Downloads','C:\Users\freez\Desktop' -Filter *.iso -Recurse -Depth 2 -ErrorAction SilentlyContinue |
   Select-Object FullName,@{n='GB';e={[math]::Round($_.Length/1GB,2)}} | Format-Table -AutoSize | Out-String | ForEach-Object { L $_ }
 L 'done'
-Set-Content 'C:\src\NetGuard\lab\host-win11-capability-probe-done.txt' (Get-Date -Format o) -Encoding UTF8
+Set-Content "$RepoRoot\lab\host-win11-capability-probe-done.txt" (Get-Date -Format o) -Encoding UTF8

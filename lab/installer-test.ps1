@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\installer-test.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\installer-test.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 安装包 + DACL 加固验证 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -17,10 +18,10 @@ Invoke-Command -Session $s -ScriptBlock {
     Get-Process NetGuard -ErrorAction SilentlyContinue | Stop-Process -Force
     New-Item -ItemType Directory -Path 'C:\NetGuard' -Force | Out-Null
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe'   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
-Copy-Item 'C:\src\NetGuard\install-netguard.ps1' -ToSession $s -Destination 'C:\NetGuard\install-netguard.ps1' -Force
-Copy-Item 'C:\src\NetGuard\uninstall-netguard.ps1' -ToSession $s -Destination 'C:\NetGuard\uninstall-netguard.ps1' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe"   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
+Copy-Item "$RepoRoot\install-netguard.ps1" -ToSession $s -Destination 'C:\NetGuard\install-netguard.ps1' -Force
+Copy-Item "$RepoRoot\uninstall-netguard.ps1" -ToSession $s -Destination 'C:\NetGuard\uninstall-netguard.ps1' -Force
 L "文件已投放"
 
 # 1.5) 准备已签名策略（安装脚本会 verify；旧夹具无签名会中止）

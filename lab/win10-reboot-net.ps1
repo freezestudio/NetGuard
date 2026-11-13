@@ -1,5 +1,6 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win10-reboot-net.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\win10-reboot-net.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win10 reboot + network retest $(Get-Date -Format o) ===" | Set-Content $log -Encoding utf8
 
@@ -37,6 +38,6 @@ Invoke-Command -Session $s -ScriptBlock {
     if (Test-Path $out) { Get-Content $out -Encoding Default }
 } | ForEach-Object { L "  $_" }
 
-try { Copy-Item -FromSession $s 'C:\NetGuard\reboot-test.txt' 'C:\src\NetGuard\lab\win10-reboot-test.txt' -Force } catch { }
+try { Copy-Item -FromSession $s 'C:\NetGuard\reboot-test.txt' "$RepoRoot\lab\win10-reboot-test.txt" -Force } catch { }
 Remove-PSSession $s
 L "DONE (VM left running)"

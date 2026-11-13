@@ -1,13 +1,15 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\demo-setup.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\demo-setup.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 准备演示环境 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
-$exe    = 'C:\src\NetGuard\build\NetGuard.exe'
-$ui     = 'C:\src\NetGuard\build\NetGuardUI.exe'
-$adm    = 'C:\src\NetGuard\lab\admin.dat'
-$inst   = 'C:\src\NetGuard\install-netguard.ps1'
+$exe    = "$RepoRoot\build\NetGuard.exe"
+$ui     = "$RepoRoot\build\NetGuardUI.exe"
+$adm    = "$RepoRoot\lab\admin.dat"
+$inst   = "$RepoRoot\install-netguard.ps1"
 
 # 示例策略（用记事本当"业务程序"，方便现场演示；哈希留空表示暂不锁定）
 $policy = "[general]`r`nDefaultDeny=1`r`nAllowDhcp=1`r`nAllowLoopback=1`r`nTempAllowUntil=0`r`n`r`n" +
@@ -17,7 +19,7 @@ $policy = "[general]`r`nDefaultDeny=1`r`nAllowDhcp=1`r`nAllowLoopback=1`r`nTempA
           "[ep.2]`r`nName=门店打印机`r`nCidr=192.168.1.50/32`r`nPorts=9100`r`nProto=TCP`r`nEnable=1`r`n`r`n" +
           "; 业务程序：只有它才能访问上面这些地址`r`n" +
           "[proc.1]`r`nName=医保客户端(演示用记事本)`r`nPath=C:\Windows\System32\notepad.exe`r`nSha256=`r`nEndpoint=医保前置`r`nEnable=1`r`n"
-$polFile = 'C:\src\NetGuard\lab\policy-demo.ini'
+$polFile = "$RepoRoot\lab\policy-demo.ini"
 [IO.File]::WriteAllText($polFile, $policy, (New-Object Text.UTF8Encoding($false)))
 
 # ---------------------------------------------------------------- Windows 10
@@ -54,7 +56,7 @@ Remove-PSSession $s
 $w7 = 'Win7-Pro-x64'
 $v7 = Get-VM -Name $w7
 if ($v7.State -ne 'Off') { Stop-VM -Name $w7 -TurnOff -Force; Start-Sleep 8 }
-$vhd = "C:\VMs\$w7\disk.vhdx"
+$vhd = "$VmsRoot\$w7\disk.vhdx"
 $v = Mount-VHD -Path $vhd -Passthru
 Start-Sleep 3
 $disk = $v | Get-Disk

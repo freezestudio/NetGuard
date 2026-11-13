@@ -1,5 +1,6 @@
-$log = 'C:\src\NetGuard\lab\install-wdk.log'
-$done = 'C:\src\NetGuard\lab\install-wdk-done.txt'
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$log = "$RepoRoot\lab\install-wdk.log"
+$done = "$RepoRoot\lab\install-wdk-done.txt"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 Remove-Item $done -Force -ErrorAction SilentlyContinue
 '=== install WDK ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8

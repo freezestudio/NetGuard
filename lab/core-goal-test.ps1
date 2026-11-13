@@ -1,7 +1,8 @@
 ﻿param([string]$VmName = 'Win10-Pro-22H2')
 
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Stop'
-$lab = 'C:\src\NetGuard\lab'
+$lab = "$RepoRoot\lab"
 $log = Join-Path $lab 'core-goal-test.log'
 $script:checks = @()
 $script:fail = 0

@@ -1,5 +1,7 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-final-check.log'
+$log = "$RepoRoot\lab\win7-final-check.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 最终验证（口令后是否进主界面）$(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
@@ -17,7 +19,7 @@ public class WF {
 }
 '@
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
 
 $vm = Get-VM -Name $vmName
 if ($vm.State -eq 'Off') { Start-VM -Name $vmName; L "已开机"; Start-Sleep 95 } else { L "VM 已在运行" }
@@ -48,7 +50,7 @@ function Snap($tag) {
     $bmp = New-Object System.Drawing.Bitmap $w, $h
     $g = [System.Drawing.Graphics]::FromImage($bmp)
     $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $bmp.Size)
-    $bmp.Save("C:\src\NetGuard\lab\w7v-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
+    $bmp.Save("$RepoRoot\lab\w7v-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
     $g.Dispose(); $bmp.Dispose()
     L "截图 w7v-$tag.png"
 }

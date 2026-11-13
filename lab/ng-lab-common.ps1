@@ -1,8 +1,9 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 # Shared helpers for NetGuard lab scripts.
 # Policy signing now uses a per-install random key stored in
 # HKLM\SOFTWARE\NetGuard\PolicyKey (guest) or a caller-supplied key for offline signing.
 
-$script:NgExeHost = 'C:\src\NetGuard\build\NetGuard.exe'
+$script:NgExeHost = "$RepoRoot\build\NetGuard.exe"
 
 function New-NgPolicyKey {
     $bytes = New-Object byte[] 32

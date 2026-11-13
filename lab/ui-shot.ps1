@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\ui-shot.log'
+$log = "$RepoRoot\lab\ui-shot.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 界面截图验收 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -12,7 +13,7 @@ Invoke-Command -Session $s -ScriptBlock {
     Remove-Item 'C:\NetGuard\ui.bmp' -ErrorAction SilentlyContinue
     Remove-Item 'C:\ProgramData\NetGuard\ui-selftest.txt' -ErrorAction SilentlyContinue
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
 L "新 UI 已投放"
 
 $r = Invoke-Command -Session $s -ScriptBlock {
@@ -27,8 +28,8 @@ $r | ForEach-Object { L "  $_" }
 
 # 取回截图
 try {
-    Copy-Item -FromSession $s -Path 'C:\NetGuard\ui.bmp' -Destination 'C:\src\NetGuard\lab\ui-shot.bmp' -Force
-    L "已取回: $((Get-Item 'C:\src\NetGuard\lab\ui-shot.bmp').Length) 字节"
+    Copy-Item -FromSession $s -Path 'C:\NetGuard\ui.bmp' -Destination "$RepoRoot\lab\ui-shot.bmp" -Force
+    L "已取回: $((Get-Item "$RepoRoot\lab\ui-shot.bmp").Length) 字节"
 } catch { L "取回失败: $($_.Exception.Message)" }
 
 Remove-PSSession $s

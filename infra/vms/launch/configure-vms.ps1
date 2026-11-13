@@ -1,7 +1,8 @@
-﻿# 配置两台虚拟机：自动登录、RDP/剪贴板、固定 IP、单 VM 启动。
+﻿$VmsRoot = Split-Path $PSScriptRoot -Parent
+# 配置两台虚拟机：自动登录、RDP/剪贴板、固定 IP、单 VM 启动。
 # 由提权 worker 运行（需要 Mount-VHD / 注册表 / Hyper-V 权限）。
 $ErrorActionPreference = 'Stop'
-$log = 'C:\VMs\launch\configure-vms.log'
+$log = "$VmsRoot\launch\configure-vms.log"
 function L([string]$m) {
     $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m
     Add-Content -Path $log -Value $line -Encoding UTF8
@@ -54,7 +55,7 @@ L 'host EnhancedSessionMode=true'
 # ---------------------------------------------------------------- Win7
 L '--- Win7: offline auto-login / RDP / static IP ---'
 Stop-AllVms
-$vhd = 'C:\VMs\Win7-Pro-x64\disk.vhdx'
+$vhd = "$VmsRoot\Win7-Pro-x64\disk.vhdx"
 $v = Mount-VHD -Path $vhd -Passthru
 Start-Sleep 3
 $disk = $v | Get-Disk

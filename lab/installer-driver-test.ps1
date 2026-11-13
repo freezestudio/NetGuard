@@ -1,7 +1,8 @@
 ﻿param([string]$VmName = 'Win10-Pro-22H2')
 
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Stop'
-$lab = 'C:\src\NetGuard\lab'
+$lab = "$RepoRoot\lab"
 $log = Join-Path $lab 'installer-driver-test.log'
 $script:checks = @()
 $script:fail = 0
@@ -17,7 +18,7 @@ function Check([string]$n, [bool]$ok, [string]$d = '') {
 $cert = Get-ChildItem Cert:\LocalMachine\My | Where-Object { $_.Subject -eq 'CN=NetGuardTest' } | Select-Object -First 1
 if (-not $cert) { throw 'CN=NetGuardTest cert missing; run lab/ngdrv-test.ps1 first' }
 $signtool = 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe'
-& $signtool sign /fd sha256 /sm /s My /sha1 $cert.Thumbprint 'C:\src\NetGuard\drv\out\ngdrv.sys' | Out-Null
+& $signtool sign /fd sha256 /sm /s My /sha1 $cert.Thumbprint "$RepoRoot\drv\out\ngdrv.sys" | Out-Null
 L 'driver signed SHA-256'
 
 # VM
@@ -58,11 +59,11 @@ Check 'old program/data dirs gone' ((-not $clean.Dir) -and (-not $clean.Data)) '
 Phase '2. deploy build + installer + driver'
 Invoke-Command -Session $s -ScriptBlock { New-Item -ItemType Directory -Path 'C:\NetGuard\drv' -Force | Out-Null } | Out-Null
 foreach ($f in @(
-    @{ Src='C:\src\NetGuard\build\NetGuard.exe'; Dst='C:\NetGuard\NetGuard.exe' },
-    @{ Src='C:\src\NetGuard\build\NetGuardUI.exe'; Dst='C:\NetGuard\NetGuardUI.exe' },
-    @{ Src='C:\src\NetGuard\install-netguard.ps1'; Dst='C:\NetGuard\install-netguard.ps1' },
-    @{ Src='C:\src\NetGuard\uninstall-netguard.ps1'; Dst='C:\NetGuard\uninstall-netguard.ps1' },
-    @{ Src='C:\src\NetGuard\drv\out\ngdrv.sys'; Dst='C:\NetGuard\drv\ngdrv.sys' },
+    @{ Src="$RepoRoot\build\NetGuard.exe"; Dst='C:\NetGuard\NetGuard.exe' },
+    @{ Src="$RepoRoot\build\NetGuardUI.exe"; Dst='C:\NetGuard\NetGuardUI.exe' },
+    @{ Src="$RepoRoot\install-netguard.ps1"; Dst='C:\NetGuard\install-netguard.ps1' },
+    @{ Src="$RepoRoot\uninstall-netguard.ps1"; Dst='C:\NetGuard\uninstall-netguard.ps1' },
+    @{ Src="$RepoRoot\drv\out\ngdrv.sys"; Dst='C:\NetGuard\drv\ngdrv.sys' },
     @{ Src=(Join-Path $lab 'NetGuardTest.cer'); Dst='C:\NetGuard\drv\NetGuardTest.cer' }
 )) { Copy-Item $f.Src -ToSession $s -Destination $f.Dst -Force }
 L 'files deployed'

@@ -1,10 +1,12 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-main-shot.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\win7-main-shot.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 主窗口截图（交互会话）$(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
 
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
@@ -16,7 +18,7 @@ $wp = Get-Partition -DiskNumber $disk.Number | Where-Object { $_.Size -gt 1GB } 
 $root = "$((($wp | Get-Volume).DriveLetter)):"
 $ng = "$root\NetGuard"
 
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NGUI5.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NGUI5.exe" -Force
 L "已投放 NGUI5.exe = $((Get-Item "$ng\NGUI5.exe").Length)"
 
 $cmd = @'
@@ -63,8 +65,8 @@ L "--- shot.txt ---"
 if (Test-Path "$root\NetGuard\shot.txt") { Get-Content "$root\NetGuard\shot.txt" -Encoding Default | Select-Object -Last 12 | ForEach-Object { L "  $_" } } else { L "  (缺失)" }
 
 if (Test-Path "$root\NetGuard\uiw7.bmp") {
-    Copy-Item "$root\NetGuard\uiw7.bmp" 'C:\src\NetGuard\lab\uiw7.bmp' -Force
-    L "已取回 uiw7.bmp（$((Get-Item 'C:\src\NetGuard\lab\uiw7.bmp').Length) 字节）"
+    Copy-Item "$root\NetGuard\uiw7.bmp" "$RepoRoot\lab\uiw7.bmp" -Force
+    L "已取回 uiw7.bmp（$((Get-Item "$RepoRoot\lab\uiw7.bmp").Length) 字节）"
 } else { L "uiw7.bmp 未生成" }
 
 [GC]::Collect()

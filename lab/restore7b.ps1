@@ -1,10 +1,12 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\restore7b.log'
+$log = "$RepoRoot\lab\restore7b.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 修 ACL + 回滚 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$dir = "C:\VMs\$vmName"
+$dir = "$VmsRoot\$vmName"
 
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 6 }

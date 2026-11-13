@@ -1,3 +1,3 @@
 @echo off
 chcp 65001 >nul
-powershell -NoProfile -ExecutionPolicy Bypass -File "C:\VMs\launch\connect-rdp.ps1" -Target Win10
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0launch\connect-rdp.ps1" -Target Win10

@@ -1,5 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\harvest.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\harvest.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== harvest $(Get-Date -Format o) ===" | Set-Content $log -Encoding utf8
 
@@ -10,8 +12,8 @@ Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction Silen
     }
 
 $vmName = 'Win7-Pro-x64'
-$vhd = "C:\VMs\$vmName\disk.vhdx"
-$outDir = 'C:\src\NetGuard\lab\tutorial'
+$vhd = "$VmsRoot\$vmName\disk.vhdx"
+$outDir = "$RepoRoot\lab\tutorial"
 
 # 等客人机自己关机（最多 12 分钟）
 $off = $false

@@ -1,12 +1,13 @@
-﻿# 清空旧版 NetGuard -> 重新部署当前构建 -> 端到端真实功能验证（Win10 22H2 客户机）
-# 用法: powershell -NoProfile -ExecutionPolicy Bypass -File C:\src\NetGuard\lab\deploy-and-test-win10.ps1
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+# 清空旧版 NetGuard -> 重新部署当前构建 -> 端到端真实功能验证（Win10 22H2 客户机）
+# 用法: powershell -NoProfile -ExecutionPolicy Bypass -File lab\deploy-and-test-win10.ps1
 # 说明: 本机 Microsoft.PowerShell.Security 的 TypeData 损坏，ConvertTo-SecureString 不可用，
 #       所以手工构造 SecureString。
 
 param([string]$VmName = 'Win10-Pro-22H2')
 
 $ErrorActionPreference = 'Stop'
-$lab = 'C:\src\NetGuard\lab'
+$lab = "$RepoRoot\lab"
 $log = Join-Path $lab 'deploy-test-win10.log'
 $script:checks = @()
 
@@ -137,10 +138,10 @@ Check 'old processes gone'         ($after.Proc -eq 0) ("count=$($after.Proc)")
 Phase '2. deploy current build'
 Invoke-Command -Session $script:s -ScriptBlock { New-Item -ItemType Directory -Path 'C:\NetGuard' -Force | Out-Null }
 $files = @(
-    @{ Src = 'C:\src\NetGuard\build\NetGuard.exe';          Dst = 'C:\NetGuard\NetGuard.exe' },
-    @{ Src = 'C:\src\NetGuard\build\NetGuardUI.exe';        Dst = 'C:\NetGuard\NetGuardUI.exe' },
-    @{ Src = 'C:\src\NetGuard\install-netguard.ps1';        Dst = 'C:\NetGuard\install-netguard.ps1' },
-    @{ Src = 'C:\src\NetGuard\uninstall-netguard.ps1';      Dst = 'C:\NetGuard\uninstall-netguard.ps1' }
+    @{ Src = "$RepoRoot\build\NetGuard.exe";          Dst = 'C:\NetGuard\NetGuard.exe' },
+    @{ Src = "$RepoRoot\build\NetGuardUI.exe";        Dst = 'C:\NetGuard\NetGuardUI.exe' },
+    @{ Src = "$RepoRoot\install-netguard.ps1";        Dst = 'C:\NetGuard\install-netguard.ps1' },
+    @{ Src = "$RepoRoot\uninstall-netguard.ps1";      Dst = 'C:\NetGuard\uninstall-netguard.ps1' }
 )
 foreach ($f in $files) {
     Copy-Item $f.Src -ToSession $script:s -Destination $f.Dst -Force
@@ -152,7 +153,7 @@ Invoke-Command -Session $script:s -ScriptBlock {
     Get-ChildItem 'C:\NetGuard' | Select-Object Name, Length | ForEach-Object { "deployed: $($_.Name) $($_.Length)" }
 } | ForEach-Object { L ('  ' + $_) }
 
-$hashHost = HashFile 'C:\src\NetGuard\build\NetGuard.exe'
+$hashHost = HashFile "$RepoRoot\build\NetGuard.exe"
 $hashGuest = Invoke-Command -Session $script:s -ScriptBlock {
     $sha = [Security.Cryptography.SHA256]::Create()
     $fs = [IO.File]::OpenRead('C:\NetGuard\NetGuard.exe')

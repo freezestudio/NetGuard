@@ -1,11 +1,13 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-rebuild2.log'
+$log = "$RepoRoot\lab\win7-rebuild2.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 继续重建 Win7（挂盘/挂 ISO/开机）($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$iso    = 'C:\VMs\iso-rebuild\cn_windows_7_professional_with_sp1_x64_dvd_u_677031.iso'
-$ansVhd = "C:\VMs\$vmName\answer.vhdx"
+$iso    = "$VmsRoot\iso-rebuild\cn_windows_7_professional_with_sp1_x64_dvd_u_677031.iso"
+$ansVhd = "$VmsRoot\$vmName\answer.vhdx"
 
 $vm = Get-VM -Name $vmName -ErrorAction Stop
 L "VM 状态: $($vm.State)"

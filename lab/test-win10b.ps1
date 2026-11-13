@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\test-win10b.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\test-win10b.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win10 验证 v2 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -19,8 +20,8 @@ Invoke-Command -Session $s -ScriptBlock {
     Start-Sleep 1
     New-Item -ItemType Directory -Path 'C:\NetGuard','C:\ProgramData\NetGuard' -Force | Out-Null
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\lab\policy-win10.ini' -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\lab\policy-win10.ini" -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
 Sign-NgGuestPolicy -Session $s | ForEach-Object { L "  $_" }
 L '已重新投放 exe + policy'
 

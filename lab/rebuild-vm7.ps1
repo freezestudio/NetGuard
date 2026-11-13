@@ -1,12 +1,14 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\rebuild-vm7.log'
+$log = "$RepoRoot\lab\rebuild-vm7.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 重建 Win7 VM 对象（保留 disk.vhdx）($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$dir    = "C:\VMs\$vmName"
+$dir    = "$VmsRoot\$vmName"
 $base   = "$dir\disk.vhdx"
-$iso    = 'C:\VMs\iso-rebuild\cn_windows_7_professional_with_sp1_x64_dvd_u_677031.iso'
+$iso    = "$VmsRoot\iso-rebuild\cn_windows_7_professional_with_sp1_x64_dvd_u_677031.iso"
 
 if (-not (Test-Path $base)) { L "基础盘不存在: $base"; exit 1 }
 L ("基础盘: {0:N2} GB" -f ((Get-Item $base).Length/1GB))
@@ -58,7 +60,7 @@ for ($i = 0; $i -lt 3; $i++) {
         $r = New-Object System.Drawing.Rectangle(0, 0, 1024, 768)
         $d = $bmp.LockBits($r, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
-        $bmp.UnlockBits($d); $bmp.Save('C:\src\NetGuard\lab\w7-ok.png', [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
+        $bmp.UnlockBits($d); $bmp.Save("$RepoRoot\lab\w7-ok.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
         L "截图 w7-ok.png"; break
     } else { L "缩略图 rv=$($res.ReturnValue)"; Start-Sleep 6 }
 }

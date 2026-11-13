@@ -1,11 +1,13 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-ngtest.log'
+$log = "$RepoRoot\lab\win7-ngtest.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 上验证 NetGuard ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$exe    = 'C:\src\NetGuard\build\NetGuard.exe'
-$vmDir  = "C:\VMs\$vmName"
+$exe    = "$RepoRoot\build\NetGuard.exe"
+$vmDir  = "$VmsRoot\$vmName"
 $vhd    = "$vmDir\disk.vhdx"
 
 $vm = Get-VM -Name $vmName -ErrorAction Stop

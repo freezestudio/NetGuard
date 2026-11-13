@@ -1,4 +1,5 @@
-$log='C:\VMs\iso-rebuild\win11-boot-isolate.log'
+$VmsRoot = Split-Path $PSScriptRoot -Parent
+$log="$VmsRoot\iso-rebuild\win11-boot-isolate.log"
 function L($m){$line='{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'),$m; Add-Content $log $line -Encoding UTF8; Write-Host $line}
 '=== boot isolate ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
 $name='Win11-Test'
@@ -15,4 +16,4 @@ Set-VMFirmware -VMName $name -FirstBootDevice $win
 Get-VMDvdDrive -VMName $name | Select-Object ControllerNumber,ControllerLocation,Path | Format-Table -AutoSize | Out-String | ForEach-Object { L $_ }
 Start-VM -Name $name
 L 'started with Win11 ISO only, SecureBoot Off'
-Set-Content 'C:\VMs\iso-rebuild\win11-boot-isolate-done.txt' (Get-Date -Format o) -Encoding UTF8
+Set-Content "$VmsRoot\iso-rebuild\win11-boot-isolate-done.txt" (Get-Date -Format o) -Encoding UTF8

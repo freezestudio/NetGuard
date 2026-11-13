@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference='Continue'
-$log='C:\src\NetGuard\lab\click-vmconnect.log'
+$log="$RepoRoot\lab\click-vmconnect.log"
 function L($m){ "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== click $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 Add-Type -AssemblyName UIAutomationClient

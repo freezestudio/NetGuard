@@ -1,10 +1,12 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-ui-verify3.log'
+$log = "$RepoRoot\lab\win7-ui-verify3.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 界面截图 v3（当前构建）$(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
 
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
@@ -17,8 +19,8 @@ $root = "$((($wp | Get-Volume).DriveLetter)):"
 $ng = "$root\NetGuard"
 $pd = "$root\ProgramData\NetGuard"
 
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NGUI3.exe" -Force
-L "已投放 NGUI3.exe = $((Get-Item "$ng\NGUI3.exe").Length) 字节（宿主机同尺寸 $((Get-Item 'C:\src\NetGuard\build\NetGuardUI.exe').Length)）"
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NGUI3.exe" -Force
+L "已投放 NGUI3.exe = $((Get-Item "$ng\NGUI3.exe").Length) 字节（宿主机同尺寸 $((Get-Item "$RepoRoot\build\NetGuardUI.exe").Length)）"
 
 $cmd = @'
 @echo off
@@ -78,7 +80,7 @@ if ($vc) {
     $bmp = New-Object System.Drawing.Bitmap $w, $h
     $g = [System.Drawing.Graphics]::FromImage($bmp)
     $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $bmp.Size)
-    $bmp.Save('C:\src\NetGuard\lab\win7-ui3.png', [System.Drawing.Imaging.ImageFormat]::Png)
+    $bmp.Save("$RepoRoot\lab\win7-ui3.png", [System.Drawing.Imaging.ImageFormat]::Png)
     $g.Dispose(); $bmp.Dispose()
     L "已截图 win7-ui3.png (${w}x${h})"
 }

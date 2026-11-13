@@ -1,13 +1,14 @@
+$VmsRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Stop'
-$log = 'C:\VMs\iso-rebuild\build-win11-unattend.log'
+$log = "$VmsRoot\iso-rebuild\build-win11-unattend.log"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== build Win11 unattend ISO ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
 
 $name = 'Win11-Test'
-$srcIso = 'C:\VMs\iso-rebuild\Win11-EnterpriseEval-24H2-en-us.iso'
-$answer = 'C:\VMs\iso-rebuild\answer\autounattend.xml'
-$root = 'C:\VMs\iso-rebuild\win11-root'
-$outIso = 'C:\VMs\iso-rebuild\Win11-EnterpriseEval-24H2-unattend.iso'
+$srcIso = "$VmsRoot\iso-rebuild\Win11-EnterpriseEval-24H2-en-us.iso"
+$answer = "$VmsRoot\iso-rebuild\answer\autounattend.xml"
+$root = "$VmsRoot\iso-rebuild\win11-root"
+$outIso = "$VmsRoot\iso-rebuild\Win11-EnterpriseEval-24H2-unattend.iso"
 $oscdimg = 'C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools\amd64\Oscdimg\oscdimg.exe'
 
 if ((Get-VM -Name $name).State -ne 'Off') { Stop-VM -Name $name -TurnOff -Force; Start-Sleep 4 }
@@ -46,4 +47,4 @@ Set-VMFirmware -VMName $name -FirstBootDevice $dvd
 Get-VMDvdDrive -VMName $name | Select-Object ControllerNumber,ControllerLocation,Path | Format-Table -AutoSize | Out-String | ForEach-Object { L $_ }
 L 'starting VM with unattend ISO (no key prompt expected)'
 Start-VM -Name $name
-Set-Content 'C:\VMs\iso-rebuild\build-win11-unattend-done.txt' (Get-Date -Format o) -Encoding UTF8
+Set-Content "$VmsRoot\iso-rebuild\build-win11-unattend-done.txt" (Get-Date -Format o) -Encoding UTF8

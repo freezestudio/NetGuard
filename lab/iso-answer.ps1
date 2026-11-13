@@ -1,17 +1,19 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\iso-answer.log'
+$log = "$RepoRoot\lab\iso-answer.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 用数据 ISO 提供应答文件 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vmDir  = "C:\VMs\$vmName"
-$srcXml = 'C:\src\NetGuard\lab\autounattend-win7.xml'
+$vmDir  = "$VmsRoot\$vmName"
+$srcXml = "$RepoRoot\lab\autounattend-win7.xml"
 $isoOut = "$vmDir\answer.iso"
 
 if (-not (Test-Path $srcXml)) { L "缺少 $srcXml"; exit 1 }
 
 # 1) 准备目录
-$stage = 'C:\src\NetGuard\lab\answer-iso'
+$stage = "$RepoRoot\lab\answer-iso"
 Remove-Item $stage -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path $stage -Force | Out-Null
 Copy-Item $srcXml "$stage\autounattend.xml" -Force

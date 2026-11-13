@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-progress.log'
+$log = "$RepoRoot\lab\win7-progress.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 安装进度 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -20,7 +21,7 @@ function Cap($tag) {
             $d = $bmp.LockBits($rect, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
             [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
             $bmp.UnlockBits($d)
-            $bmp.Save("C:\src\NetGuard\lab\w7inst-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
+            $bmp.Save("$RepoRoot\lab\w7inst-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
             $bmp.Dispose()
             L "  截图 $tag ok"
         } else { L "  截图 $tag 失败 rv=$($res.ReturnValue)" }

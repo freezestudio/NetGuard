@@ -1,5 +1,6 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win10-latest-host.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\win10-latest-host.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win10 latest build test $(Get-Date -Format o) ===" | Set-Content $log -Encoding utf8
 
@@ -46,11 +47,11 @@ try {
 
 # ---- deploy ----
 $files = @(
-    'C:\src\NetGuard\build\NetGuard.exe',
-    'C:\src\NetGuard\build\NetGuardUI.exe',
-    'C:\src\NetGuard\install-netguard.ps1',
-    'C:\src\NetGuard\uninstall-netguard.ps1',
-    'C:\src\NetGuard\lab\win10-latest-guest.ps1'
+    "$RepoRoot\build\NetGuard.exe",
+    "$RepoRoot\build\NetGuardUI.exe",
+    "$RepoRoot\install-netguard.ps1",
+    "$RepoRoot\uninstall-netguard.ps1",
+    "$RepoRoot\lab\win10-latest-guest.ps1"
 )
 foreach ($f in $files) {
     Copy-Item $f -ToSession $s -Destination ("C:\NetGuard\" + (Split-Path $f -Leaf)) -Force
@@ -66,7 +67,7 @@ try {
 } catch { L "guest suite error: $($_.Exception.Message)" }
 
 # ---- collect ----
-$outDir = 'C:\src\NetGuard\lab\win10-latest'
+$outDir = "$RepoRoot\lab\win10-latest"
 New-Item -ItemType Directory -Path $outDir -Force | Out-Null
 try {
     Copy-Item -FromSession $s 'C:\NetGuard\latest.log' (Join-Path $outDir 'latest.log') -Force

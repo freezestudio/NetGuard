@@ -1,7 +1,8 @@
 ﻿param([string]$VmName = 'Win10-Pro-22H2')
 
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Stop'
-$lab = 'C:\src\NetGuard\lab'
+$lab = "$RepoRoot\lab"
 $log = Join-Path $lab 'free-mode-test.log'
 $script:checks = @()
 $script:fail = 0
@@ -65,11 +66,11 @@ Check 'no leftover free-mode rules' ($clean.Fw -eq 0) ('rules=' + $clean.Fw)
 Phase '2. deploy build + scripts'
 Invoke-Command -Session $s -ScriptBlock { New-Item -ItemType Directory -Path 'C:\NetGuard' -Force | Out-Null } | Out-Null
 foreach ($f in @(
-        @{ Src = 'C:\src\NetGuard\build\NetGuard.exe'; Dst = 'C:\NetGuard\NetGuard.exe' },
-        @{ Src = 'C:\src\NetGuard\build\NetGuardUI.exe'; Dst = 'C:\NetGuard\NetGuardUI.exe' },
-        @{ Src = 'C:\src\NetGuard\install-netguard.ps1'; Dst = 'C:\NetGuard\install-netguard.ps1' },
-        @{ Src = 'C:\src\NetGuard\uninstall-netguard.ps1'; Dst = 'C:\NetGuard\uninstall-netguard.ps1' },
-        @{ Src = 'C:\src\NetGuard\free-mode.ps1'; Dst = 'C:\NetGuard\free-mode.ps1' }
+        @{ Src = "$RepoRoot\build\NetGuard.exe"; Dst = 'C:\NetGuard\NetGuard.exe' },
+        @{ Src = "$RepoRoot\build\NetGuardUI.exe"; Dst = 'C:\NetGuard\NetGuardUI.exe' },
+        @{ Src = "$RepoRoot\install-netguard.ps1"; Dst = 'C:\NetGuard\install-netguard.ps1' },
+        @{ Src = "$RepoRoot\uninstall-netguard.ps1"; Dst = 'C:\NetGuard\uninstall-netguard.ps1' },
+        @{ Src = "$RepoRoot\free-mode.ps1"; Dst = 'C:\NetGuard\free-mode.ps1' }
     )) { Copy-Item $f.Src -ToSession $s -Destination $f.Dst -Force }
 L 'files deployed'
 

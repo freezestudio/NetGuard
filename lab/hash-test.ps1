@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\hash-test.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\hash-test.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 哈希锁定 + 防替换 最终测试 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -19,9 +20,9 @@ Invoke-Command -Session $s -ScriptBlock {
 } | ForEach-Object { L "  $_" }
 
 # 2) 投放新 exe（现在不会被占用）
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe'   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' -ToSession $s -Destination 'C:\NetGuard\biz.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe"   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" -ToSession $s -Destination 'C:\NetGuard\biz.exe' -Force
 $sz = Invoke-Command -Session $s -ScriptBlock { (Get-Item 'C:\NetGuard\NetGuard.exe').Length }
 L "投放完成（NetGuard.exe = $sz 字节，新版应为 46 万以上）"
 
@@ -47,7 +48,7 @@ if ($bizHash) {
     $policy = "[general]`r`nDefaultDeny=1`r`nAllowDhcp=1`r`nAllowLoopback=1`r`nTempAllowUntil=0`r`n`r`n" +
               "[ep.1]`r`nName=biz-target`r`nCidr=10.10.10.10/32`r`nPorts=8000-8005`r`nProto=TCP`r`nEnable=1`r`n`r`n" +
               "[proc.1]`r`nName=biz-program`r`nPath=C:\NetGuard\biz.exe`r`nSha256=$bizHash`r`nEndpoint=biz-target`r`nEnable=1`r`n"
-    $tmp = 'C:\src\NetGuard\lab\policy-hash.ini'
+    $tmp = "$RepoRoot\lab\policy-hash.ini"
     [IO.File]::WriteAllText($tmp, $policy, (New-Object Text.UTF8Encoding($false)))
     Copy-Item $tmp -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
     L "策略已写入（哈希锁定 biz.exe）"

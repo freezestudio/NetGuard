@@ -1,8 +1,9 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 # 在 Win10 客户机的“交互桌面”里跑一遍演示：可见的命令行窗口 + 管理界面 + 截图。
-# 用法: powershell -NoProfile -ExecutionPolicy Bypass -File C:\src\NetGuard\lab\interactive-demo-win10.ps1
+# 用法: powershell -NoProfile -ExecutionPolicy Bypass -File lab\interactive-demo-win10.ps1
 $ErrorActionPreference = 'Stop'
 $vm    = 'Win10-Pro-22H2'
-$lab   = 'C:\src\NetGuard\lab'
+$lab   = "$RepoRoot\lab"
 $shots = Join-Path $lab 'shots'
 New-Item -ItemType Directory -Path $shots -Force | Out-Null
 

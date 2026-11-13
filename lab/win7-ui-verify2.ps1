@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-ui-verify2.log'
+$log = "$RepoRoot\lab\win7-ui-verify2.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 界面截图（清理重复会话后）$(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
@@ -49,7 +50,7 @@ $w = $r.Right - $r.Left; $h = $r.Bottom - $r.Top
 $bmp = New-Object System.Drawing.Bitmap $w, $h
 $g = [System.Drawing.Graphics]::FromImage($bmp)
 $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $bmp.Size)
-$bmp.Save('C:\src\NetGuard\lab\win7-ui2.png', [System.Drawing.Imaging.ImageFormat]::Png)
+$bmp.Save("$RepoRoot\lab\win7-ui2.png", [System.Drawing.Imaging.ImageFormat]::Png)
 $g.Dispose(); $bmp.Dispose()
 L "已截图 win7-ui2.png (${w}x${h})"
 L "完成"

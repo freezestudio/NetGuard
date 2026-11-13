@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\run-tests.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\run-tests.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== NetGuard 端到端测试 (Win10 22H2) ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -24,8 +25,8 @@ Invoke-Command -Session $s -ScriptBlock {
     New-Item -ItemType Directory -Path 'C:\NetGuard' -Force | Out-Null
     New-Item -ItemType Directory -Path 'C:\ProgramData\NetGuard' -Force | Out-Null
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\lab\policy-win10.ini' -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\lab\policy-win10.ini" -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
 Invoke-Command -Session $s -ScriptBlock {
     Remove-Item 'C:\ProgramData\NetGuard\ng.log', 'C:\ProgramData\NetGuard\filters.txt' -ErrorAction SilentlyContinue
     Get-ChildItem 'C:\ProgramData\NetGuard' | Select-Object Name, Length

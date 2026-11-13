@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference='Continue'
-$log='C:\src\NetGuard\lab\kbd-test.log'
+$log="$RepoRoot\lab\kbd-test.log"
 function L($m){ "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 键盘注入测试 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 $vmName='Win7-Pro-x64'
@@ -17,7 +18,7 @@ function Cap($tag){
     $r=New-Object System.Drawing.Rectangle(0,0,800,600)
     $d=$bmp.LockBits($r,[System.Drawing.Imaging.ImageLockMode]::WriteOnly,[System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData,0,$d.Scan0,$res.ImageData.Length)
-    $bmp.UnlockBits($d); $bmp.Save("C:\src\NetGuard\lab\k-$tag.png",[System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
+    $bmp.UnlockBits($d); $bmp.Save("$RepoRoot\lab\k-$tag.png",[System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
     L "  截图 k-$tag.png"
   } else { L "  截图失败 rv=$($res.ReturnValue)" }
 }

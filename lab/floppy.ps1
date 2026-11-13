@@ -1,10 +1,12 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\floppy.log'
+$log = "$RepoRoot\lab\floppy.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 改用虚拟软驱提供应答文件 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vmDir  = "C:\VMs\$vmName"
+$vmDir  = "$VmsRoot\$vmName"
 $vfd    = "$vmDir\answer.vfd"
 
 $vm = Get-VM -Name $vmName
@@ -12,7 +14,7 @@ if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 6;
 
 # 1) 从应答 VHD 里取出 autounattend.xml（先复制到临时文件）
 $ansVhd = "$vmDir\answer.vhdx"
-$tmpXml = 'C:\src\NetGuard\lab\autounattend-win7.xml'
+$tmpXml = "$RepoRoot\lab\autounattend-win7.xml"
 if (Test-Path $ansVhd) {
     $v = Mount-VHD -Path $ansVhd -Passthru
     Start-Sleep 2

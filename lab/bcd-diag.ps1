@@ -1,5 +1,7 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\bcd-diag.log'
+$log = "$RepoRoot\lab\bcd-diag.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== bcdboot 诊断 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -7,7 +9,7 @@ $vmName = 'Win7-Pro-x64'
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 6 }
 
-$vhd = "C:\VMs\$vmName\disk.vhdx"
+$vhd = "$VmsRoot\$vmName\disk.vhdx"
 $v = Mount-VHD -Path $vhd -Passthru
 Start-Sleep 2
 $disk = $v | Get-Disk

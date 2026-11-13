@@ -1,11 +1,13 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Stop'
-$log = 'C:\src\NetGuard\lab\win7-rebuild.log'
+$log = "$RepoRoot\lab\win7-rebuild.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 重建 Win7 VM ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$iso    = 'C:\VMs\iso-rebuild\cn_windows_7_professional_with_sp1_x64_dvd_u_677031.iso'
-$vmDir  = "C:\VMs\$vmName"
+$iso    = "$VmsRoot\iso-rebuild\cn_windows_7_professional_with_sp1_x64_dvd_u_677031.iso"
+$vmDir  = "$VmsRoot\$vmName"
 
 if (-not (Test-Path $iso)) { L "缺少 ISO: $iso"; exit 1 }
 L "ISO: $((Get-Item $iso).Length) 字节"

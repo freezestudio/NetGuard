@@ -1,11 +1,13 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\w7test-final.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\w7test-final.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 自动测试（RunOnce）$(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
-$exe    = 'C:\src\NetGuard\build\NetGuard.exe'
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
+$exe    = "$RepoRoot\build\NetGuard.exe"
 
 $vm = Get-VM -Name $vmName -ErrorAction Stop
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8; L "已关机" }

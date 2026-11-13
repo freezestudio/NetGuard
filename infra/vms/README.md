@@ -38,7 +38,7 @@
 2. 用完在虚拟机内部用 Windows 自己的「关机」关闭（不要在宿主强杀）
 3. 搞坏了就回滚快照（见下文）
 
-> `启动Win11.cmd` 直接调用 `C:\VMs\launch\start-win11.ps1`（Hyper-V 管理员权限）。
+> `启动Win11.cmd` 直接调用 `infra\vms\launch\start-win11.ps1`（Hyper-V 管理员权限）。
 > 之前尝试创建 `VM-Start-Win11` 计划任务时因宿主账户密码未知而失败，已放弃计划任务方案，
 > 直接双击即可。**注意：不存在 `VM-Start-Win11` 计划任务。**
 
@@ -94,7 +94,7 @@ WinDbg 没装的话：`winget install Microsoft.WinDbg`（商店版，命令名 
 ## 五、目录结构
 
 ```
-C:\VMs\
+infra\vms\
 ├─ README.md                    ← 本文档
 ├─ 启动Win10.cmd / 启动Win7.cmd / 启动Win11.cmd  ← 控制台入口（单 VM + 单 VMConnect）
 ├─ 连接Win10-剪贴板.cmd          ← RDP 入口（剪贴板）
@@ -148,7 +148,7 @@ HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 
 > 这些地址依赖宿主 `vEthernet (Default Switch)` 的 `172.20.192.1/20` 网段。
 > 如果宿主重置了 Default Switch 网段，需要改
-> `C:\VMs\launch\configure-vms.ps1` 里的地址，并重新运行一次配置。
+> `infra\vms\launch\configure-vms.ps1` 里的地址，并重新运行一次配置。
 
 ### 3. 剪贴板
 
@@ -163,7 +163,7 @@ HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 
 ### 4. 单 VM / 单连接规则
 
-`C:\VMs\launch\vm-common.ps1` 是公共逻辑，`启动Win7.cmd`、`启动Win10.cmd`、`启动Win11.cmd`、
+`infra\vms\launch\vm-common.ps1` 是公共逻辑，`启动Win7.cmd`、`启动Win10.cmd`、`启动Win11.cmd`、
 `连接Win7-剪贴板.cmd`、`连接Win10-剪贴板.cmd` 都走它：
 
 1. 先关闭所有已有的 `vmconnect.exe` / `mstsc.exe` 窗口；
@@ -171,7 +171,7 @@ HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 3. 启动目标虚拟机；
 4. 只打开**一个**连接窗口（VMConnect 或 RDP）。
 
-日志：`C:\VMs\launch\launcher.log`。
+日志：`infra\vms\launch\launcher.log`。
 
 ### 5. Win11-Test 专项说明
 
@@ -185,7 +185,7 @@ HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 | Device Guard / VBS | `VirtualizationBasedSecurityStatus = 0`（**未启用 HVCI**） |
 | 远程管理 | **PowerShell Direct**（`New-PSSession -VMName 'Win11-Test'`），未开 RDP |
 | 快照 | `clean-win11-testsigning` |
-| 启动器 | `C:\VMs\启动Win11.cmd` → `C:\VMs\launch\start-win11.ps1` |
+| 启动器 | `infra\vms\启动Win11.cmd` → `infra\vms\launch\start-win11.ps1` |
 
 已验证：
 
@@ -193,7 +193,7 @@ HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 - 驱动拦截：正确哈希的程序只放行指定目标，换目标被拦（`curl exit=7`），篡改二进制被拦；
 - 卸载 `uninstall-netguard.ps1` → 服务/驱动/过滤规则全部移除，网络恢复；
 - `lab\installer-driver-test.ps1 -VmName 'Win11-Test'`：**22/22 全通过**，
-  日志 `C:\src\NetGuard\lab\win11-installer-driver-test.log`。
+  日志 `lab\win11-installer-driver-test.log`。
 
 ⚠️ 局限：当前 Win11 是 **Secure Boot 关 + 测试签名** 状态，只能证明驱动功能兼容，
 **不能**证明“开启 HVCI/Secure Boot 的生产环境”可用；后者需要 EV/WHQL 正式签名后再测。
@@ -203,7 +203,7 @@ HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
 
 - 重新运行配置脚本（需要管理员；会停止所有 VM、改注册表/静态 IP/RDP 防火墙，然后重启验证）：
   ```powershell
-  powershell -NoProfile -ExecutionPolicy Bypass -File C:\VMs\launch\configure-vms.ps1
+  powershell -NoProfile -ExecutionPolicy Bypass -File infra\vms\launch\configure-vms.ps1
   ```
 - 检查 RDP：
   ```powershell

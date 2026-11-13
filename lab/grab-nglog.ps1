@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\grab-nglog.log'
+$log = "$RepoRoot\lab\grab-nglog.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 读取客户机 ng.log ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 

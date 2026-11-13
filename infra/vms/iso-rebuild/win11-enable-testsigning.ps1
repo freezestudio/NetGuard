@@ -1,5 +1,6 @@
+$VmsRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\VMs\iso-rebuild\win11-testsigning.log'
+$log = "$VmsRoot\iso-rebuild\win11-testsigning.log"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== Win11 enable testsigning ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
 $name = 'Win11-Test'
@@ -50,4 +51,4 @@ $r = Invoke-Command -Session $s -ScriptBlock {
 L ('after reboot testsigning line: ' + (($r.Bcd -split "`r?`n" | Where-Object { $_ -match 'testsigning|nointegrity' }) -join ' | '))
 L ('DeviceGuard: ' + (($r.DG -split "`r?`n" | Where-Object { $_.Trim() }) -join ' | '))
 Remove-PSSession $s -ErrorAction SilentlyContinue
-Set-Content 'C:\VMs\iso-rebuild\win11-testsigning-done.txt' (Get-Date -Format o) -Encoding UTF8
+Set-Content "$VmsRoot\iso-rebuild\win11-testsigning-done.txt" (Get-Date -Format o) -Encoding UTF8

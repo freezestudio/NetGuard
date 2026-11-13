@@ -1,2 +1,3 @@
-& 'C:\src\NetGuard\lab\installer-driver-test.ps1' -VmName 'Win11-Test'
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+& "$RepoRoot\lab\installer-driver-test.ps1" -VmName 'Win11-Test'
 exit $LASTEXITCODE

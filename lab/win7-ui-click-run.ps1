@@ -1,9 +1,11 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-ui-click-run.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\win7-ui-click-run.log"
 "=== Win7 UI click runner $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vhd = "C:\VMs\$vmName\disk.vhdx"
+$vhd = "$VmsRoot\$vmName\disk.vhdx"
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
 
@@ -15,9 +17,9 @@ $root = "$((($wp | Get-Volume).DriveLetter)):"
 $ng = "$root\NetGuard"
 New-Item -ItemType Directory -Path $ng -Force | Out-Null
 
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NetGuardUI.exe" -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NGUI10.exe" -Force
-Copy-Item 'C:\src\NetGuard\lab\win7-ui-click.ps1' "$ng\win7-ui-click.ps1" -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NetGuardUI.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NGUI10.exe" -Force
+Copy-Item "$RepoRoot\lab\win7-ui-click.ps1" "$ng\win7-ui-click.ps1" -Force
 Remove-Item "$ng\ui-click-result.txt", "$ng\ui-click.png" -Force -ErrorAction SilentlyContinue
 "deployed UI=$((Get-Item "$ng\NetGuardUI.exe").Length)" | Out-File $log -Append -Encoding utf8
 
@@ -59,7 +61,7 @@ if (Test-Path "$root\NetGuard\ui-click-result.txt") {
 } else { "(missing)" | Out-File $log -Append -Encoding utf8 }
 
 if (Test-Path "$root\NetGuard\ui-click.png") {
-    Copy-Item "$root\NetGuard\ui-click.png" 'C:\src\NetGuard\lab\ui-click-win7.png' -Force
+    Copy-Item "$root\NetGuard\ui-click.png" "$RepoRoot\lab\ui-click-win7.png" -Force
     "png copied" | Out-File $log -Append -Encoding utf8
 } else { "png missing" | Out-File $log -Append -Encoding utf8 }
 

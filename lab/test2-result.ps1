@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\test2-result.log'
+$log = "$RepoRoot\lab\test2-result.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 读取 Win7 测试结果 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 

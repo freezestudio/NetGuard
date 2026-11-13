@@ -1,5 +1,7 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-crash5.log'
+$log = "$RepoRoot\lab\win7-crash5.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 崩溃模块定位 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -15,7 +17,7 @@ public class WC5 {
 '@
 
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
 
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
@@ -27,7 +29,7 @@ $wp = Get-Partition | Where-Object { $_.DiskNumber -eq $disk.Number -and $_.Size
 $root = "$((($wp | Get-Volume).DriveLetter)):"
 $ng = "$root\NetGuard"
 
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NGUI10.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NGUI10.exe" -Force
 L "已投放 NGUI10.exe"
 
 $ps = @'

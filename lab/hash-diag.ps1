@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\hash-diag.log'
+$log = "$RepoRoot\lab\hash-diag.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== hash 命令诊断 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 

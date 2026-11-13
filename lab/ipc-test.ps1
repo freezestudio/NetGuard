@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\ipc-test.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\ipc-test.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 服务 + IPC + 哈希防替换 联合测试 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -8,7 +9,7 @@ $vmName = 'Win10-Pro-22H2'
 $cred = New-Object System.Management.Automation.PSCredential('freeze', (ConvertTo-SecureString '1' -AsPlainText -Force))
 
 # 1) 计算宿主机 NetGuard.exe 的哈希（作为"合法业务程序"的基准）
-$h1 = (& 'C:\src\NetGuard\build\NetGuard.exe' hash 'C:\src\NetGuard\build\NetGuard.exe')
+$h1 = (& "$RepoRoot\build\NetGuard.exe" hash "$RepoRoot\build\NetGuard.exe")
 L "合法程序哈希 H1 = $h1"
 
 # 2) 生成测试策略（业务程序 = C:\NetGuard\biz.exe，哈希锁定 H1）
@@ -33,7 +34,7 @@ Sha256=$h1
 Endpoint=biz-target
 Enable=1
 "@
-$tmpPol = 'C:\src\NetGuard\lab\policy-ipc.ini'
+$tmpPol = "$RepoRoot\lab\policy-ipc.ini"
 [IO.File]::WriteAllText($tmpPol, ($policy -replace "`r?`n", "`r`n"), (New-Object Text.UTF8Encoding($false)))
 
 $s = New-PSSession -VMName $vmName -Credential $cred
@@ -46,9 +47,9 @@ Invoke-Command -Session $s -ScriptBlock {
     New-Item -ItemType Directory -Path 'C:\NetGuard','C:\ProgramData\NetGuard' -Force | Out-Null
     Remove-Item 'C:\ProgramData\NetGuard\audit.log','C:\ProgramData\NetGuard\ng.log','C:\ProgramData\NetGuard\filters.txt' -ErrorAction SilentlyContinue
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe'   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe'   -ToSession $s -Destination 'C:\NetGuard\biz.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe"   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe"   -ToSession $s -Destination 'C:\NetGuard\biz.exe' -Force
 Copy-Item $tmpPol -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
 Sign-NgGuestPolicy -Session $s | ForEach-Object { L "  $_" }
 L "已部署 exe / biz.exe / policy.ini"

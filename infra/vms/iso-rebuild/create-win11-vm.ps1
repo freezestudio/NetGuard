@@ -1,12 +1,13 @@
+$VmsRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Stop'
-$log = 'C:\VMs\iso-rebuild\create-win11-vm.log'
+$log = "$VmsRoot\iso-rebuild\create-win11-vm.log"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== create Win11 VM ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
 $name = 'Win11-Test'
-$dir = 'C:\VMs\Win11-Test'
+$dir = "$VmsRoot\Win11-Test"
 $vhd = Join-Path $dir 'disk.vhdx'
-$win11 = 'C:\VMs\iso-rebuild\Win11-EnterpriseEval-24H2-en-us.iso'
-$answer = 'C:\VMs\iso-rebuild\autounattend-win11.iso'
+$win11 = "$VmsRoot\iso-rebuild\Win11-EnterpriseEval-24H2-en-us.iso"
+$answer = "$VmsRoot\iso-rebuild\autounattend-win11.iso"
 
 $old = Get-VM -Name $name -ErrorAction SilentlyContinue
 if ($old) {
@@ -37,4 +38,4 @@ Get-VMFirmware -VMName $name | Select-Object SecureBoot,SecureBootTemplate | For
 
 Start-VM -Name $name
 L 'VM started; Windows Setup should use autounattend.xml from the second DVD'
-Set-Content 'C:\VMs\iso-rebuild\create-win11-vm-done.txt' (Get-Date -Format o) -Encoding UTF8
+Set-Content "$VmsRoot\iso-rebuild\create-win11-vm-done.txt" (Get-Date -Format o) -Encoding UTF8

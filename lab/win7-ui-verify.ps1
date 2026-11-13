@@ -1,10 +1,12 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-ui-verify.log'
+$log = "$RepoRoot\lab\win7-ui-verify.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 界面可见性验证 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
 
 $vm = Get-VM -Name $vmName -ErrorAction Stop
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
@@ -16,8 +18,8 @@ $wp = Get-Partition -DiskNumber $disk.Number | Where-Object { $_.Size -gt 1GB } 
 $root = "$((($wp | Get-Volume).DriveLetter)):"
 $ng = "$root\NetGuard"
 
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NGUI2.exe" -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe'   "$ng\NetGuard.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NGUI2.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe"   "$ng\NetGuard.exe" -Force
 L "已投放 NGUI2.exe（$((Get-Item "$ng\NGUI2.exe").Length) 字节）"
 
 $cmd = @'
@@ -94,7 +96,7 @@ if ($vc) {
     $bmp = New-Object System.Drawing.Bitmap $w, $h
     $g = [System.Drawing.Graphics]::FromImage($bmp)
     $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $bmp.Size)
-    $bmp.Save('C:\src\NetGuard\lab\win7-ui.png', [System.Drawing.Imaging.ImageFormat]::Png)
+    $bmp.Save("$RepoRoot\lab\win7-ui.png", [System.Drawing.Imaging.ImageFormat]::Png)
     $g.Dispose(); $bmp.Dispose()
     L "已截图 win7-ui.png (${w}x${h})"
 } else { L "!! 无 Win7 VMConnect 窗口" }

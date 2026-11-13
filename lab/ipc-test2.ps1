@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\ipc-test2.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\ipc-test2.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== IPC/哈希 复测 v2 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -48,7 +49,7 @@ Sha256=$hashLine
 Endpoint=biz-target
 Enable=1
 "@
-    $tmpPol = 'C:\src\NetGuard\lab\policy-ipc2.ini'
+    $tmpPol = "$RepoRoot\lab\policy-ipc2.ini"
     [IO.File]::WriteAllText($tmpPol, ($policy -replace "`r?`n", "`r`n"), (New-Object Text.UTF8Encoding($false)))
     Copy-Item $tmpPol -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
     Sign-NgGuestPolicy -Session $s | ForEach-Object { L "  $_" }

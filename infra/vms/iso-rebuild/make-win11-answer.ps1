@@ -1,5 +1,6 @@
+$VmsRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Stop'
-$out = 'C:\VMs\iso-rebuild'
+$out = "$VmsRoot\iso-rebuild"
 $src = Join-Path $out 'answer'
 $iso = Join-Path $out 'autounattend-win11.iso'
 New-Item -ItemType Directory -Path $src -Force | Out-Null

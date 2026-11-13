@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\ipc-test3.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\ipc-test3.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 修复后复测：服务 + IPC + 哈希防替换 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -16,9 +17,9 @@ Invoke-Command -Session $s -ScriptBlock {
     Start-Sleep 1
     Remove-Item 'C:\ProgramData\NetGuard\audit.log','C:\ProgramData\NetGuard\ng.log','C:\ProgramData\NetGuard\filters.txt' -ErrorAction SilentlyContinue
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe'   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe'   -ToSession $s -Destination 'C:\NetGuard\biz.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe"   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe"   -ToSession $s -Destination 'C:\NetGuard\biz.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
 L "新 exe 已投放（biz.exe = NetGuard.exe 副本）"
 
 # 2) 客户机内算 biz.exe 的真实哈希
@@ -33,7 +34,7 @@ if ($h) {
     $policy = "[general]`r`nDefaultDeny=1`r`nAllowDhcp=1`r`nAllowLoopback=1`r`nTempAllowUntil=0`r`n`r`n" +
               "[ep.1]`r`nName=biz-target`r`nCidr=10.10.10.10/32`r`nPorts=8000-8005`r`nProto=TCP`r`nEnable=1`r`n`r`n" +
               "[proc.1]`r`nName=biz-program`r`nPath=C:\NetGuard\biz.exe`r`nSha256=$h`r`nEndpoint=biz-target`r`nEnable=1`r`n"
-    $tmp = 'C:\src\NetGuard\lab\policy-ipc3.ini'
+    $tmp = "$RepoRoot\lab\policy-ipc3.ini"
     [IO.File]::WriteAllText($tmp, $policy, (New-Object Text.UTF8Encoding($false)))
     Copy-Item $tmp -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
     L "策略已写入（哈希锁定）"

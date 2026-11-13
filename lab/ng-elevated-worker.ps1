@@ -1,7 +1,8 @@
-﻿# Elevated worker: run one or more .ps1 files listed in ng-elevated-command.txt
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+# Elevated worker: run one or more .ps1 files listed in ng-elevated-command.txt
 # Triggered by the existing "VM-Start-Win10" scheduled task through start-win10.ps1.
 $ErrorActionPreference = 'Continue'
-$root = 'C:\src\NetGuard\lab'
+$root = "$RepoRoot\lab"
 $log = Join-Path $root 'ng-elevated.log'
 $done = Join-Path $root 'ng-elevated-done.txt'
 function L($m) {

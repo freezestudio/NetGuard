@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\ui-shot2.log'
+$log = "$RepoRoot\lab\ui-shot2.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 交互桌面截图 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -46,8 +47,8 @@ $r = Invoke-Command -Session $s -ScriptBlock {
 }
 $r | ForEach-Object { L "  $_" }
 try {
-    Copy-Item -FromSession $s -Path 'C:\NetGuard\ui2.bmp' -Destination 'C:\src\NetGuard\lab\ui2.bmp' -Force
-    L "已取回: $((Get-Item 'C:\src\NetGuard\lab\ui2.bmp').Length) 字节"
+    Copy-Item -FromSession $s -Path 'C:\NetGuard\ui2.bmp' -Destination "$RepoRoot\lab\ui2.bmp" -Force
+    L "已取回: $((Get-Item "$RepoRoot\lab\ui2.bmp").Length) 字节"
 } catch { L "取回失败: $($_.Exception.Message)" }
 Remove-PSSession $s
 L "完成"

@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference='Continue'
-$log='C:\src\NetGuard\lab\diag-win10-ui.log'
+$log="$RepoRoot\lab\diag-win10-ui.log"
 function L($m){ "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== diag $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 $cred=New-Object System.Management.Automation.PSCredential('freeze',(ConvertTo-SecureString '1' -AsPlainText -Force))

@@ -1,13 +1,14 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\ui-shot4.log'
+$log = "$RepoRoot\lab\ui-shot4.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 交互会话截图 v4 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName   = 'Win10-Pro-22H2'
-$hostExe  = 'C:\src\NetGuard\build\NetGuardUI.exe'
+$hostExe  = "$RepoRoot\build\NetGuardUI.exe"
 $guestExe = 'C:\NetGuard\NGUI_test.exe'
 $guestBmp = 'C:\NetGuard\ui3.bmp'
-$hostBmp  = 'C:\src\NetGuard\lab\ui3.bmp'
+$hostBmp  = "$RepoRoot\lab\ui3.bmp"
 
 $cred = New-Object System.Management.Automation.PSCredential('freeze', (ConvertTo-SecureString '1' -AsPlainText -Force))
 $s = New-PSSession -VMName $vmName -Credential $cred

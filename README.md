@@ -385,7 +385,7 @@ AppLocker 为实验性开关（部分 Win10 本地策略会 fail-open），默�
 ## 六、目录
 
 ```
-C:\src\NetGuard\
+NetGuard\
 ├─ build.bat              构建脚本（MSVC）
 ├─ sign-build.ps1         构建产物代码签名/验签
 ├─ install-netguard.ps1   安装服务（-InstallDriver / -FreeMode）

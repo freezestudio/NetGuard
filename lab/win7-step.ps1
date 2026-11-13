@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-step.log'
+$log = "$RepoRoot\lab\win7-step.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 分步驱动 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -26,7 +27,7 @@ function Cap($tag) {
         $r = New-Object System.Drawing.Rectangle(0, 0, 1024, 768)
         $d = $bmp.LockBits($r, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
-        $bmp.UnlockBits($d); $bmp.Save("C:\src\NetGuard\lab\t7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
+        $bmp.UnlockBits($d); $bmp.Save("$RepoRoot\lab\t7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
         L "  截图 t7-$tag.png"
     }
 }

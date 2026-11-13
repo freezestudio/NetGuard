@@ -1,6 +1,7 @@
-﻿# 公共启动逻辑：同一时间只运行一台虚拟机，并且只保留一个远程连接窗口。
+﻿$VmsRoot = Split-Path $PSScriptRoot -Parent
+# 公共启动逻辑：同一时间只运行一台虚拟机，并且只保留一个远程连接窗口。
 $ErrorActionPreference = 'Stop'
-$script:VmLog = 'C:\VMs\launch\launcher.log'
+$script:VmLog = "$VmsRoot\launch\launcher.log"
 $script:VmMutex = New-Object System.Threading.Mutex($false, 'Global\HyperV-OneVM-Launcher')
 
 function Write-VmLog([string]$m) {

@@ -1,5 +1,7 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-crash2.log'
+$log = "$RepoRoot\lab\win7-crash2.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 真实复现崩溃 + 抓事件日志 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -15,7 +17,7 @@ public class WCR {
 '@
 
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
 
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
@@ -27,7 +29,7 @@ $wp = Get-Partition -DiskNumber $disk.Number | Where-Object { $_.Size -gt 1GB } 
 $root = "$((($wp | Get-Volume).DriveLetter)):"
 $ng = "$root\NetGuard"
 
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NGUI7.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NGUI7.exe" -Force
 L "已投放 NGUI7.exe"
 
 $cmd = @'
@@ -92,7 +94,7 @@ public class WR2 {
     $bmp = New-Object System.Drawing.Bitmap $w, $h
     $g = [System.Drawing.Graphics]::FromImage($bmp)
     $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $bmp.Size)
-    $bmp.Save('C:\src\NetGuard\lab\win7-after-pw.png', [System.Drawing.Imaging.ImageFormat]::Png)
+    $bmp.Save("$RepoRoot\lab\win7-after-pw.png", [System.Drawing.Imaging.ImageFormat]::Png)
     $g.Dispose(); $bmp.Dispose()
     L "已截图 win7-after-pw.png"
 }

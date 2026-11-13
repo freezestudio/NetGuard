@@ -1,12 +1,14 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\w7test3.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\w7test3.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 自动测试 v3（等 IPv4 就绪）$(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
 $w10 = 'Win10-Pro-22H2'
 $w7  = 'Win7-Pro-x64'
-$vhd = "C:\VMs\$w7\disk.vhdx"
-$exe = 'C:\src\NetGuard\build\NetGuard.exe'
+$vhd = "$VmsRoot\$w7\disk.vhdx"
+$exe = "$RepoRoot\build\NetGuard.exe"
 
 # 确保 Win10 在跑（本地对照目标）
 $v10 = Get-VM -Name $w10 -ErrorAction SilentlyContinue
@@ -26,7 +28,7 @@ New-Item -ItemType Directory -Path $ng, $pd -Force | Out-Null
 
 Copy-Item $exe "$ng\NetGuard.exe" -Force
 if (-not (Test-Path "$pd\policy.ini")) {
-    Copy-Item 'C:\src\NetGuard\lab\policy-win10.ini' "$pd\policy.ini" -Force
+    Copy-Item "$RepoRoot\lab\policy-win10.ini" "$pd\policy.ini" -Force
 }
 Remove-Item "$ng\result.txt" -Force -ErrorAction SilentlyContinue
 L "exe 已更新（policy 由客户机 sign 签名）"

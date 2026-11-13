@@ -1,4 +1,4 @@
-﻿param([int]$Port = 45679, [string]$LogPath = 'C:\src\NetGuard\lab\udp-echo.log')
+﻿param([int]$Port = 45679, [string]$LogPath = "$PSScriptRoot\udp-echo.log")
 $ErrorActionPreference = 'SilentlyContinue'
 function L($m) { Add-Content -Path $LogPath -Value ('{0}  {1}' -f (Get-Date -Format o), $m) -Encoding UTF8 }
 $u = New-Object Net.Sockets.UdpClient($Port)

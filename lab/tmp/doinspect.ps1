@@ -1,10 +1,11 @@
+$RepoRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $ss = New-Object System.Security.SecureString
 foreach ($ch in '1'.ToCharArray()) { $ss.AppendChar($ch) }
 $ss.MakeReadOnly()
 $cred = New-Object System.Management.Automation.PSCredential('freeze', $ss)
 $s = New-PSSession -VMName 'Win10-Pro-22H2' -Credential $cred
-Copy-Item 'C:\src\NetGuard\lab\tmp\inspect.ps1' -ToSession $s -Destination 'C:\NetGuard\inspect.ps1' -Force
-Copy-Item 'C:\src\NetGuard\lab\tmp\inspect.cmd' -ToSession $s -Destination 'C:\NetGuard\inspect.cmd' -Force
+Copy-Item "$RepoRoot\lab\tmp\inspect.ps1" -ToSession $s -Destination 'C:\NetGuard\inspect.ps1' -Force
+Copy-Item "$RepoRoot\lab\tmp\inspect.cmd" -ToSession $s -Destination 'C:\NetGuard\inspect.cmd' -Force
 Invoke-Command -Session $s -ScriptBlock {
   Remove-Item 'C:\NetGuard\inspect.out' -ErrorAction SilentlyContinue
   & schtasks.exe /delete /tn NG-Insp /f 2>&1 | Out-Null

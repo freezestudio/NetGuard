@@ -1,5 +1,6 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win10-netfix.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\win10-netfix.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win10 NAT fix + retest $(Get-Date -Format o) ===" | Set-Content $log -Encoding utf8
 
@@ -42,7 +43,7 @@ try {
 } catch { L "test failed: $($_.Exception.Message)" }
 
 try {
-    Copy-Item -FromSession $s 'C:\NetGuard\netfix-test.txt' 'C:\src\NetGuard\lab\win10-netfix-test.txt' -Force
+    Copy-Item -FromSession $s 'C:\NetGuard\netfix-test.txt' "$RepoRoot\lab\win10-netfix-test.txt" -Force
 } catch { L "copy test output failed" }
 
 Remove-PSSession $s

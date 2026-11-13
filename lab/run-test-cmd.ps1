@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference='Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log='C:\src\NetGuard\lab\test-cmd.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference='Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log="$RepoRoot\lab\test-cmd.log"
 function L($m){ "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== NetGuard test 命令端到端 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 $cred=New-Object System.Management.Automation.PSCredential('freeze',(ConvertTo-SecureString '1' -AsPlainText -Force))
@@ -13,8 +14,8 @@ Invoke-Command -Session $s -ScriptBlock {
     Start-Sleep 1
     New-Item -ItemType Directory -Path 'C:\NetGuard','C:\ProgramData\NetGuard' -Force | Out-Null
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\lab\policy-win10.ini' -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\lab\policy-win10.ini" -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
 Sign-NgGuestPolicy -Session $s | ForEach-Object { L "  $_" }
 $r = Invoke-Command -Session $s -ScriptBlock {
     $out='C:\NetGuard\test-out.txt'

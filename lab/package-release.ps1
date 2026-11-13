@@ -1,6 +1,7 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 # 生成交付包：dist\NetGuard-<版本>-<日期>.zip
 $ErrorActionPreference = 'Stop'
-$root = 'C:\src\NetGuard'
+$root = "$RepoRoot"
 $ver = '1.0.0-dev'
 $stamp = Get-Date -Format 'yyyyMMdd'
 $name = "NetGuard-$ver-$stamp"

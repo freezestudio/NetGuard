@@ -1,4 +1,4 @@
-﻿param([int]$Port = 45678, [string]$LogPath = 'C:\src\NetGuard\lab\tcp-echo.log')
+﻿param([int]$Port = 45678, [string]$LogPath = "$PSScriptRoot\tcp-echo.log")
 $ErrorActionPreference = 'SilentlyContinue'
 function L($m) { Add-Content -Path $LogPath -Value ('{0}  {1}' -f (Get-Date -Format o), $m) -Encoding UTF8 }
 $l = [Net.Sockets.TcpListener]::new([Net.IPAddress]::Any, $Port)

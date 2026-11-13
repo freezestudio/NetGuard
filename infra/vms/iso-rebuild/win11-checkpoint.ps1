@@ -1,4 +1,5 @@
-$log = 'C:\VMs\iso-rebuild\win11-checkpoint.log'
+$VmsRoot = Split-Path $PSScriptRoot -Parent
+$log = "$VmsRoot\iso-rebuild\win11-checkpoint.log"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== win11 checkpoint ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
 $name = 'Win11-Test'
@@ -17,4 +18,4 @@ Checkpoint-VM -Name $name -SnapshotName $snap
 L ('checkpoint created: ' + $snap)
 Get-VMSnapshot -VMName $name | Select-Object Name,SnapshotType,CreationTime | Format-Table -AutoSize | Out-String | ForEach-Object { L $_ }
 Get-VM -Name $name | Select-Object Name,State,Generation,ProcessorCount,MemoryStartup,TpmEnabled | Format-List | Out-String | ForEach-Object { L $_ }
-Set-Content 'C:\VMs\iso-rebuild\win11-checkpoint-done.txt' (Get-Date -Format o) -Encoding UTF8
+Set-Content "$VmsRoot\iso-rebuild\win11-checkpoint-done.txt" (Get-Date -Format o) -Encoding UTF8

@@ -1,10 +1,11 @@
+$VmsRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Stop'
-$log = 'C:\VMs\iso-rebuild\win11-boot-key.log'
+$log = "$VmsRoot\iso-rebuild\win11-boot-key.log"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== boot with key ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
 $name = 'Win11-Test'
-$win11 = 'C:\VMs\iso-rebuild\Win11-EnterpriseEval-24H2-en-us.iso'
-$answer = 'C:\VMs\iso-rebuild\autounattend-win11.iso'
+$win11 = "$VmsRoot\iso-rebuild\Win11-EnterpriseEval-24H2-en-us.iso"
+$answer = "$VmsRoot\iso-rebuild\autounattend-win11.iso"
 
 Stop-VM -Name $name -TurnOff -Force -ErrorAction SilentlyContinue
 Start-Sleep 4
@@ -36,4 +37,4 @@ for ($i = 0; $i -lt 20; $i++) {
     }
 }
 L 'sent space keys for 20s'
-Set-Content 'C:\VMs\iso-rebuild\win11-boot-key-done.txt' (Get-Date -Format o) -Encoding UTF8
+Set-Content "$VmsRoot\iso-rebuild\win11-boot-key-done.txt" (Get-Date -Format o) -Encoding UTF8

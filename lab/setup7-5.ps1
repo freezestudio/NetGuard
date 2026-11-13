@@ -1,5 +1,7 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\setup7-5.log'
+$log = "$RepoRoot\lab\setup7-5.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 Setup 步骤5 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -36,7 +38,7 @@ function Cap($tag) {
         $r = New-Object System.Drawing.Rectangle(0, 0, 1024, 768)
         $d = $bmp.LockBits($r, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
-        $bmp.UnlockBits($d); $bmp.Save("C:\src\NetGuard\lab\r7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
+        $bmp.UnlockBits($d); $bmp.Save("$RepoRoot\lab\r7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
         L "  截图 r7-$tag.png"
     }
 }
@@ -59,6 +61,6 @@ Start-Sleep -Seconds 40; Cap 'installing'
 
 L "[5] 等 100 秒看是否开始复制文件"
 Start-Sleep -Seconds 100; Cap 'installing2'
-$sz = if (Test-Path 'C:\VMs\Win7-Pro-x64\disk.vhdx') { [int]((Get-Item 'C:\VMs\Win7-Pro-x64\disk.vhdx').Length/1MB) } else { 0 }
+$sz = if (Test-Path "$VmsRoot\Win7-Pro-x64\disk.vhdx") { [int]((Get-Item "$VmsRoot\Win7-Pro-x64\disk.vhdx").Length/1MB) } else { 0 }
 L "磁盘大小: ${sz}MB"
 L "完成"

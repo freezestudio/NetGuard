@@ -1,9 +1,11 @@
-﻿# 生成《NetGuard 新手图文教程》所需的真实 Win7 截图
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+# 生成《NetGuard 新手图文教程》所需的真实 Win7 截图
 # 运行方式：通过计划任务 VM-Start-Win7 -> elevated-worker.ps1 提权调用
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\tut-host.log'
-$outDir = 'C:\src\NetGuard\lab\tutorial'
-$srcDir = 'C:\src\NetGuard\lab\tut'
+$log = "$RepoRoot\lab\tut-host.log"
+$outDir = "$RepoRoot\lab\tutorial"
+$srcDir = "$RepoRoot\lab\tut"
 function L($m) {
     $line = "$(Get-Date -Format 'HH:mm:ss')  $m"
     $line | Out-File $log -Append -Encoding utf8
@@ -13,7 +15,7 @@ function L($m) {
 New-Item -ItemType Directory -Path $outDir -Force | Out-Null
 
 $vmName = 'Win7-Pro-x64'
-$vhd = "C:\VMs\$vmName\disk.vhdx"
+$vhd = "$VmsRoot\$vmName\disk.vhdx"
 
 # ---------------- 1. 关机 + 挂载磁盘 ----------------
 $vm = Get-VM -Name $vmName -ErrorAction Stop
@@ -114,11 +116,11 @@ if (Test-Path $userHive) {
 $ng = "$root\NetGuard"
 New-Item -ItemType Directory -Path "$ng\tut" -Force | Out-Null
 foreach ($f in @('NetGuard.exe', 'NetGuardUI.exe')) {
-    Copy-Item "C:\src\NetGuard\build\$f" "$ng\$f" -Force
+    Copy-Item "$RepoRoot\build\$f" "$ng\$f" -Force
     L "投放 $f $((Get-Item "$ng\$f").Length) 字节"
 }
 foreach ($f in @('install-netguard.ps1', 'uninstall-netguard.ps1')) {
-    Copy-Item "C:\src\NetGuard\$f" "$ng\$f" -Force
+    Copy-Item "$RepoRoot\$f" "$ng\$f" -Force
     L "投放 $f"
 }
 

@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\rebuild-bcd7.log'
+$log = "$RepoRoot\lab\rebuild-bcd7.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 重建 Win7 BIOS BCD ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 

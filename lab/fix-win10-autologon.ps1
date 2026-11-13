@@ -1,13 +1,14 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 # 给 Win10-Pro-22H2 配置开机自动登录（freeze / 1），并重启验证。
 # 用法（宿主普通权限即可，PowerShell Direct 需要本地管理员）：
-#   powershell -NoProfile -ExecutionPolicy Bypass -File C:\src\NetGuard\lab\fix-win10-autologon.ps1
+#   powershell -NoProfile -ExecutionPolicy Bypass -File lab\fix-win10-autologon.ps1
 #
 # 注意：本机 Microsoft.PowerShell.Security 模块的 TypeData 有冲突，
 # ConvertTo-SecureString 无法自动加载，所以这里手工构造 SecureString。
 
 $ErrorActionPreference = 'Stop'
 $vm = 'Win10-Pro-22H2'
-$log = 'C:\src\NetGuard\lab\fix-win10-autologon.log'
+$log = "$RepoRoot\lab\fix-win10-autologon.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== fix autologon $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 

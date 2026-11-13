@@ -1,10 +1,11 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\test2.log'
+$log = "$RepoRoot\lab\test2.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 服务形态测试 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$exe    = 'C:\src\NetGuard\build\NetGuard.exe'
+$exe    = "$RepoRoot\build\NetGuard.exe"
 
 $vm = Get-VM -Name $vmName -ErrorAction Stop
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 6; L "已关机" }

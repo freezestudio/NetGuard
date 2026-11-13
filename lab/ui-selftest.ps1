@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\ui-selftest.log'
+$log = "$RepoRoot\lab\ui-selftest.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== NetGuardUI 结构自检 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -11,7 +12,7 @@ Invoke-Command -Session $s -ScriptBlock {
     Get-Process NetGuardUI -ErrorAction SilentlyContinue | Stop-Process -Force
     Remove-Item 'C:\ProgramData\NetGuard\ui-selftest.txt' -ErrorAction SilentlyContinue
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
 L "已投放最新 NetGuardUI.exe"
 
 $r = Invoke-Command -Session $s -ScriptBlock {

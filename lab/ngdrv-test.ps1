@@ -1,7 +1,8 @@
 ﻿param([string]$VmName = 'Win10-Pro-22H2')
 
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Stop'
-$lab = 'C:\src\NetGuard\lab'
+$lab = "$RepoRoot\lab"
 $log = Join-Path $lab 'ngdrv-test.log'
 function L([string]$m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== ngdrv test ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
@@ -20,7 +21,7 @@ Export-Certificate -Cert $cert -FilePath $cer -Force | Out-Null
 
 $signtool = 'C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\signtool.exe'
 if (-not (Test-Path $signtool)) { throw 'signtool missing' }
-foreach ($f in @('C:\src\NetGuard\drv\out\nghello.sys','C:\src\NetGuard\drv\out\ngdrv.sys')) {
+foreach ($f in @("$RepoRoot\drv\out\nghello.sys","$RepoRoot\drv\out\ngdrv.sys")) {
     if (Test-Path $f) {
         & $signtool sign /fd sha256 /sm /s My /sha1 $cert.Thumbprint $f | Out-Null
         L ('signed ' + $f)
@@ -44,8 +45,8 @@ L 'PS Direct connected'
 Invoke-Command -Session $s -ScriptBlock {
     New-Item -ItemType Directory -Path 'C:\NetGuard\drv' -Force | Out-Null
 } | Out-Null
-Copy-Item 'C:\src\NetGuard\drv\out\nghello.sys' -ToSession $s -Destination 'C:\NetGuard\drv\nghello.sys' -Force
-Copy-Item 'C:\src\NetGuard\drv\out\ngdrv.sys'   -ToSession $s -Destination 'C:\NetGuard\drv\ngdrv.sys' -Force
+Copy-Item "$RepoRoot\drv\out\nghello.sys" -ToSession $s -Destination 'C:\NetGuard\drv\nghello.sys' -Force
+Copy-Item "$RepoRoot\drv\out\ngdrv.sys"   -ToSession $s -Destination 'C:\NetGuard\drv\ngdrv.sys' -Force
 Copy-Item $cer -ToSession $s -Destination 'C:\NetGuard\drv\NetGuardTest.cer' -Force
 
 $prep = Invoke-Command -Session $s -ScriptBlock {
@@ -79,7 +80,7 @@ $r = Invoke-Command -Session $s -ScriptBlock {
     'service stopped'
 }
 L ('service: ' + $r)
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
 $r = Invoke-Command -Session $s -ScriptBlock {
     & sc.exe start NetGuard 2>&1 | Out-Null
     # 服务启动时会先 ApplyOnce + RunSelfTest，再开 IPC；等它真正可用。

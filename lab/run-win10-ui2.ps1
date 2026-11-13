@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference='Continue'
-$hostOut='C:\src\NetGuard\lab\final\win10'
-$log='C:\src\NetGuard\lab\run-win10-ui2.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference='Continue'
+$hostOut="$RepoRoot\lab\final\win10"
+$log="$RepoRoot\lab\run-win10-ui2.log"
 function L($m){ "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== run win10 UI2 $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 $cred=New-Object System.Management.Automation.PSCredential('freeze',(ConvertTo-SecureString '1' -AsPlainText -Force))

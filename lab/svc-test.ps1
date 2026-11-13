@@ -1,12 +1,14 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\svc-test.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\svc-test.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 服务化验证（Win7 开机自启 + 自动下发）$(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
-$exe    = 'C:\src\NetGuard\build\NetGuard.exe'
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
+$exe    = "$RepoRoot\build\NetGuard.exe"
 
 $vm = Get-VM -Name $vmName -ErrorAction Stop
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
@@ -25,7 +27,7 @@ Remove-Item "$pd\filters.txt", "$pd\ng.log", "$pd\selftest.txt" -Force -ErrorAct
 
 # 离线准备：随机部署密钥 + 已签名策略（服务在开机阶段读取注册表密钥）
 if (-not (Test-Path "$pd\policy.ini")) {
-    Copy-Item 'C:\src\NetGuard\lab\policy-win10.ini' "$pd\policy.ini" -Force
+    Copy-Item "$RepoRoot\lab\policy-win10.ini" "$pd\policy.ini" -Force
 }
 $svcKey = New-NgPolicyKey
 Sign-NgPolicyFile -PolicyPath "$pd\policy.ini" -Key $svcKey

@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\peek.log'
+$log = "$RepoRoot\lab\peek.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 窥屏 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -24,7 +25,7 @@ function Cap($tag) {
                 $d = $bmp.LockBits($rect, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
                 [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
                 $bmp.UnlockBits($d)
-                $bmp.Save("C:\src\NetGuard\lab\peek-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
+                $bmp.Save("$RepoRoot\lab\peek-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
                 $bmp.Dispose()
                 L "  $tag 截图 ok"
                 return
@@ -42,6 +43,6 @@ $s = Get-VM -Name $vmName
 L "状态: $($s.State) CPU=$($s.CPUUsage)%"
 
 # 顺便看看客户机有没有产生新文件（说明进了系统）
-$p = 'C:\src\NetGuard\lab\peek.txt'
+$p = "$RepoRoot\lab\peek.txt"
 "state=$($s.State)" | Out-File $p -Encoding utf8
 L "完成"

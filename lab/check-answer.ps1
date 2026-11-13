@@ -1,5 +1,7 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\check-answer.log'
+$log = "$RepoRoot\lab\check-answer.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 校验应答文件 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -7,7 +9,7 @@ $vmName = 'Win7-Pro-x64'
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 6; L "已关机" }
 
-$ansVhd = "C:\VMs\$vmName\answer.vhdx"
+$ansVhd = "$VmsRoot\$vmName\answer.vhdx"
 $v = Mount-VHD -Path $ansVhd -Passthru
 Start-Sleep 2
 $d = $v | Get-Disk

@@ -1,9 +1,10 @@
+$RepoRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $ss = New-Object System.Security.SecureString
 foreach ($ch in '1'.ToCharArray()) { $ss.AppendChar($ch) }
 $ss.MakeReadOnly()
 $cred = New-Object System.Management.Automation.PSCredential('freeze', $ss)
 $s = New-PSSession -VMName 'Win10-Pro-22H2' -Credential $cred
-Copy-Item 'C:\src\NetGuard\lab\tmp\demo.ps1' -ToSession $s -Destination 'C:\NetGuard\demo.ps1' -Force
+Copy-Item "$RepoRoot\lab\tmp\demo.ps1" -ToSession $s -Destination 'C:\NetGuard\demo.ps1' -Force
 Invoke-Command -Session $s -ScriptBlock {
   Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" | Where-Object { $_.CommandLine -like '*demo.ps1*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
   Get-Process NetGuardUI -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue

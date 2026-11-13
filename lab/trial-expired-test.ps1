@@ -1,11 +1,13 @@
-﻿# 验证“60 天试用到期”行为：到期后不套策略、保持联网、apply 被拒绝
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+# 验证“60 天试用到期”行为：到期后不套策略、保持联网、apply 被拒绝
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\trial-expired-test.log'
+$log = "$RepoRoot\lab\trial-expired-test.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== trial expired test $(Get-Date -Format o) ===" | Set-Content $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vhd = "C:\VMs\$vmName\disk.vhdx"
+$vhd = "$VmsRoot\$vmName\disk.vhdx"
 
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
@@ -37,8 +39,8 @@ L "trial start set to $start, sig=$sig"
 # 投放程序与测试脚本
 $ng = "$root\NetGuard"
 New-Item -ItemType Directory -Path $ng -Force | Out-Null
-foreach ($f in @('NetGuard.exe', 'NetGuardUI.exe')) { Copy-Item "C:\src\NetGuard\build\$f" "$ng\$f" -Force }
-foreach ($f in @('install-netguard.ps1', 'uninstall-netguard.ps1')) { Copy-Item "C:\src\NetGuard\$f" "$ng\$f" -Force }
+foreach ($f in @('NetGuard.exe', 'NetGuardUI.exe')) { Copy-Item "$RepoRoot\build\$f" "$ng\$f" -Force }
+foreach ($f in @('install-netguard.ps1', 'uninstall-netguard.ps1')) { Copy-Item "$RepoRoot\$f" "$ng\$f" -Force }
 
 $gbk = [System.Text.Encoding]::GetEncoding(936)
 $cmd = @'
@@ -95,7 +97,7 @@ $disk = $v | Get-Disk
 $wp = Get-Partition | Where-Object { $_.DiskNumber -eq $disk.Number -and $_.Size -gt 1GB } | Select-Object -First 1
 $root = "$((($wp | Get-Volume).DriveLetter)):"
 if (Test-Path "$root\NetGuard\expired.log") {
-    Copy-Item "$root\NetGuard\expired.log" 'C:\src\NetGuard\lab\expired.log' -Force
+    Copy-Item "$root\NetGuard\expired.log" "$RepoRoot\lab\expired.log" -Force
     L "--- expired.log ---"
     Get-Content "$root\NetGuard\expired.log" -Encoding Default | ForEach-Object { L "  $_" }
 } else { L "expired.log missing" }

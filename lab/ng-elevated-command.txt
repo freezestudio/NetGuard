@@ -1,1 +1,1 @@
-C:\VMs\launch\create-win11-task.ps1
+infra\vms\launch\create-win11-task.ps1

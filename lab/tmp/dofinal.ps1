@@ -1,10 +1,11 @@
+$RepoRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $ss = New-Object System.Security.SecureString
 foreach ($ch in '1'.ToCharArray()) { $ss.AppendChar($ch) }
 $ss.MakeReadOnly()
 $cred = New-Object System.Management.Automation.PSCredential('freeze', $ss)
 $s = New-PSSession -VMName 'Win10-Pro-22H2' -Credential $cred
-Copy-Item 'C:\src\NetGuard\lab\tmp\final.ps1' -ToSession $s -Destination 'C:\NetGuard\final.ps1' -Force
-Copy-Item 'C:\src\NetGuard\lab\tmp\final.cmd' -ToSession $s -Destination 'C:\NetGuard\final.cmd' -Force
+Copy-Item "$RepoRoot\lab\tmp\final.ps1" -ToSession $s -Destination 'C:\NetGuard\final.ps1' -Force
+Copy-Item "$RepoRoot\lab\tmp\final.cmd" -ToSession $s -Destination 'C:\NetGuard\final.cmd' -Force
 Invoke-Command -Session $s -ScriptBlock {
   Remove-Item 'C:\NetGuard\final-screen.png','C:\NetGuard\final.out' -ErrorAction SilentlyContinue
   & schtasks.exe /delete /tn NG-Fin /f 2>&1 | Out-Null
@@ -14,5 +15,5 @@ Invoke-Command -Session $s -ScriptBlock {
   & schtasks.exe /delete /tn NG-Fin /f 2>&1 | Out-Null
   Get-Content 'C:\NetGuard\final.out' -ErrorAction SilentlyContinue
 }
-Copy-Item -FromSession $s -Path 'C:\NetGuard\final-screen.png' -Destination 'C:\src\NetGuard\lab\shots\final-screen.png' -Force -ErrorAction SilentlyContinue
+Copy-Item -FromSession $s -Path 'C:\NetGuard\final-screen.png' -Destination "$RepoRoot\lab\shots\final-screen.png" -Force -ErrorAction SilentlyContinue
 Remove-PSSession $s

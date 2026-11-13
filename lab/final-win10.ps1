@@ -1,7 +1,8 @@
-﻿$ErrorActionPreference = 'Continue'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
 $vmName = 'Win10-Pro-22H2'
-$hostOut = 'C:\src\NetGuard\lab\final\win10'
-$log = 'C:\src\NetGuard\lab\final-win10.log'
+$hostOut = "$RepoRoot\lab\final\win10"
+$log = "$RepoRoot\lab\final-win10.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 New-Item -ItemType Directory -Path $hostOut -Force | Out-Null
 "=== NetGuard Win10 full clean install $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
@@ -46,11 +47,11 @@ $clean | ForEach-Object { L "  $_" }
 
 # ---------- 投放全新构建 ----------
 Invoke-Command -Session $s -ScriptBlock { New-Item -ItemType Directory -Path 'C:\NetGuard' -Force | Out-Null }
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe'   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
-Copy-Item 'C:\src\NetGuard\install-netguard.ps1' -ToSession $s -Destination 'C:\NetGuard\install-netguard.ps1' -Force
-Copy-Item 'C:\src\NetGuard\uninstall-netguard.ps1' -ToSession $s -Destination 'C:\NetGuard\uninstall-netguard.ps1' -Force
-Copy-Item 'C:\src\NetGuard\lab\guest-ui-test.ps1' -ToSession $s -Destination 'C:\NetGuard\guest-ui-test.ps1' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe"   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
+Copy-Item "$RepoRoot\install-netguard.ps1" -ToSession $s -Destination 'C:\NetGuard\install-netguard.ps1' -Force
+Copy-Item "$RepoRoot\uninstall-netguard.ps1" -ToSession $s -Destination 'C:\NetGuard\uninstall-netguard.ps1' -Force
+Copy-Item "$RepoRoot\lab\guest-ui-test.ps1" -ToSession $s -Destination 'C:\NetGuard\guest-ui-test.ps1' -Force
 L "files copied"
 
 # ---------- 全新安装 ----------

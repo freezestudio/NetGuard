@@ -1,10 +1,11 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\run-win10-ui5.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\run-win10-ui5.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== UI5 $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 $cred = New-Object System.Management.Automation.PSCredential('freeze', (ConvertTo-SecureString '1' -AsPlainText -Force))
 $s = New-PSSession -VMName 'Win10-Pro-22H2' -Credential $cred -ErrorAction Stop
-Copy-Item 'C:\src\NetGuard\lab\guest-ui-test.ps1' -ToSession $s -Destination 'C:\NetGuard\guest-ui-test.ps1' -Force
+Copy-Item "$RepoRoot\lab\guest-ui-test.ps1" -ToSession $s -Destination 'C:\NetGuard\guest-ui-test.ps1' -Force
 $r = Invoke-Command -Session $s -ScriptBlock {
     Get-Process NetGuardUI -ErrorAction SilentlyContinue | Stop-Process -Force
     Remove-Item 'C:\ProgramData\NetGuard\admin.dat' -Force -ErrorAction SilentlyContinue
@@ -28,7 +29,7 @@ for ($i = 0; $i -lt 80; $i++) {
     if ($i % 6 -eq 0) { L "  wait T+$($i*5)s" }
 }
 if (-not $done) { L 'UI timed out' }
-$capOut = 'C:\src\NetGuard\lab\final\win10\captures'
+$capOut = "$RepoRoot\lab\final\win10\captures"
 New-Item -ItemType Directory -Path $capOut -Force | Out-Null
 Copy-Item -FromSession $s -Path 'C:\NetGuard\captures\*' -Destination $capOut -Force -ErrorAction SilentlyContinue
 L 'captures copied'

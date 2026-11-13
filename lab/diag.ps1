@@ -1,5 +1,6 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\diag.log'
+$log = "$RepoRoot\lab\diag.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 现场勘查 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 

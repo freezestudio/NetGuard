@@ -1,5 +1,6 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win10-netdiag.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\win10-netdiag.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win10 network diag $(Get-Date -Format o) ===" | Set-Content $log -Encoding utf8
 

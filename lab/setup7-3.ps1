@@ -1,5 +1,7 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\setup7-3.log'
+$log = "$RepoRoot\lab\setup7-3.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 Setup 步骤3 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -38,7 +40,7 @@ function Cap($tag) {
         $r = New-Object System.Drawing.Rectangle(0, 0, 800, 600)
         $d = $bmp.LockBits($r, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
-        $bmp.UnlockBits($d); $bmp.Save("C:\src\NetGuard\lab\p7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
+        $bmp.UnlockBits($d); $bmp.Save("$RepoRoot\lab\p7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
         L "  截图 p7-$tag.png"
     }
 }
@@ -67,5 +69,5 @@ Start-Sleep -Seconds 25; Cap 'e'
 L "[6] 等安装推进（120 秒）"
 Start-Sleep -Seconds 120; Cap 'f'
 $st = Get-VM -Name $vmName
-L "VM 状态: $($st.State) CPU=$($st.CPUUsage)%  磁盘=$(if (Test-Path 'C:\VMs\Win7-Pro-x64\disk.vhdx') { [int]((Get-Item 'C:\VMs\Win7-Pro-x64\disk.vhdx').Length/1MB) } else { 0 })MB"
+L "VM 状态: $($st.State) CPU=$($st.CPUUsage)%  磁盘=$(if (Test-Path "$VmsRoot\Win7-Pro-x64\disk.vhdx") { [int]((Get-Item "$VmsRoot\Win7-Pro-x64\disk.vhdx").Length/1MB) } else { 0 })MB"
 L "完成"

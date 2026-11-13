@@ -1,5 +1,6 @@
+$VmsRoot = Split-Path $PSScriptRoot -Parent
 $ErrorActionPreference = 'Stop'
-$iso = 'C:\VMs\iso-rebuild\Win11-EnterpriseEval-24H2-en-us.iso'
+$iso = "$VmsRoot\iso-rebuild\Win11-EnterpriseEval-24H2-en-us.iso"
 $m = Mount-DiskImage -ImagePath $iso -PassThru
 Start-Sleep 2
 $vol = Get-Volume -DiskImage $m

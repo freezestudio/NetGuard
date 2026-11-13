@@ -1,5 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\win7-final2.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Continue'
+$log = "$RepoRoot\lab\win7-final2.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 最终验证 v2 $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8
 
@@ -17,7 +19,7 @@ public class WG3 {
 }
 '@
 $vmName = 'Win7-Pro-x64'
-$vhd    = "C:\VMs\$vmName\disk.vhdx"
+$vhd    = "$VmsRoot\$vmName\disk.vhdx"
 
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
@@ -32,10 +34,10 @@ $pd = "$root\ProgramData\NetGuard"
 New-Item -ItemType Directory -Path $ng, $pd -Force | Out-Null
 
 # 必须投当前 build，否则会运行客户机里旧的 UI（旧 UI 的口令框回车/确定无效）
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NGUI10.exe" -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' "$ng\NetGuardUI.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NGUI10.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" "$ng\NetGuardUI.exe" -Force
 if (-not (Test-Path "$pd\admin.dat")) {
-    Copy-Item 'C:\src\NetGuard\lab\admin.dat' "$pd\admin.dat" -Force
+    Copy-Item "$RepoRoot\lab\admin.dat" "$pd\admin.dat" -Force
 }
 L "已投放 NGUI10.exe ($((Get-Item "$ng\NGUI10.exe").Length) 字节)"
 
@@ -84,7 +86,7 @@ function Snap($tag) {
     $bmp = New-Object System.Drawing.Bitmap $w, $h
     $g = [System.Drawing.Graphics]::FromImage($bmp)
     $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $bmp.Size)
-    $bmp.Save("C:\src\NetGuard\lab\w7f-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
+    $bmp.Save("$RepoRoot\lab\w7f-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png)
     $g.Dispose(); $bmp.Dispose()
     L "截图 w7f-$tag.png"
 }

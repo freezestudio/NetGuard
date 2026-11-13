@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Stop'
-$log = 'C:\src\NetGuard\lab\win11-enforcement.log'
-$done = 'C:\src\NetGuard\lab\win11-enforcement-done.txt'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Stop'
+$log = "$RepoRoot\lab\win11-enforcement.log"
+$done = "$RepoRoot\lab\win11-enforcement-done.txt"
 $exe = 'C:\NetGuard\NetGuard.exe'
 $data = 'C:\ProgramData\NetGuard'
 $policy = Join-Path $data 'policy.ini'
@@ -57,8 +58,8 @@ try {
     }
     New-Item -ItemType Directory -Path 'C:\NetGuard' -Force | Out-Null
     New-Item -ItemType Directory -Path $data -Force | Out-Null
-    Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' $exe -Force
-    Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' 'C:\NetGuard\NetGuardUI.exe' -Force
+    Copy-Item "$RepoRoot\build\NetGuard.exe" $exe -Force
+    Copy-Item "$RepoRoot\build\NetGuardUI.exe" 'C:\NetGuard\NetGuardUI.exe' -Force
     & $exe purge | Out-Null
 
     # 2) 部署密钥 + 策略

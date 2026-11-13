@@ -1,4 +1,5 @@
-$log = 'C:\src\NetGuard\lab\win11-cleanup.log'
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$log = "$RepoRoot\lab\win11-cleanup.log"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== Win11 cleanup ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8
 try { & 'C:\NetGuard\NetGuard.exe' ctl rollback 2>&1 | ForEach-Object { L ('  ' + $_) } } catch { }
@@ -8,10 +9,10 @@ Start-Sleep 2
 Start-Sleep 2
 Get-Process NetGuard -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 try { & 'C:\NetGuard\NetGuard.exe' purge 2>&1 | ForEach-Object { L ('  ' + $_) } } catch { }
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' 'C:\NetGuard\NetGuardUI.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" 'C:\NetGuard\NetGuardUI.exe' -Force
 Remove-Item 'C:\NetGuard\auto-rollback.ps1' -Force -ErrorAction SilentlyContinue
 L ('service exists=' + [bool](Get-Service NetGuard -ErrorAction SilentlyContinue))
 L ('processes=' + @(Get-Process NetGuard -ErrorAction SilentlyContinue).Count)
 L 'done'
-Set-Content 'C:\src\NetGuard\lab\win11-cleanup-done.txt' (Get-Date -Format o) -Encoding UTF8
+Set-Content "$RepoRoot\lab\win11-cleanup-done.txt" (Get-Date -Format o) -Encoding UTF8

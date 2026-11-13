@@ -1,10 +1,12 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\chain7.log'
+$log = "$RepoRoot\lab\chain7.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 磁盘链诊断 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$dir = "C:\VMs\$vmName"
+$dir = "$VmsRoot\$vmName"
 $vm = Get-VM -Name $vmName
 L "自动检查点: $($vm.AutomaticCheckpointsEnabled)"
 L "快照策略: $($vm.CheckpointType)"

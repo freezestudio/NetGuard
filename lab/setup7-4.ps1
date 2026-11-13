@@ -1,5 +1,7 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\setup7-4.log'
+$log = "$RepoRoot\lab\setup7-4.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 Setup 步骤4（节奏化）($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -38,7 +40,7 @@ function Cap($tag) {
         $r = New-Object System.Drawing.Rectangle(0, 0, 1024, 768)
         $d = $bmp.LockBits($r, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
-        $bmp.UnlockBits($d); $bmp.Save("C:\src\NetGuard\lab\q7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
+        $bmp.UnlockBits($d); $bmp.Save("$RepoRoot\lab\q7-$tag.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
         L "  截图 q7-$tag.png"
     }
 }
@@ -46,7 +48,7 @@ function Cap($tag) {
 # 重启到干净状态
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 8 }
-$vhd = 'C:\VMs\Win7-Pro-x64\disk.vhdx'
+$vhd = "$VmsRoot\Win7-Pro-x64\disk.vhdx"
 if (Test-Path $vhd) { Remove-Item $vhd -Force -ErrorAction SilentlyContinue }
 Get-VMHardDiskDrive -VMName $vmName | ForEach-Object { Remove-VMHardDiskDrive -VMHardDiskDrive $_ -ErrorAction SilentlyContinue }
 New-VHD -Path $vhd -SizeBytes 60GB -Dynamic | Out-Null

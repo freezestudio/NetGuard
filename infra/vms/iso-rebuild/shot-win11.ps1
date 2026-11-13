@@ -1,3 +1,4 @@
+$VmsRoot = Split-Path $PSScriptRoot -Parent
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 Add-Type @'
@@ -28,6 +29,6 @@ $w = $r.Right - $r.Left; $h = $r.Bottom - $r.Top
 $bmp = New-Object System.Drawing.Bitmap $w, $h
 $g = [System.Drawing.Graphics]::FromImage($bmp)
 $g.CopyFromScreen($r.Left, $r.Top, 0, 0, $bmp.Size)
-$bmp.Save('C:\VMs\iso-rebuild\win11-install.png', [System.Drawing.Imaging.ImageFormat]::Png)
+$bmp.Save("$VmsRoot\iso-rebuild\win11-install.png", [System.Drawing.Imaging.ImageFormat]::Png)
 $g.Dispose(); $bmp.Dispose()
 'captured ' + $w + 'x' + $h

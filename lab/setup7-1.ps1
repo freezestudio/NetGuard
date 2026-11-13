@@ -1,11 +1,13 @@
+$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
 $ErrorActionPreference = 'Continue'
-$log = 'C:\src\NetGuard\lab\setup7-1.log'
+$log = "$RepoRoot\lab\setup7-1.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== Win7 Setup 键盘驱动 步骤1 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
 $vmName = 'Win7-Pro-x64'
-$vmDir  = "C:\VMs\$vmName"
-$iso    = 'C:\VMs\iso-rebuild\cn_windows_7_professional_with_sp1_x64_dvd_u_677031.iso'
+$vmDir  = "$VmsRoot\$vmName"
+$iso    = "$VmsRoot\iso-rebuild\cn_windows_7_professional_with_sp1_x64_dvd_u_677031.iso"
 
 $vm = Get-VM -Name $vmName
 if ($vm.State -ne 'Off') { Stop-VM -Name $vmName -TurnOff -Force; Start-Sleep 6 }
@@ -61,7 +63,7 @@ try {
         $d = $bmp.LockBits($rect, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
         $bmp.UnlockBits($d)
-        $bmp.Save('C:\src\NetGuard\lab\s1.png', [System.Drawing.Imaging.ImageFormat]::Png)
+        $bmp.Save("$RepoRoot\lab\s1.png", [System.Drawing.Imaging.ImageFormat]::Png)
         $bmp.Dispose()
         L "截图 s1.png"
     } else { L "缩略图 rv=$($res.ReturnValue)" }

@@ -1,6 +1,7 @@
-﻿$ErrorActionPreference = 'Continue'
-. 'C:\src\NetGuard\lab\ng-lab-common.ps1'
-$log = 'C:\src\NetGuard\lab\ui-test.log'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$ErrorActionPreference = 'Continue'
+. "$RepoRoot\lab\ng-lab-common.ps1"
+$log = "$RepoRoot\lab\ui-test.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }
 "=== 管理界面验证 ($(Get-Date -Format o)) ===" | Out-File $log -Encoding utf8
 
@@ -16,7 +17,7 @@ $s = New-PSSession -VMName $vmName -Credential $cred
 $salt = -join ((1..32) | ForEach-Object { '{0:X}' -f (Get-Random -Max 16) })
 $hmac = [System.Security.Cryptography.HMACSHA256]::new([Text.Encoding]::UTF8.GetBytes($salt))
 $hash = ($hmac.ComputeHash([Text.Encoding]::UTF8.GetBytes('1')) | ForEach-Object { '{0:X2}' -f $_ }) -join ''
-[IO.File]::WriteAllText('C:\src\NetGuard\lab\admin.dat', "$salt`r`n$hash`r`n", (New-Object Text.UTF8Encoding($false)))
+[IO.File]::WriteAllText("$RepoRoot\lab\admin.dat", "$salt`r`n$hash`r`n", (New-Object Text.UTF8Encoding($false)))
 L "已生成 admin.dat（口令 1）"
 
 # 2) 部署
@@ -25,10 +26,10 @@ Invoke-Command -Session $s -ScriptBlock {
     New-Item -ItemType Directory -Path 'C:\ProgramData\NetGuard' -Force | Out-Null
     Get-Process NetGuardUI -ErrorAction SilentlyContinue | Stop-Process -Force
 }
-Copy-Item 'C:\src\NetGuard\build\NetGuardUI.exe' -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe'   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
-Copy-Item 'C:\src\NetGuard\lab\admin.dat'        -ToSession $s -Destination 'C:\ProgramData\NetGuard\admin.dat' -Force
-Copy-Item 'C:\src\NetGuard\lab\policy-win10.ini' -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
+Copy-Item "$RepoRoot\build\NetGuardUI.exe" -ToSession $s -Destination 'C:\NetGuard\NetGuardUI.exe' -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe"   -ToSession $s -Destination 'C:\NetGuard\NetGuard.exe' -Force
+Copy-Item "$RepoRoot\lab\admin.dat"        -ToSession $s -Destination 'C:\ProgramData\NetGuard\admin.dat' -Force
+Copy-Item "$RepoRoot\lab\policy-win10.ini" -ToSession $s -Destination 'C:\ProgramData\NetGuard\policy.ini' -Force
 Sign-NgGuestPolicy -Session $s | ForEach-Object { L "  $_" }
 L "文件已部署"
 
@@ -55,7 +56,7 @@ for ($i = 0; $i -lt 3; $i++) {
         $r = New-Object System.Drawing.Rectangle(0, 0, 1024, 768)
         $d = $bmp.LockBits($r, [System.Drawing.Imaging.ImageLockMode]::WriteOnly, [System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
         [System.Runtime.InteropServices.Marshal]::Copy($res.ImageData, 0, $d.Scan0, $res.ImageData.Length)
-        $bmp.UnlockBits($d); $bmp.Save('C:\src\NetGuard\lab\ui1.png', [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
+        $bmp.UnlockBits($d); $bmp.Save("$RepoRoot\lab\ui1.png", [System.Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose()
         L "截图 ui1.png"; break
     } else { L "缩略图 rv=$($res.ReturnValue)"; Start-Sleep 5 }
 }

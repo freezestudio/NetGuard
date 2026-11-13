@@ -1,5 +1,7 @@
-﻿$ErrorActionPreference = 'Stop'
-$lab = 'C:\src\NetGuard\lab'
+﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
+$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$ErrorActionPreference = 'Stop'
+$lab = "$RepoRoot\lab"
 $log = Join-Path $lab 'win7-core-goal-test.log'
 $script:fail = 0
 $script:checks = @()
@@ -18,7 +20,7 @@ function Note([string]$m) { L ('NOTE  ' + $m) }
 '=== NetGuard Win7 core-goal test @ ' + (Get-Date -Format o) + ' ===' | Set-Content -Path $log -Encoding UTF8
 
 $vmName = 'Win7-Pro-x64'
-$vhd = "C:\VMs\$vmName\disk.vhdx"
+$vhd = "$VmsRoot\$vmName\disk.vhdx"
 
 Phase '0. prepare'
 # 释放内存：两台 VM 同时开会导致 Win7 极慢
@@ -42,8 +44,8 @@ L ('mounted Windows volume as ' + $root)
 $ng = "$root\NetGuard"
 $pd = "$root\ProgramData\NetGuard"
 New-Item -ItemType Directory -Path $ng, $pd -Force | Out-Null
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' "$ng\NetGuard.exe" -Force
-Copy-Item 'C:\src\NetGuard\build\NetGuard.exe' "$ng\ngcopy.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" "$ng\NetGuard.exe" -Force
+Copy-Item "$RepoRoot\build\NetGuard.exe" "$ng\ngcopy.exe" -Force
 L ('NetGuard.exe deployed: ' + (Get-Item "$ng\NetGuard.exe").Length + ' bytes')
 
 $h = '576D7845CE13FA93E688B98037E56F9A4218FAB3B20FCF5D589ACCAB5C55C40E'
