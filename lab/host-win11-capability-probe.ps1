@@ -1,5 +1,5 @@
 $RepoRoot = Split-Path $PSScriptRoot -Parent
-$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$VmsRoot  = 'C:\VMs'
 $log = "$RepoRoot\lab\host-win11-capability-probe.log"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== Win11 capability probe ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8

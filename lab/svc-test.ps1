@@ -1,5 +1,5 @@
 ﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
-$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$VmsRoot  = 'C:\VMs'
 $ErrorActionPreference = 'Continue'
 . "$RepoRoot\lab\ng-lab-common.ps1"
 $log = "$RepoRoot\lab\svc-test.log"

@@ -1,5 +1,5 @@
 ﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
-$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$VmsRoot  = 'C:\VMs'
 # 验证“60 天试用到期”行为：到期后不套策略、保持联网、apply 被拒绝
 $ErrorActionPreference = 'Continue'
 $log = "$RepoRoot\lab\trial-expired-test.log"

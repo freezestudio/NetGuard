@@ -1,5 +1,5 @@
 $RepoRoot = Split-Path $PSScriptRoot -Parent
-$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$VmsRoot  = 'C:\VMs'
 $log = "$RepoRoot\lab\check-win7-exports2.log"
 function L($m) { $line = '{0}  {1}' -f (Get-Date -Format 'HH:mm:ss'), $m; Add-Content $log $line -Encoding UTF8; Write-Host $line }
 '=== check win7 exports2 ' + (Get-Date -Format o) + ' ===' | Set-Content $log -Encoding UTF8

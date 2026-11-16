@@ -1,5 +1,5 @@
 ﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
-$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$VmsRoot  = 'C:\VMs'
 $ErrorActionPreference = 'Continue'
 $log = "$RepoRoot\lab\win7-ui-diag2.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }

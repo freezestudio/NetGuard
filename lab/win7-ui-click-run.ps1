@@ -1,5 +1,5 @@
 ﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
-$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$VmsRoot  = 'C:\VMs'
 $ErrorActionPreference = 'Continue'
 $log = "$RepoRoot\lab\win7-ui-click-run.log"
 "=== Win7 UI click runner $(Get-Date -Format o) ===" | Out-File $log -Encoding utf8

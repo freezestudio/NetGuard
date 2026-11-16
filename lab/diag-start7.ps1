@@ -1,5 +1,5 @@
 $RepoRoot = Split-Path $PSScriptRoot -Parent
-$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$VmsRoot  = 'C:\VMs'
 $ErrorActionPreference = 'Continue'
 $log = "$RepoRoot\lab\diag-start7.log"
 function L($m) { "$(Get-Date -Format 'HH:mm:ss')  $m" | Out-File $log -Append -Encoding utf8 }

@@ -1,5 +1,5 @@
 ﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
-$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$VmsRoot  = 'C:\VMs'
 # 生成《NetGuard 新手图文教程》所需的真实 Win7 截图
 # 运行方式：通过计划任务 VM-Start-Win7 -> elevated-worker.ps1 提权调用
 $ErrorActionPreference = 'Continue'

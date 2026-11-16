@@ -1,5 +1,5 @@
 ﻿$RepoRoot = Split-Path $PSScriptRoot -Parent
-$VmsRoot  = Join-Path $RepoRoot 'infra\vms'
+$VmsRoot  = 'C:\VMs'
 $ErrorActionPreference = 'Continue'
 $vmName = 'Win7-Pro-x64'
 $vhd    = "$VmsRoot\$vmName\disk.vhdx"

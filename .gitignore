@@ -33,17 +33,7 @@ lab/*.jpeg
 *.vfd
 *.iso
 
-# VM 运行数据（物理上在 infra/vms，但属于本机运行时，不入库）
-/infra/vms/Win10-Pro-22H2/
-/infra/vms/Win11-Test/
-/infra/vms/Win7-Pro-x64/
-/infra/vms/iso-rebuild/*.iso
-/infra/vms/iso-rebuild/*.exe
-/infra/vms/iso-rebuild/*.png
-/infra/vms/iso-rebuild/*.log
-/infra/vms/launch/*.png
-/infra/vms/launch/*.log
-/infra/vms/**/launcher.log
+# VM 实验室（磁盘/ISO/文档/脚本）已整体移出仓库，位于 C:\VMs，不再入库
 
 # 系统/临时文件
 Thumbs.db
